@@ -1,0 +1,300 @@
+/* Container for Each Event */
+.event-listing-auth {
+  flex: 1;
+  display: flex;
+  align-items: flex-start; /* Align items to the start */
+  background-color: transparent; /* Remove any background color */
+  border-bottom: 1px solid #ddd; /* Use border to separate events */
+  padding: 20px 0;
+  transition: box-shadow 0.3s ease;
+  position: relative;
+  align-items: center;
+  width: 100%;
+}
+
+.event-listing-auth:hover {
+  box-shadow: none; /* Remove shadow effect */
+}
+
+/* Date Section Styling */
+.event-date-auth-section {
+  width: 70px; /* Width for date section */
+  z-index: 1;
+  font-size: 18px;
+  margin-right: 0px !important;
+}
+
+.event-date-month-auth {
+  color: #a50000; /* Date color */
+  font-size: 1.75rem;
+  text-transform: uppercase;
+  line-height: normal;
+  font-weight: bold;
+}
+
+.event-date-day-auth {
+  font-size: 3.625rem;
+  font-weight: bold;
+  line-height: normal;
+  color: #1E1E1E;
+}
+
+/* Event Image Styling */
+.event-image-container-auth {
+  position: relative;
+  display: flex;
+  flex: 0 0 180px; /* Adjust width for the image */
+  height: 110px; /* Adjust height to control the aspect ratio */
+  align-items: center;
+}
+
+.event-image-auth {
+  width: 100%;
+  max-height: 400px;
+
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover; /* Ensure image covers the entire container */
+}
+
+.event-information {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Event Details */
+.etvent-details-auth {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.event-title-auth {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+  line-height: normal;
+  max-width: 100%;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflowed text */
+  text-overflow: ellipsis; /* Add ellipsis (...) */
+}
+
+/* Updated .event-info-listing-auth Class */
+.event-info-listing-auth {
+  font-size: 16px; /* Consistent font size */
+  color: #555; /* Text color for better readability */
+  overflow: hidden; /* Hide overflowed text */
+  justify-content: start !important;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  max-width: 100%; /* Ensure it does not stretch beyond its container */
+  flex-shrink: 1; /* Allow it to shrink if necessary */
+  white-space: normal; /* Allow text to wrap */
+  word-wrap: break-word; /* Break long words */
+  overflow-wrap: break-word; /* Ensure text does not overflow */
+}
+
+.event-info-listing-auth * {
+  text-align: start !important;
+  min-width: fit-content;
+}
+
+.event-info-listing-auth strong {
+  font-weight: 600;
+  margin-right: 5px;
+
+}
+
+.event-info-listing-auth span {
+  color: #a50000;
+  margin-left: 5px;
+  flex: 1;
+}
+
+/* Event Description */
+.event-description-auth {
+  font-size: 14px;
+  color: #666;
+  text-align: start !important;
+  padding: 0  1rem 0 0;
+}
+
+.event-description-auth * {
+  font-size: 1rem;
+  font-weight: normal;
+  text-align: justify;
+  overflow: hidden;
+  text-decoration: unset;
+  margin: 0;
+}
+
+/* Right-Aligned Content */
+.event-info-action  {
+  min-width: fit-content;
+}
+
+.event-type-text {
+  min-width: fit-content;
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 0px !important;
+}
+
+.edit-icon {
+  font-size: 18px;
+  cursor: pointer;
+  color: #a50000;
+  transition: color 0.3s ease;
+}
+
+.edit-icon:hover {
+  color: #870000;
+}
+
+.more-info {
+  background-color: #a50000;
+  color: #ddd;
+  font-size: small;
+}
+
+.more-info:hover {
+  background-color: #870000;
+  color: #ddd;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+  .event-listing-auth {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd; /* Add border for better separation */
+  }
+
+  .event-date-auth-section {
+    position: absolute;
+    top: 35px; /* Align top of image container */
+    left: 0px;
+    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0) 75%, #FFFFFF 100%);
+    width: 100%;
+    column-gap: 10px;
+  }
+
+  .event-date-month-auth {
+    font-size: 3.2rem;
+    font-weight: 600;
+  }
+
+  .event-image-and-details-auth {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .event-image-container-auth {
+    width: 100%;
+    margin-bottom: 15px;
+    height: auto; /* Allow image height to adjust for mobile */
+  }
+
+  .event-image-auth {
+    height: auto;
+  }
+
+  .event-details-auth {
+    max-width: 500px;
+    width: 300px;
+  }
+
+  .event-title-auth {
+    font-size: 18px; /* Smaller font for mobile */
+  }
+
+  .event-info-listing-auth,
+  .event-description-auth {
+    font-size: 14px;
+  }
+
+  .event-info-listing-auth strong {
+    margin: 0 3px; /* Center the bold text */
+  }
+
+  .event-action {
+    position: static;
+    display: flex;
+    flex-direction: row !important;
+    align-items: center !important;
+    margin-top: 15px;
+  }
+
+  .edit-icon {
+    margin-top: 10px;
+  }
+}
+
+/* Responsive Design for Medium-Sized Screens */
+@media (max-width: 990px) {
+  .event-listing-auth {
+    flex: 1;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd; /* Add border for better separation */
+  }
+
+
+  .event-image-container-auth {
+    width: 100%;
+    margin-bottom: 15px;
+    height: auto; /* Allow image height to adjust for mobile */
+    margin-right: 0;
+    margin-top: 20px;
+  }
+
+  .event-image-auth {
+    height: 100%;
+    width: 100%;
+  }
+
+  .event-title-auth {
+    font-size: 30px; /* Smaller font for mobile */
+    margin-bottom: 10px;
+  }
+
+  .event-info-listing-auth,
+  .event-description-auth {
+    font-size: 15px;
+  }
+
+  .event-type-auth {
+    font-size: 15px;
+    color: #870000;
+  }
+
+  .event-info-listing-auth strong {
+    margin: 0 3px; /* Center the bold text */
+  }
+
+  .event-additional-info-auth {
+    position: static;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+
+  .edit-icon {
+    margin-top: 10px;
+  }
+}
+
+/* New class to handle text wrapping */
+.wrap-text {
+  white-space: normal; /* Allow text to wrap */
+  word-wrap: break-word; /* Break long words */
+  overflow-wrap: break-word; /* Ensure text does not overflow */
+}
+

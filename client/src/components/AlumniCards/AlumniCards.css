@@ -1,0 +1,156 @@
+/* Container Styling */
+.alumni-cards-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+/* Card Styling */
+.alumni-card {
+  border: none; /* Removed the border */
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #ffffff;
+}
+
+/* Card Hover Effect */
+.alumni-card:hover {
+  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.5);
+  transform: translateY(-5px); /* Lift effect */
+}
+
+/* Image Styling */
+.alumni-card img {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e0e0e0; /* Subtle border for profile image */
+}
+
+/* Profile Section */
+.alumni-profile-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.alumni-profile-section p {
+  font-size: 10px;
+}
+
+.alumni-profile-section span {
+  font-size: 10px;
+}
+
+.alumni-profile-section .card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333333; /* Dark gray for modern look */
+}
+
+.alumni-card-contents {
+  display: flex;
+  flex-direction: column;
+  max-height: 100px;
+}
+
+.no-profiles-found {
+  color: #555555;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+.alumni-profile-section .ac-address-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555555;
+}
+
+.alumni-profile-section .card-text {
+  font-size: 1rem;
+  color: #777777;
+}
+
+.alumni-profile-section .ac-batch-year {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #870000; /* Accent color */
+}
+
+/* Connect Button */
+.connect-btn-container .btn {
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 24px;
+  background-color: #a50000; /* Primary button color */
+  color: #ffffff;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.connect-btn-container .btn:hover {
+  background-color: #870000; /* Slightly darker shade on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Grid View */
+.alumni-cards-container.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px; /* Space between grid items */
+}
+
+.alumni-card.grid {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  height: 100%; /* Uniform card height */
+}
+
+.alumni-card.grid img {
+  width: 80px;
+  height: 80px;
+}
+
+.alumni-card.grid .connect-btn-container {
+  margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .alumni-cards-container.grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .alumni-card {
+    flex-direction: column; /* Stack content for smaller screens */
+    text-align: center;
+    padding: 15px;
+  }
+
+  .alumni-profile-section {
+    flex-direction: column; /* Stack profile image and text */
+    gap: 10px;
+  }
+
+  .connect-btn-container {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .alumni-cards-container.grid {
+    grid-template-columns: 1fr; /* 1 column for mobile */
+  }
+}

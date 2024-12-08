@@ -1,0 +1,169 @@
+/* Prefix styles with .survey- to prevent conflicts */
+.survey-list-container {
+  width: 100%;
+  padding: 50px 0;
+  min-height: 400px;
+}
+
+/* General styling for the survey card container */
+.survey-card-container {
+  border-radius: 16px; /* More rounded corners for a modern look */
+}
+
+/* Styling for survey card grid */
+.survey-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  row-gap: 20px;
+}
+
+.survey-col-layout {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Each survey card item styling */
+.survey-card-item {
+  background: linear-gradient(145deg, #f9f9f9, #ffffff); /* Subtle gradient background */
+  border-radius: 16px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Slightly deeper shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 300px; /* Increase width for better layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 25px;
+  position: relative; /* Allow better control over child elements */
+  height: 250px;
+  margin-top: 0;
+}
+
+.survey-col-item {
+  width: 100%;
+}
+
+.survey-card-item:hover {
+  transform: translateY(-5px); /* Subtle lift effect */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12); /* Enhanced shadow on hover */
+}
+
+.survey-card-information {
+  max-height: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.survey-card-title {
+  font-size: 22px; /* Slightly larger font */
+  font-weight: 700; /* Bolder for better emphasis */
+  color: #2c3e50; /* Darker color */
+  margin-bottom: 10px;
+}
+
+.survey-card-description {
+  font-size: 16px;
+  color: #7f8c8d; /* Muted color for description */
+  max-height: 70px; /* Limit description height */
+  text-overflow: ellipsis;
+}
+
+/* Button styling */
+.survey-card-btn-primary {
+  background-color: #a52436;
+  border: none;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.survey-btn-primary:hover {
+  background-color: #c62828;
+  transform: scale(1.05); /* Slightly larger on hover */
+}
+
+.survey-input-group {
+  width: 100%;
+}
+
+.survey-text-muted {
+  font-size: 18px;
+  margin-left: 20px;
+}
+
+.survey-text-danger {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.no-survey-message-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.no-survey-message-container h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.no-survey-message-container p {
+  font-size: 18px;
+  color: #7f8c8d;
+  text-align: center;
+}
+
+/* Responsive styling for screens 768px and below */
+@media screen and (max-width: 768px) {
+  .survey-card-grid {
+    grid-template-columns: 1fr; /* Stacks items in a single column */
+    gap: 10px;
+  }
+
+  .survey-list-container {
+    padding: 20px 0;
+  }
+
+  .survey-header {
+    margin-bottom: 0px;
+  }
+
+  .survey-text-muted {
+    font-size: 12px;
+    margin-left: 20px;
+  }
+
+  .survey-text-danger {
+    font-size: 14px;
+  }
+
+  .survey-card-item {
+    width: 100%; /* Full width of the container */
+  }
+
+  .survey-card-title {
+    font-size: 22px;
+  }
+
+  .survey-card-description {
+    font-size: 16px;
+  }
+
+  .survey-card-btn-primary {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+}

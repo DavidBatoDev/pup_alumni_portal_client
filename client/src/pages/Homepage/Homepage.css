@@ -1,0 +1,11 @@
+section {
+    scroll-margin-top: 70px; /* Adjust according to the navbar height */
+}
+
+.homepage {
+    position: relative;
+}
+
+.homepage-background {
+    background-image: url('../../assets/images/pup-landing-banner.png'); /* Replace with actual image */
+}

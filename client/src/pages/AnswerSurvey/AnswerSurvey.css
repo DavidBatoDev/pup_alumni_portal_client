@@ -1,0 +1,260 @@
+/* Main container with light red background */
+.answer-survey-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  border-radius: 8px;
+  height: 100%;
+}
+
+/* Back button styling */
+.as-back-btn-container {
+  margin-bottom: 20px;
+}
+
+.as-back-btn {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #b71c1c; /* Dark red for back button */
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.as-back-btn:hover {
+  background-color: #d32f2f;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+
+.as-back-btn i {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+/* Survey title and description styling */
+.survey-info {
+  background-color: #ffffff;
+  padding: 20px 25px;
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: left;
+  border-top: #b71c1c 4px solid;
+}
+
+.survey-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.survey-description {
+  font-size: 16px;
+  color: #5f6368;
+}
+
+/* Section title styling */
+.as-survey-question-card .section-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: left;
+  background-color: #b71c1c;
+  padding: 20px;
+  color: #ffffff;
+}
+
+.as-survey-question-card:nth-child(1) {
+  padding: 0px 0px;
+}
+
+.section-description {
+  font-size: 16px;
+  color: #5f6368;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+/* Individual question styling */
+.as-survey-question-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px rgba(60, 64, 67, 0.15);
+  margin-bottom: 20px;
+  position: relative;
+  transition: border-color 0.2s, box-shadow 0.2s ease;
+  border-top: #b71c1c 4px solid;
+}
+.required-unanswered {
+  border: 2px solid red;
+  background-color: #f8d7da; /* Light red background */
+  animation: highlightUnanswered 0.3s ease-out;
+}
+
+/* Top border color for each question card */
+.as-question-top-bar {
+  height: 4px;
+  background-color: #b71c1c; /* Red top border */
+  border-radius: 8px 8px 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Focus effect on question card */
+
+.as-question-header {
+  margin-bottom: 10px;
+}
+
+.as-question-index {
+  font-size: 16px;
+  font-weight: 500;
+  color: #b71c1c;
+  margin-right: 5px;
+}
+
+.as-question-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Options for multiple-choice questions */
+.multiple-choice-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+}
+
+.option-item input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+.option-item label {
+  font-size: 15px;
+  color: #333;
+}
+
+/* Textarea for open-ended questions */
+textarea.form-control {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  outline: none;
+  resize: vertical;
+  margin-top: 5px;
+  transition: border-color 0.2s;
+}
+
+textarea.form-control:focus {
+  border-color: #b71c1c;
+}
+
+/* Navigation buttons */
+.section-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.section-navigation .btn {
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+}
+
+.section-navigation .btn-primary {
+  background-color: #b71c1c; /* Red color for primary button */
+}
+
+.section-navigation .btn-primary:hover {
+  background-color: #d32f2f;
+}
+
+.section-navigation .btn-secondary {
+  background-color: #9e9e9e;
+}
+
+.section-navigation .btn-secondary:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Input for open-ended question */
+.form-control {
+  font-size: 15px;
+  color: #333;
+  background-color: #fafafa;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  border-color: #b71c1c;
+}
+
+.as-option-others-input-text {
+  outline: none;
+  height: 20px;
+}
+
+.question-required-asterisk {
+  color: #b71c1c;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .answer-survey-container {
+    padding: 15px;
+  }
+
+  .survey-title {
+    font-size: 22px;
+  }
+
+  .section-navigation .btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+
+
+@keyframes highlightUnanswered {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

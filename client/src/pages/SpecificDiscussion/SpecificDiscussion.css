@@ -1,0 +1,102 @@
+.specific-discussions-page {
+  position: relative;
+  font-family: "Crimson Text", serif;
+  line-height: normal;
+}
+
+.specific-discussion-background {
+  background-image: url('../../assets/images/discussionimage.jpg');
+}
+
+.specific-discussion-content {
+  padding: 42px 128px;
+  gap: 30px;
+  height: 100%;
+}
+
+.specific-discussion-container {
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.specific-discussion-search {
+  flex-grow: 1;
+}
+
+/* Disable default card hover animations */
+.specific-discussions-page .discussion-card-thread:hover {
+  box-shadow: none;
+  transform: none;
+  background-color: white;
+}
+
+.specific-discussions-page .comment-container {
+  background: rgba(255, 255, 255, 0.40);
+  border-radius: 15px;
+}
+
+.specific-discussions-page {
+  .swiper-container .swiper-button-next,
+  .swiper-container .swiper-button-prev {
+    transition: transform 0.3s;
+    display: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .swiper-container .swiper-button-next::after,
+  .swiper-container .swiper-button-prev::after {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .swiper-slide-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(20px);
+    z-index: -1;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .swiper-slide-image {
+    position: relative;
+    z-index: 1;
+    object-fit: contain;
+    display: block;
+  }
+
+  .swiper-container .swiper-button-next:hover {
+    transform: translateX(-1rem);
+  }
+
+  .swiper-container .swiper-button-prev:hover {
+    transform: translateX(1rem);
+  }
+
+  .swiper-container .swiper-pagination-bullet {
+    background-color: #fff;
+    opacity: 1;
+  }
+
+  .swiper-container .swiper-pagination-bullet-active {
+    background-color: #007bff;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .specific-discussion-container {
+    padding: 5px;
+  }
+
+  .specific-discussion-content {
+    padding: 42px 30px;
+  }
+}

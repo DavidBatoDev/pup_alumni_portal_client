@@ -1,0 +1,16 @@
+.discussion-table-header {
+    background: none !important;
+    color: #6D6D6D;
+    text-align: center;
+    font-family: "Raleway";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+@media (max-width: 768px) {
+  .discussion-table-header {
+      display: none;
+  }
+}

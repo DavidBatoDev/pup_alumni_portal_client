@@ -1,0 +1,118 @@
+/* src/components/AboutUsSection/AboutUsSection.css */
+.about-us-section {
+    padding: 50px 0;
+    background-color: rgb(255, 255, 255, 0.9) !important;
+}
+
+  .about-us-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .about-us-text {
+    flex: 1 1 45%; /* Take 45% width */
+  }
+
+  .about-us-text h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #1e1e1e;
+  }
+
+  .about-us-text p {
+    font-size: 16px;
+    color: #555555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: justify;
+    padding-right: 0.625rem;
+  }
+
+  .learn-more-btn {
+    background-color: #800000; /* Dark red button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .learn-more-btn:hover {
+    background-color: #a52436;
+  }
+
+  .about-us-video iframe {
+    border-radius: 10px;
+    flex: 1 1 45%; /* Take 45% width */
+  }
+
+  .about-us-video img {
+    z-index: 0;
+    width: 100%;
+    object-fit: cover;
+    display: none;
+  }
+
+  /* Responsive styling for smaller screens */
+
+  @media (max-width: 1400px) {
+
+    .about-us-text h2 {
+      text-align: center;
+    }
+
+    .about-us-video iframe {
+      max-width: 100%; /* Shrink the image a bit on mobile */
+      margin: 0 auto; /* Center the image */
+    }
+
+    .learn-more-btn-container{
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .about-us-text,
+    .about-us-video {
+      flex: 1 1 100%; /* Full width on smaller screens */
+      text-align: center; /* Center-align text */
+    }
+
+    .about-us-video iframe {
+      max-width: 100%; /* Shrink the image a bit on mobile */
+      margin: 0 auto; /* Center the image */
+    }
+
+   
+  }
+
+  @media (max-width: 768px) {
+    .about-us-container {
+      flex-direction: column;
+    }
+
+    .about-us-text,
+    .about-us-video {
+      flex: 1 1 100%; /* Full width on smaller screens */
+      text-align: center; /* Center-align text */
+    }
+
+    .about-us-text h2 {
+      text-align: center;
+    }
+
+    .about-us-video iframe {
+      max-width: 90%; /* Shrink the image a bit on mobile */
+      margin: 0 auto; /* Center the image */
+    }
+
+    .learn-more-btn {
+      margin: 0 auto; /* Center the button */
+    }
+  }

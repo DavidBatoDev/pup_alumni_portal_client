@@ -1,0 +1,133 @@
+/* Prefix styles with .survey- to prevent conflicts */
+.surveys-page {
+  position: relative;
+}
+
+.surveys-section {
+  padding: 42px 128px;
+  height: max-content;
+}
+
+.survey-header {
+  margin-bottom: 20px;
+}
+
+.survey-header h2 {
+  color: #1E1E1E;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.survey-background {
+  background-image: url('../../assets/images/surveyimage.jpg');
+  width: 100%;
+  height: 100%;
+}
+
+
+.survey-header h5 {
+  color: #1E1E1E;
+  font-size: 20px;
+}
+
+.surveys-container {
+  display: flex;
+}
+
+.surveys-container .container {
+  position: relative;
+  z-index: 2; /* Ensure the content is above any pseudo-elements */
+}
+
+.answered-section {
+  margin-top: 50px;
+}
+
+.answered-section h2 {
+  color: #6c757d; /* Darker color for differentiation */
+}
+
+.answered-section h5 {
+  color: #6c757d; /* Darker color for differentiation */
+}
+
+.line-seperator {
+  position: relative;
+  z-index: 1; /* Ensure the line is below the content */
+  width: 100%;
+  height: 2px;
+  background-color: #a50000; /* Light gray line */
+  margin: 50px 0;
+}
+
+.loading-surveys {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  width: 100vw;
+}
+
+.loading-surveys h3{
+  font-size: 24px;
+  color: #6c757d;
+}
+
+.surveys-section {
+  height: 100vh;
+}
+
+@media screen and (max-width: 1024px) {
+  .surveys-section {
+    padding: 20px 64px;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+
+  .surveys-section {
+    padding: 20px 40px;
+  }
+
+  .surveys-section .container {
+    margin: 20px 5px;
+  }
+
+  .survey-header{
+    padding: 10px;
+  }
+  .survey-header h2 {
+    font-size: 24px;
+  }
+
+  .survey-header h5 {
+    font-size: 18px;
+  }
+
+  .answered-section h2 {
+    font-size: 24px;
+  }
+
+  .answered-section h5 {
+    font-size: 18px;
+  }
+
+  .line-seperator {
+    margin: 20px 0;
+  }
+
+}
+
+@media screen and (min-width: 1200px) {
+  .surveys-section {
+    padding-top: 50px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .surveys-section {
+    padding: 20px 0px;
+  }
+}

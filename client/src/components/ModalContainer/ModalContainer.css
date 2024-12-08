@@ -1,0 +1,150 @@
+/* Desktop Modal Styles */
+.desktop-modal {
+  display: none;
+  position: fixed; /* Ensure the modal is fixed */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* High z-index to stay on top */
+  opacity: 0;
+  transform: translateY(-30px) scale(0.8); /* Initial transform for smooth animation */
+  transition: transform 0.4s ease-out, opacity 0.4s ease-out; /* Smooth transition for transform and opacity */
+}
+
+.desktop-modal.show {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0) scale(1); /* Scale up and move to position */
+}
+
+.desktop-modal .full-view {
+  height: 100vh;
+  padding: 0px;
+  margin: 0px;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.desktop-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+  z-index: 1;
+  transition: opacity 0.4s ease-out; /* Smooth transition for overlay */
+}
+
+.desktop-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  background: #ffffff;
+  z-index: 2;
+  border-radius: 10px; /* Rounded corners */
+  overflow: hidden;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Shadow for elevation effect */
+  min-height: max-content;
+  max-height: 600px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.desktop-modal-content.full-view {
+  height: 100vh;
+  max-height: 100vh;
+  overflow-y: none;
+}
+
+.desktop-modal-header {
+  position: sticky;
+  top: 0;
+  display: none;
+  padding: 10px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #a52436; /* Material red header */
+  color: #fff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  z-index: 1000;
+}
+
+.desktop-modal-title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.desktop-modal-body {
+  padding: 10px 30px;
+  background: #f4f4f4;
+  position: relative;
+  max-height: 600px;
+  min-height: 400px;
+}
+
+.desktop-modal-body .full-view {
+  max-height: 100vh;
+  overflow-y: none;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #ff5c5c;
+}
+
+@media screen and (max-width: 768px) {
+  .desktop-modal-content {
+    width: 100%;
+  }
+
+  .desktop-modal-content {
+    height: 100vh;
+    max-height: 100%;
+  }
+
+  .desktop-modal-body {
+    /* margin-top: 50px; */
+    height: 100vh;
+    border-radius: 0px;
+  }
+
+  .desktop-modal-header {
+    display: flex !important;
+    position: fixed;
+    width: 100%;
+    border-radius: 0px;
+  }
+}
+
+/* for Ipad */
+@media screen and (max-width: 1024px) {
+  .desktop-modal-content {
+    width: 100%;
+  }
+
+  .desktop-modal-content {
+    max-height: 100%;
+  }
+
+  .desktop-modal-body {
+    /* margin-top: 50px; */
+    height: 100vh;
+    border-radius: 0px;
+  }
+
+  .desktop-modal-header {
+    display: flex !important;
+    /* position: fixed; */
+    width: 100%;
+    border-radius: 0px;
+  }
+}

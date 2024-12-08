@@ -1,0 +1,195 @@
+.discussion-table-thread {
+  margin: 10px 0 10px 0;
+  border-radius: 0.5rem;
+
+  font-family: 'Crimson Text', sans-serif;
+  font-style: normal;
+  line-height: normal;
+  color: #1E1E1E;
+  transition: ease-in 0.2s;
+}
+
+.discussion-table-thread .thread-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.discussion-table-thread .flex-grow-1 {
+  width: 100%;
+}
+
+.discussion-table-thread .thread-num {
+  color: #6D6D6D;
+  text-align: center;
+  font-family: 'Raleway', sans-serif;
+}
+
+.discussion-table-thread .tag-container {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+
+.discussion-table-thread .thread-tag {
+  color: #6D6D6D;
+  font-family: 'Raleway', sans-serif;
+  text-align: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  user-select: none;
+  margin: 0; /* Ensure no margin is applied */
+  padding-left: 0.2rem; /* Optional: Add space between icon and text */
+}
+
+.discussion-table-thread i {
+  color: #6D6D6D;
+  line-height: normal;
+}
+
+.discussion-table-thread .image-container {
+  position: relative;
+  width: 160px;
+  padding-top: 56.25%;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.discussion-table-thread .image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.discussion-table-thread .btn-group>.btn {
+  background-color: white;
+  border: none;
+}
+
+.upvote,
+.downvote {
+  background-color: white;
+  color: #6D6D6D;
+  transition: ease-in 0.1s;
+}
+
+.upvote:hover,
+.downvote:hover,
+.upvote:active,
+.downvote:active {
+  color: #1E1E1E;
+  background-color: white;
+  transition: ease-in 0.1s;
+  transform: translateY(-0.2rem);
+}
+
+.upvote:focus,
+.downvote:focus {
+  transform: translateY(0rem);
+  box-shadow: none;
+}
+
+
+.discussion-table-thread .image-container:hover img {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.discussion-table-thread .tag-container {
+  justify-content: center;
+  transition: color 0.2s ease-in-out; /* Smooth transition for text color */
+}
+
+.discussion-table-thread .tag-container:hover .thread-tag {
+  color: #800000; /* Changes the tag text color on hover */
+}
+
+.discussion-table-thread .thread-num {
+  font-size: 0.9rem;
+  transition: color 0.2s ease; /* Adds smooth transition to color */
+}
+
+.discussion-table-thread .thread-num:hover {
+  color: #333; /* Slightly darkens the text on hover */
+}
+
+.discussion-table-thread .voting-group {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .discussion-table-thread .image-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .discussion-table-thread td {
+    display: block;
+    padding: 0 1rem;
+  }
+
+  .image-container .thread-td {
+    height: auto;
+  }
+
+  .discussion-table-thread td > p {
+    text-align: left;
+  }
+
+  .discussion-table-thread td .image-container {
+    width: 100%;
+    height: auto;
+  }
+
+  .discussion-table-thread td {
+    border: none !important;
+  }
+
+  .discussion-table-thread td:not([data-cell="votes"]):not([data-cell="image"]):not([data-cell="details"]) {
+    display: grid;
+    grid-template-columns: 15ch auto;
+  }
+
+  .discussion-table-thread .thread-num {
+    text-align: left;
+  }
+
+  .discussion-table-thread td:not([data-cell="votes"]):not([data-cell="image"]):not([data-cell="details"]):before {
+    content: attr(data-cell) ": ";
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+
+  .discussion-table-thread td:after {
+    justify-content: start;
+  }
+
+  .discussion-table-thread td:first-child {
+    padding-top: 1rem;
+  }
+
+  .discussion-table-thread td:last-child {
+    padding-bottom: 1rem;
+  }
+
+  .discussion-table-thread .tag-container {
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .discussion-table-thread .thread-num {
+    font-size: 0.8rem;
+  }
+
+  .discussion-table-thread .voting-group {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}

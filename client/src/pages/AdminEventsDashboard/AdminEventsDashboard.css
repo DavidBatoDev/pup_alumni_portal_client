@@ -1,0 +1,382 @@
+.admin-dashboard {
+  display: flex;
+}
+
+.admin-dashboard-content {
+  margin-left: 250px; /* Sidebar width */
+  padding: 20px;
+  width: 100%;
+}
+
+/* Header Styling */
+.admin-events-dashboard-header {
+  position: relative;
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Search Input Styling */
+.admin-events-dashboard-search {
+  width: 20%; /* Set width of search input */
+  padding: 10px; /* Add padding */
+  font-size: 14px; /* Increase font size */
+
+  outline: none; /* Remove default outline */
+  border: none;
+  border-bottom: 1px solid #ddd;
+  background-color: transparent;
+  margin-right: 20px;
+}
+
+.admin-events-dashboard-search:focus {
+  outline: none; /* Remove default outline */
+  border-color: #a52436; /* Highlight border on focus */
+}
+
+/* Button Styling */
+.admin-events-dashboard-btn {
+  color: #dc3545;
+  border: 1px solid #dc3545;
+  font-size: 10px;
+  padding: 5px 20px;
+  border-radius: 20px;
+}
+
+.admin-events-dashboard-btn:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Container for the Entire Event List */
+.admin-dashboard-events-container {
+  position: relative;
+  border-radius: 15px; /* Rounded corners */
+  background: rgba(255, 255, 255, 0.60); /* Transparent white background */
+  padding: 30px; /* Padding around the entire container */
+}
+
+/* Event Cards List Container */
+.admin-dashboard-events-list {
+  display: flex;
+  flex-direction: column; /* Stack events vertically */
+  gap: 20px; /* Space between each event */
+}
+
+.delete-event-btn {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background: #a52436; /* Red background */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top: 10px; /* Add spacing */
+  transition: background 0.3s ease;
+}
+
+.delete-event-btn:hover {
+  background: #a52436; /* Slightly lighter red on hover */
+}
+
+.no-events-created-message-container {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-events-created-message-container h3 {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+/* Responsive Design: Mobile */
+@media (max-width: 768px) {
+  .admin-dashboard {
+    flex-direction: column;
+  }
+
+  .admin-dashboard-content {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  .admin-dashboard-events-container {
+    padding: 20px; /* Adjust padding for mobile */
+  }
+
+  .admin-dashboard-search {
+    width: 10%; /* Full width for mobile */
+    margin-bottom: 10px; /* Margin below search input */
+  }
+
+  .admin-dashboard-btn {
+    width: 100%; /* Full width for button */
+  }
+
+  .no-events-created-message-container {
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+
+/* Basic Styles for the Admin Form */
+.events-form {
+/*  */
+}
+
+.events-form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.events-form-row--inline {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Numbered Rows */
+.events-form-row-1st, .events-form-row-2nd, .events-form-row-3rd,
+.events-form-row-4th, .events-form-row-5th, .events-form-row-6th {
+  margin-bottom: 15px;
+}
+
+/* Labels */
+.events-form-label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.events-form-label--inline {
+  flex: 1;
+}
+
+.events-form-fieldset {
+  border: none;
+  padding: 0;
+}
+
+.events-form-legend {
+  font-weight: bold;
+}
+
+/* Input, Select, and Textarea Styles */
+.events-form-input,
+.events-form-select,
+.events-form-textarea {
+  width: 100%;
+  padding: 8px 0;
+  font-size: 14px;
+  border: none;
+  border-bottom: 2px solid #ddd; /* Only underline */
+  outline: none;
+  background-color: transparent;
+  box-sizing: border-box;
+}
+
+/* Focused state styles for underline effect */
+.events-form-input:focus,
+.events-form-select:focus,
+.events-form-textarea:focus {
+  border-color: #007bff;
+}
+
+.events-form-select {
+  height: 38px;
+}
+
+.events-form-textarea {
+  min-height: 20px;
+  resize: vertical;
+}
+
+/* Radio Button Styles */
+.events-form-radio-label {
+  font-size: 14px;
+  margin-right: 15px;
+}
+
+.events-form-radio {
+  margin-right: 5px;
+}
+
+/* Button Styles */
+.events-form-row--buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.events-form-row .is-invalid {
+    border-radius: 100px !important;
+}
+
+.events-form-btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: 2px solid #000;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.save-event-btn {
+  margin-top: 50px;
+  border-color: #28a745;
+  color: #28a745;
+}
+
+.save-event-btn:hover {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.delete-event-btn {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.delete-event-btn:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.end-event-btn {
+  border-color: #353334;
+  color: #353334;
+}
+
+.end-event-btn:hover {
+  background-color: #353334;
+  color: #fff;
+}
+
+
+.photo-previews-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Creates 4 columns */
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.photo-preview-wrapper {
+  position: relative;
+  width: 150px; /* Adjusted width */
+  height: 150px; /* Adjusted height */
+}
+
+.photo-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image fits without distortion */
+  border-radius: 5px; /* Adds slight rounding to image corners */
+  border: 1px solid #ddd; /* Optional border for image */
+}
+
+.remove-photo-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(255, 0, 0, 0.8); /* Red background for delete button */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-photo-btn:hover {
+  background-color: rgba(255, 0, 0, 1); /* Darken the background on hover */
+}
+
+
+/* Ensure the dropdown stays visible when expanded */
+.ql-picker.ql-expanded {
+  z-index: 1002; /* Higher than other UI elements */
+  position: relative;
+}
+
+/* Dropdown options styling */
+.ql-picker-options {
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 1003; /* Higher than the expanded picker */
+  position: absolute;
+  pointer-events: auto; /* Enable interaction */
+}
+
+/* Style individual dropdown items */
+.ql-picker-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Highlight item on hover */
+.ql-picker-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Active item styling */
+.ql-picker-item.ql-active {
+  background-color: #e0e0e0;
+  font-weight: bold;
+}
+
+/* Ensure the toolbar remains unclipped */
+.ql-toolbar {
+  overflow: visible !important;
+  position: relative;
+}
+
+/* CSS for segmented toggle button */
+.ae-toggle-segmented-control {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+.ae-toggle-option {
+  padding: 8px 16px;
+  cursor: pointer;
+  background-color: #ccc;
+  color: black;
+  border: none;
+  outline: none;
+  transition: background-color 0.3s, color 0.3s;
+  font-weight: 500;
+}
+
+.ae-toggle-option.active {
+  background-color: #a52436;
+  color: white;
+}
+
+.ae-toggle-option:not(.active):hover {
+  background-color: #e9f3ff;
+}

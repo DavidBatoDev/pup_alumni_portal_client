@@ -1,0 +1,240 @@
+/* General background and text colors */
+.bg-light {
+  background-color: #f8f9fa !important;
+}
+
+.text-danger {
+  color: #d9534f !important;
+}
+
+.search-icon {
+  height: 20px;
+}
+
+.event-auth-container {
+  height: 100%;
+  width: 100%;
+  /* flex: 1; */
+}
+
+/* Event card container styling */
+.events-card-container {
+  font-family: "Crimson Text";
+  min-height: 830px;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+/* Filter search section and categories */
+.filter-search-section {
+  cursor: pointer;
+}
+
+/* Filter event wrapper alignment */
+.filter-event-wrapper {
+  min-width: fit-content;
+}
+
+/* Filter tags within the filter search section */
+.filter-search-categories {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  /* Enable horizontal scrolling */
+  scrollbar-width: thin;
+  /* Firefox: thin scrollbar */
+  -ms-overflow-style: none;
+  /* Internet Explorer and Edge */
+  flex: 1;
+}
+
+/* Hide scrollbar for Webkit browsers */
+.filter-search-categories::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-search {
+  padding: 5px 10px;
+  border: 1px solid #1e1e1e;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  /* Prevent text from wrapping */
+}
+
+.filter-search.active {
+  background-color: #870000;
+  color: #fff;
+  border-color: #870000;
+}
+
+/* Divider between filter categories and All button */
+.filter-divider {
+  height: 20px;
+  width: 1px;
+  background-color: #1e1e1e;
+  margin-left: 10px;
+}
+
+/* Styling for the "All" button */
+.filter-search-all {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.filter-search-all .filter-search {
+  font-weight: bold;
+}
+
+.filter-search-all img {
+  width: 20px;
+  height: auto;
+}
+
+.pagination .page-item .page-link {
+  color: #000;
+  /* Default color for page links */
+  background-color: #f8f9fa;
+  /* Default background color */
+  border: 1px solid #dee2e6;
+  /* Default border */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  outline: none;
+  /* Remove default focus outline */
+}
+
+/* Remove blue border when pagination link is focused */
+.pagination .page-item .page-link:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Active pagination link styling */
+.pagination .page-item.active .page-link {
+  background-color: #870000;
+  color: #fff;
+  border-color: #870000;
+}
+
+/* Pagination hover effect */
+.pagination .page-item .page-link:hover {
+  background-color: #870000;
+  color: #fff;
+  border-color: #870000;
+}
+
+
+
+/* View event history link */
+.view-event-history {
+  font-size: 15px;
+  font-style: italic;
+  line-height: 0;
+  color: #1e1e1eb9;
+  text-decoration: none;
+  transition: color 0.1s ease-in;
+}
+
+.view-event-history:hover {
+  text-decoration: underline;
+  color: #870000;
+}
+
+/* Responsive styles for screens smaller than 768px */
+@media (max-width: 768px) {
+
+  /* Active style for filter tags on mobile */
+  .filter-search.active {
+    background-color: #870000;
+    color: #fff;
+    border: 1px solid #870000;
+  }
+
+  /* Filter search categories styling on mobile */
+  .filter-search-categories {
+    display: flex;
+    align-items: center;
+    border-right: #1e1e1e 1px solid;
+    margin-right: 5px;
+    justify-content: space-between;
+    width: 100%;
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+  }
+
+  /* Hide scrollbar for Webkit browsers on mobile */
+  .filter-search-categories::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Filter search styling for individual tags on mobile */
+  .filter-search-categories .filter-search {
+    border: 1px solid #1e1e1e;
+    padding: 5px 10px;
+    border-radius: 20px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* Adjust event header for mobile view */
+  .event-header {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .container {
+    margin-top: 20px;
+  }
+
+  /* Upcoming events count styling */
+  .filter-event-wrapper .text-muted {
+    display: flex;
+    text-align: start;
+    width: 100%;
+    margin-left: 7px;
+    margin-bottom: 0;
+  }
+
+  /* Display filter-search-section on mobile with aligned content */
+  .filter-search-section {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+    margin-right: 5px;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .filter-search-section .filter-search.active {
+    cursor: pointer;
+    border-bottom: 1px solid #870000;
+  }
+
+  .filter-search {
+    font-size: 15px;
+    color: #1e1e1e;
+    align-content: center;
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #1e1e1e;
+    border-radius: 20px;
+    background: transparent;
+    color: #1e1e1e;
+    transition: color 0.3s ease;
+    margin: 0 5px;
+  }
+
+  /* Menu icon size within filter-search-section */
+  .filter-search-section img {
+    height: auto;
+    width: 20px;
+  }
+}
