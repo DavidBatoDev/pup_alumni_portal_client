@@ -108,14 +108,14 @@ const SpecificDiscussion = () => {
           created_at: timeAgo(thread.created_at),
         }
         setThread(formattedThread);
-        console.log("Threads:", formattedThread);
+        // console.log("Threads:", formattedThread);
 
         const formattedComments = thread.comments.map((comment) => ({
           ...comment,
           created_at: timeAgo(comment.created_at),
         }));
         setComments(formattedComments);
-        console.log('Comments:', commentTree)
+        // console.log('Comments:', commentTree)
 
         // Build the initial comment tree
         const tree = buildTree(formattedComments);
@@ -142,7 +142,7 @@ const SpecificDiscussion = () => {
       }
 
       const response = await api.post(`/api/threads/${threadId}/comment`, body);
-      console.log(response.data);
+      // console.log(response.data);
 
       const newComment = response.data.data;
 
@@ -212,7 +212,7 @@ const SpecificDiscussion = () => {
       const response = await api.put(`/api/threads/${thread.thread_id}`, updatedThreadData);
 
       if (response.status === 200 || response.status === 201) {
-        console.log('Thread updated successfully:', response.data);
+        // console.log('Thread updated successfully:', response.data);
         const updatedThread = response.data.data;
 
         const formattedUpdatedThread = {
@@ -227,7 +227,7 @@ const SpecificDiscussion = () => {
           created_at: timeAgo(comment.created_at),
         }));
         setComments(formattedComments);
-        console.log('Comments:', commentTree)
+        // console.log('Comments:', commentTree)
 
         const tree = buildTree(formattedComments);
         setCommentTree(tree);
@@ -286,6 +286,7 @@ const SpecificDiscussion = () => {
               submitVote={submitVote}
               handleOpenImage={handleOpenImage}
               handleEdit={handleEdit}
+              isExpanded={true}
             />}
 
           <div className="comment-container d-flex flex-column px-3 py-2">
@@ -308,7 +309,7 @@ const SpecificDiscussion = () => {
                 ))
               ) : (
                 <div className="d-flex justify-content-center align-items-center w-100">
-                  <p className="tegumaganaxt-center">No comments yet. Be the first to comment!</p>
+                  <p className="text-center">No comments yet. Be the first to comment!</p>
                 </div>
               )}
             </div>

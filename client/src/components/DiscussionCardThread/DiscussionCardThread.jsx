@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import './DiscussionCardThread.css';
 
-const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenImage, handleEdit }) => {
+const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenImage, handleEdit, isExpanded: alreadyExpanded = false}) => {
   const [vote, setVote] = useState(thread?.user_vote || null); // null: no vote, 'upvote': upvoted, 'downvote': downvoted
   const [voteCount, setVoteCount] = useState(thread?.upvotes - thread?.downvotes || 0);
 
   const { user } = useSelector((state) => state.user);
 
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(alreadyExpanded);
   const maxLength = 100; // Maximum length of the truncated text
 
   const toggleReadMore = () => {
@@ -45,7 +45,7 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenIma
       });
       submitVote(thread.thread_id, newVote);
     }
-    console.log(thread.thread_id, newVote);
+
   };
 
   return (
