@@ -109,7 +109,7 @@ const AdminEventsFormModal = ({
       if (isEditing && currentEventId) {
         try {
           setLoading(true);
-          const response = await axios.get(`/api/events/${currentEventId}`);
+          const response = await api.get(`/api/events/${currentEventId}`);
           const eventDetails = response.data.event;
 
           const existingPhotoUrls = eventDetails.photos.map((photo) => photo.photo_path);
@@ -182,13 +182,13 @@ const AdminEventsFormModal = ({
       tempPhotos.forEach((photo) => formData.append('photos[]', photo));
   
       const response = isEditing
-        ? await axios.post(`/api/admin/update-event/${currentEventId}`, formData, {
+        ? await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/admin/update-event/${currentEventId}`, formData, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
               'Content-Type': 'multipart/form-data',
             },
           })
-        : await axios.post('/api/admin/event', formData, {
+        : await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/admin/event`, formData, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
               'Content-Type': 'multipart/form-data',
@@ -237,11 +237,7 @@ const AdminEventsFormModal = ({
     try {
       let theEventList = newEvent.is_active ? eventsList : inactiveEventsList;
       setLoading(true);
-      const response = await axios.delete(`/api/admin/event/${currentEventId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+      const response = await api.delete(`/api/admin/event/${currentEventId}`);
   
       if (response.status === 200) {
         const updatedEventList = theEventList.filter((event) => event.event_id !== currentEventId);
@@ -286,11 +282,7 @@ const AdminEventsFormModal = ({
   const handleEndEvent = async () => {
     try {
       setLoading(true);
-      const response = await axios.put(`/api/admin/event/${currentEventId}/end`, null, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+      const response = await api.put(`/api/admin/event/${currentEventId}/end`, null);
 
       console.log('response:', response);
 

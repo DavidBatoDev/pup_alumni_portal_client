@@ -22,14 +22,10 @@ const SurveyInformationResponses = () => {
         setLoading(true);
         const token = localStorage.getItem('token');
 
-        const surveyResponse = await axios.get(`/api/admin/survey/${surveyId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const surveyResponse = await api.get(`/api/admin/survey/${surveyId}`);
         setSurvey(surveyResponse.data);
 
-        const responsesResponse = await axios.get(`/api/admin/survey/${surveyId}/responses`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const responsesResponse = await api.get(`/api/admin/survey/${surveyId}/responses`);
 
         // Organize responses by alumni
         const organizedResponses = responsesResponse.data.data.sections.flatMap(section =>

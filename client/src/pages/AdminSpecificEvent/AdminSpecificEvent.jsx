@@ -52,8 +52,8 @@ const AdminSpecificEvent = () => {
         setLoading(true);
         const token = localStorage.getItem('token');
 
-        const eventResponse = await axios.get(`/api/event/${eventId}`,
-          { headers: { Authorization: `Bearer ${token}` } }
+        const eventResponse = await api.get(`/api/event/${eventId}`
+
         );
         // set the event data except the registered alumni
 
@@ -68,9 +68,7 @@ const AdminSpecificEvent = () => {
         })
         console.log('Event Information: ', eventResponse.data.event);
         
-        const participantsResponse = await axios.get(`/api/admin/event/${eventId}/registered-alumni`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const participantsResponse = await api.get(`/api/admin/event/${eventId}/registered-alumni`);
         console.log('Participants Information: ', participantsResponse.data);
 
         setParticipantData(participantsResponse.data.registered_alumni);

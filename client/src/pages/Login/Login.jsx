@@ -56,9 +56,9 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post("/api/forgot-password", {
+      const response = await api.post(`/api/forgot-password`, {
         email: forgotPasswordEmail,
-      });
+      }, { headers: { requiresAuth: false } });
       if (response.data.success) {
         setForgotPasswordModal(false);
         setWaitingForResponse(true);
@@ -81,8 +81,8 @@ const Login = () => {
 
       console.log(emailUrl);
 
-      const response = await axios.get(
-        `/api/reset-password/${resetToken}?email=${emailUrl}`
+      const response = await api.get(
+        `/api/reset-password/${resetToken}?email=${emailUrl}`, { headers: { requiresAuth: false } }
       );
       if (response.data.success) {
         setWaitingForResponse(false);
@@ -101,11 +101,11 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(`/api/reset-password/${resetToken}`, {
+      const response = await api.post(`/api/reset-password/${resetToken}`, {
         email: forgotPasswordEmail,
         password: newPassword,
         password_confirmation: confirmPassword,
-      });
+      }, { headers: { requiresAuth: false } });
       if (response.data.success) {
         setChangePasswordModal(false);
         setSuccessMessage(
@@ -132,10 +132,10 @@ const Login = () => {
       setLoading(true);
 
       // Send a POST request to the backend for authentication
-      const response = await axios.post("/api/login", {
+      const response = await api.post("/api/login", {
         email,
         password,
-      });
+      }, { headers: { requiresAuth: false } });
 
       // Destructure the token and user from the response
       const { token, user } = response.data;

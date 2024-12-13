@@ -117,7 +117,7 @@ const Discussions = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post('/api/threads',
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/threads`,
         threadBody, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,

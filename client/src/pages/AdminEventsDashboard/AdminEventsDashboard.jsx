@@ -31,7 +31,7 @@ const AdminEventsDashboard = () => {
     const fetchEvents = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('/api/events');
+        const response = await api.get('/api/events', { headers: { requiresAuth: false } });
         setEventsList(response.data.events);
       } catch (error) {
         console.error('Error fetching events:', error);
@@ -44,7 +44,7 @@ const AdminEventsDashboard = () => {
     const fetchInactiveEvents = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('/api/events/inactive');
+        const response = await api.get('/api/events/inactive', { headers: { requiresAuth: false } });
         setInactiveEventsList(response.data.events);
       } catch (error) {
         console.error('Error fetching inactive events:', error);

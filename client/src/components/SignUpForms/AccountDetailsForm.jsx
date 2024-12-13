@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import CircularLoader from "../CircularLoader/CircularLoader";
+import api from "../../api";
 import { useNavigate } from "react-router-dom";
 
 const AccountDetailsForm = ({
@@ -128,9 +129,9 @@ const AccountDetailsForm = ({
         const requestParamsOrBody = checkIfEmailOrStudentNumber(emailOrStudentNumberField);
 
         if (requestParamsOrBody == "student_number") {
-          const searchStudentNumber = await axios.get(`/api/graduates/search`, {
+          const searchStudentNumber = await api.get(`/api/graduates/search`, {
             params: { 'student_number': emailOrStudentNumberField }
-          });
+          }, { headers: { requiresAuth: false } });
 
           if (!searchStudentNumber.data.success && searchStudentNumber.data.message === "No graduate found with the provided details.") {
             setEmailError("No graduate found with the provided Student Number. Please enter your email instead");
@@ -165,9 +166,9 @@ const AccountDetailsForm = ({
   const checkAlumni = async (type, value) => {
     try {
   
-      const response = await axios.post(`/api/check-alumni`, {
+      const response = await api.post(`/api/check-alumni`, {
         [type]: value, // Dynamically set the key based on the type (email or student_number)
-      });
+      }, { headers: { requiresAuth: false } });
 
       console.log(response);
   
@@ -183,9 +184,9 @@ const AccountDetailsForm = ({
   const handleGraduateSearch = async (type, value) => {
     try {
   
-      const response = await axios.get(`/api/graduates/search`, {
+      const response = await api.get(`/api/graduates/search`, {
         params: { [type]: value }, // Dynamically set the query param based on the type
-      });
+      }, { headers: { requiresAuth: false } });
 
 
       if (!response.data.success && response.data.message === "No graduate found with the provided details.") {
@@ -214,9 +215,9 @@ const AccountDetailsForm = ({
       try {
         // Send the verification email
         setLoading(true);
-        const response = await axios.post(`/api/send-verification-email`, {
+        const response = await api.post(`/api/send-verification-email`, {
           email: alumniData.email_address,
-        });
+        }, { headers: { requiresAuth: false } });
 
         if (response.data.success) {
           setEmailError("");
@@ -260,9 +261,9 @@ const AccountDetailsForm = ({
     setLoading(false);
     const interval = setInterval(async () => {
       try {
-        const response = await axios.get(`/api/graduates/check-verification`, {
+        const response = await api.get(`/api/graduates/check-verification`, {
           params: { email: alumniData.email_address },
-        });
+        }, { headers: { requiresAuth: false } });
         if (response.data.success) {
           changeDetails(
             alumniData?.firstname,

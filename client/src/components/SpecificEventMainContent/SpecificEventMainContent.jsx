@@ -44,14 +44,9 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
       const token = localStorage.getItem('token');
 
       // Make the POST request to register for the event
-      const response = await axios.post(
+      const response = await api.post(
         `/api/event/${eventId}/register`,
         {}, // No body required for this endpoint
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Pass the Authorization header
-          },
-        }
       );
 
       // Handle success
