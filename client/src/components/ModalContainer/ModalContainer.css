@@ -101,6 +101,13 @@
   color: #ff5c5c;
 }
 
+.fit-content {
+  width: fit-content;
+  height: fit-content;
+  min-width: none;
+  min-height: none;
+}
+
 @media screen and (max-width: 768px) {
   .desktop-modal-content {
     width: 100%;

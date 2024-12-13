@@ -34,13 +34,15 @@ import SpecificDiscussion from './pages/SpecificDiscussion/SpecificDiscussion';
 import SpecificAnsweredSurvey from './pages/SpecificAnsweredSurvey/SpecificAnsweredSurvey';
 import api from './api';
 import { useSelector } from 'react-redux';
+import ModalContainer from './components/ModalContainer/ModalContainer';
+import startPoster from './assets/images/startPoster.png';
 
 function App() {
   const {user, role, isAuthenticated} = useSelector((state) => state.user);
 
   const [showSurvey, setShowSurvey] = useState(true);
 
-  console.log("Base URL:", import.meta.env.VITE_BACKEND_URL);
+  const [showStartMessage, setShowStartMessage] = useState(false);
 
   useEffect(() => {
     const fetchUnansweredSurveys = async () => {
@@ -57,9 +59,19 @@ function App() {
     fetchUnansweredSurveys();
   }, [user, role, isAuthenticated]);
 
+  useEffect(() => {
+    setShowStartMessage(true);
+  }, [])
+
   return (
     <Router>
       {showSurvey && <SurveyPopupModal />}
+      {
+        showStartMessage &&
+        <ModalContainer showModal={showStartMessage} fitcontent={true} hidePadding={true} hideHeader={true} closeModal={() => setShowStartMessage(false)}>
+            <img className='start--poster-img' src={startPoster} alt="" />
+        </ModalContainer>
+      }
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Homepage />} />
