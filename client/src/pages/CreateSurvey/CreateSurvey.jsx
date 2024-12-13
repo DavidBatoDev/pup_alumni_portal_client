@@ -267,11 +267,7 @@ const CreateSurvey = () => {
     // }
 
     try {
-      const response = await axios.post('/api/admin/save-survey', formattedSurvey, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+      const response = await api.post('/api/admin/save-survey', formattedSurvey);
       if (response.status === 201) {
         setAlert({ message: 'Survey saved successfully!', severity: 'success' });
         // Navigate back to the AdminSurveyDashboard with alert state after 2 seconds

@@ -21,11 +21,7 @@ const AdminSurveyDashboard = () => {
     const fetchSurveys = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('/api/admin/surveys', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
+        const response = await api.get('/api/admin/surveys');
         setSurveysList(response.data.surveys);
         setLoading(false);
       } catch (error) {

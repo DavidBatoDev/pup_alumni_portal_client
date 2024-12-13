@@ -2,9 +2,10 @@ import axios from "axios";
 import { store } from "./store/store.js";
 import { logout } from "./store/UserSlice.js";
 
+
 // Create an Axios instance
 const api = axios.create({
-  baseURL: `${import.meta.env.VITE_BACKEND_URL}`, // Replace with your API URL
+  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api`, // Replace with your API URL
   timeout: 10000, // Optional: Add a timeout for requests
 });
 
@@ -20,18 +21,26 @@ const saveToken = (token) => {
 };
 
 // Request Interceptor: Attach the JWT token to every request
+// Request Interceptor: Attach the JWT token only if requiresAuth is true
 api.interceptors.request.use(
   (config) => {
     const token = getToken();
-    if (token) {
+
+    // Attach the Authorization header only if requiresAuth is true (default: true)
+    if (config.headers?.requiresAuth !== false && token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
+    
+    // Remove the requiresAuth flag before sending the request
+    delete config.headers.requiresAuth;
+
     return config;
   },
   (error) => {
     return Promise.reject(error);
   }
 );
+
 
 // Response Interceptor: Handle token expiration and refreshing
 api.interceptors.response.use(

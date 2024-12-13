@@ -40,6 +40,8 @@ function App() {
 
   const [showSurvey, setShowSurvey] = useState(true);
 
+  console.log("Base URL:", import.meta.env.VITE_BACKEND_URL);
+
   useEffect(() => {
     const fetchUnansweredSurveys = async () => {
       setShowSurvey(false);
