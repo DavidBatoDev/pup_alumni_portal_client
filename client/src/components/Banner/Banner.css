@@ -3,14 +3,40 @@
 
 /* Banner container */
 .banner {
-  height: 700px; /* Full viewport height */
+  height: 100vh; /* Full viewport height */
   padding: 128px; /* Default padding */
   display: flex;
   align-items: flex-start; /* Align text to top-left */
   justify-content: flex-start;
   flex-direction: column;
   position: relative;
-  font-family: 'Crimson Text', serif; /* Applying Crimson Text font */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  background-color: rgb(255, 255, 255, 0.8);
+  animation: glowBackground 10s infinite alternate;
+  font-family: "Alfa Slab One", serif; /* Applying Crimson Text font */
+  transition: background-color 5s ease-in-out;
+}
+
+@keyframes glowBackground {
+  0% {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  50% {
+    background-color: rgba(250, 230, 190, 0.8);
+  }
+}
+
+.banner-hero-background {
+  background-image: url('../../assets/images/pup-tracer-banner.png'); /* Replace with actual image */
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .banner-small {
@@ -30,9 +56,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #FFF 100%), rgba(255, 255, 255, 0.35);
   z-index: 1;
 }
+
 
 .banner-small::before {
     content: "";
@@ -55,7 +81,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start; /* Left-align text */
-  align-items: flex-start;
+  align-items: center;
 }
 
 .banner-small .banner-content {
@@ -72,11 +98,20 @@
 
 /* Adjust heading size and alignment */
 .banner-content .banner-hero-title {
-  color: #1E1E1E;
-  font-size: 8rem; /* Large heading size */
-  font-weight: 700;
+  /* color: #1E1E1E; */
+  color: #CD921E;
+  font-size: 7rem; /* Large heading size */
+  font-weight: bold;
   line-height: 0.75; /* Tight line-height */
   min-width: fit-content;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-content .banner-hero-title .key {
+  -webkit-text-stroke: #1E1E1E 2px;
 }
 
 .banner-content .banner-title-container {
@@ -86,7 +121,14 @@
 /* Adjust paragraph size and alignment */
 .banner-content .banner-hero-motto {
   color: #1E1E1E;
-  text-align: left;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  min-width: fit-content;
+  flex-grow: 1;
+  padding: 0.5rem 1.2rem;
+  border-radius: 30px;
+  -webkit-text-stroke: #fff 0.2px;
+  background-color: #fff;
   font-family: "Crimson Text";
   font-size: 1.5rem;
   font-weight: 500;
@@ -134,6 +176,8 @@
 /* Button styles */
 .banner-buttons {
   display: flex;
+  justify-content: center;
+  width: 100%;
   gap: 10px; /* Space between buttons */
 }
 
@@ -252,6 +296,43 @@
   transition: opacity 0.3s ease; /* Smooth visibility transition */
 }
 
+@media(max-width: 1024px) {
+  .banner-content .banner-hero-title {
+    font-size: 5rem; /* Reduce heading size */
+    text-align: center;
+  }
+
+  .banner-content .banner-title-container {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .banner-content .banner-hero-motto {
+    font-size: 1.25rem;
+    text-align: center;
+    max-width: 90%;
+  }
+}
+
+@media(max-width: 1204px) {
+  .banner-content .banner-hero-title {
+    font-size: 5rem; /* Reduce heading size */
+    text-align: center;
+  }
+
+  .banner-content .banner-title-container {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .banner-content .banner-hero-motto {
+    font-size: 1.25rem;
+    text-align: center;
+    max-width: 90%;
+  }
+}
 
 @media (max-width: 768px) {
   /* Default Banner */
@@ -266,32 +347,42 @@
   .banner .banner-content {
     width: 100%;
     margin: 70px 0; /* Adjust top margin */
+    display: flex;
+    flex-direction: column;
     align-items: center; /* Center text */
     text-align: center; /* Center text on mobile */
   }
 
+  .banner .banner-title-container  {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
   .banner-content .banner-hero-title {
-    font-size: 68px; /* Reduce heading size */
+    font-size: 3.5rem; /* Reduce heading size */
+    align-items: center;
     line-height: 1;
     user-select: none;
   }
 
   .banner-content .banner-hero-motto {
-    font-size: 18px; /* Reduce paragraph size */
+    font-size: 1rem; /* Reduce paragraph size */
+    font-weight: 700;
+    padding: 0.5rem 1rem;
     text-align: center;
-    max-width: 90%; /* Adjust width for better fit */
     user-select: none;
   }
 
   .banner-buttons {
-    flex-direction: column; /* Stack buttons vertically */
-    gap: 15px; /* Add more space between buttons */
-    width: 100%;
+    justify-content: center;
+    gap: 1rem;
   }
 
-  .banner-buttons .btn {
+  .banner-buttons .btn, .banner-buttons .cta-text  {
     padding: 10px 30px; /* Adjust button padding */
-    width: 100%; /* Full width buttons on mobile */
+    min-width: fit-content;
   }
 
   /* Small Banner */
@@ -301,8 +392,13 @@
 }
 
 @media (max-width: 480px) {
-  .banner-content h1 {
-    font-size: 48px; /* Further reduce heading size */
+  .banner-content .banner-hero-title {
+    font-size: 3rem; /* Further reduce heading size */
+  }
+
+  .banner-content   .banner-buttons {
+    flex-direction: column;
+    justify-content: center;
   }
 
   .banner-content p {

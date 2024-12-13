@@ -10,6 +10,8 @@ const Banner = () => {
 
   return (
     <div className="banner">
+      <div className="banner-hero-background"></div>
+
         <div className="banner-content">
             <div className="d-flex flex-wrap banner-title-container">
               <h1 className='banner-hero-title'>
