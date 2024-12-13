@@ -320,11 +320,7 @@ const AdminEventsFormModal = ({
   const handleReOpenEvent = async () => {
     try {
       setLoading(true);
-      const response = await axios.put(`/api/admin/event/${currentEventId}/unend`, null, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+      const response = await api.put(`/api/admin/event/${currentEventId}/unend`, null);
 
       if (response.status === 200) {
         // get the event from the inactive event list 
@@ -382,7 +378,7 @@ const AdminEventsFormModal = ({
         <div className="events-form-row events-form-row-photos">
           <label className="events-form-label">
             Upload Photos:
-            <input type="file" name="photos" className="events-form-input" multiple onChange={handlePhotoChange} />
+            <input type="file"  accept="image/*"  name="photos" className="events-form-input" multiple onChange={handlePhotoChange} />
           </label>
           <div className="photo-previews-container">
             {photoPreviews.length > 0 &&

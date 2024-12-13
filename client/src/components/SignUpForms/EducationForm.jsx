@@ -92,6 +92,7 @@ const EducationForm = forwardRef(({
                   <label>Description</label>
                   <textarea
                     className="form-control"
+                    placeholder='Describe your job responsibilities, achievements, etc. (Optional)'
                     value={job.description || ''}
                     onChange={(e) => handleEmploymentChange(index, 'description', e.target.value)}
                   />
