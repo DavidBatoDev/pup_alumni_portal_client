@@ -37,27 +37,27 @@ const eventsData = [
 const EventsSection = () => {
   const eventRef = useRef([]); // Track each event card element
 
-  useEffect(() => {
-    const observerOptions = {
-      threshold: 0.2, // Trigger animation when 20% of the card is visible
-    };
+  // useEffect(() => {
+  //   const observerOptions = {
+  //     threshold: 0.5, // Trigger animation when 20% of the card is visible
+  //   };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('fadeInUp'); // Apply the animation class
-        } else {
-          entry.target.classList.remove('fadeInUp'); // Remove the animation class when out of view
-        }
-      });
-    }, observerOptions);
+  //   const observer = new IntersectionObserver((entries) => {
+  //     entries.forEach((entry) => {
+  //       if (entry.isIntersecting) {
+  //         entry.target.classList.add('fadeInUp'); // Apply the animation class
+  //       } else {
+  //         entry.target.classList.remove('fadeInUp'); // Remove the animation class when out of view
+  //       }
+  //     });
+  //   }, observerOptions);
 
-    eventRef.current.forEach((event) => {
-      if (event) observer.observe(event);
-    });
+  //   eventRef.current.forEach((event) => {
+  //     if (event) observer.observe(event);
+  //   });
 
-    return () => observer.disconnect();
-  }, []);
+  //   return () => observer.disconnect();
+  // }, []);
 
   return (
     <div className="events-section glass">

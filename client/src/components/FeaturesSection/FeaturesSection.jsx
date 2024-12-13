@@ -32,27 +32,27 @@ const FeaturesSection = () => {
     }
   ]
 
-  useEffect(() => {
-    const observerOptions = {
-      threshold: 0.2, // Trigger animation when 20% of the card is visible
-    };
+  // useEffect(() => {
+  //   const observerOptions = {
+  //     threshold: 0.2, // Trigger animation when 20% of the card is visible
+  //   };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('fadeInUp'); // Apply the animation class
-        } else {
-          entry.target.classList.remove('fadeInUp'); // Remove the animation class when out of view
-        }
-      });
-    }, observerOptions);
+  //   const observer = new IntersectionObserver((entries) => {
+  //     entries.forEach((entry) => {
+  //       if (entry.isIntersecting) {
+  //         entry.target.classList.add('fadeInUp'); // Apply the animation class
+  //       } else {
+  //         entry.target.classList.remove('fadeInUp'); // Remove the animation class when out of view
+  //       }
+  //     });
+  //   }, observerOptions);
 
-    featureRefs.current.forEach((feature) => {
-      if (feature) observer.observe(feature);
-    });
+  //   featureRefs.current.forEach((feature) => {
+  //     if (feature) observer.observe(feature);
+  //   });
 
-    return () => observer.disconnect();
-  }, []);
+  //   return () => observer.disconnect();
+  // }, []);
 
   return (
     <div className="features-section glass">
