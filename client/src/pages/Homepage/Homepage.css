@@ -3,9 +3,9 @@ section {
 }
 
 .homepage {
-    position: relative;
+  position: relative;
 }
 
 .homepage-background {
-    background-image: url('../../assets/images/pup-landing-banner.png'); /* Replace with actual image */
+    background-image: url('../../assets/images/pup-bg-homepage.jpg'); /* Replace with actual image */
 }
