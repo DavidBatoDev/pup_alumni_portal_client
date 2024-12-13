@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './ProfileSidebar.css';
-import { logout } from '../../store/userSlice';
+import { logout } from '../../store/UserSlice.js';
 import { useDispatch } from 'react-redux';
 
 const ProfileSidebar = () => {

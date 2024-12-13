@@ -5,7 +5,7 @@ import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import './Profile.css';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { updateUser } from '../../store/userSlice';
+import { updateUser } from '../../store/UserSlice.js';
 
 const ProfileSettings = () => {
   // const { profile, address, employmentHistory, educationHistory } = useOutletContext();

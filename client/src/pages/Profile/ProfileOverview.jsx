@@ -4,7 +4,7 @@ import api from "../../api";
 import "./Profile.css";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { setLoading } from "../../store/userSlice";
+import { setLoading } from "../../store/UserSlice.js";
 
 const ProfileOverview = () => {
   const dispatch = useDispatch();
