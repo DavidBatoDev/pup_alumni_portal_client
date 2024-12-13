@@ -5,7 +5,7 @@ import bannerImage from "../../assets/images/eventbanner.png";
 import "./Events.css";
 import EventsFilterSection from "../../components/EventsFilterSection/EventsFilterSection";
 import EventAuth from "../../components/EventSectionAuth/EventAuth";
-import api from "../../api";
+import api from "../../api.js";
 import echo from "../../echo";
 import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import CircularLoader from "../../components/CircularLoader/CircularLoader";

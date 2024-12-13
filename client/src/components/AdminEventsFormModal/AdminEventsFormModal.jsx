@@ -7,6 +7,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './AdminEventsFormModal.css';
 import '../../pages/AdminEventsDashboard/AdminEventsDashboard.css';
+import api from '../../api';
 
 const AdminEventsFormModal = ({
   showModal,

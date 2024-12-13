@@ -5,7 +5,7 @@ import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/discussionimage.jpg';
 import Navbar from '../../components/Navbar/Navbar';
 import MainFooter from '../../components/MainFooter/MainFooter';
-import api from "../../api";
+import api from "../../api.js";
 import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 

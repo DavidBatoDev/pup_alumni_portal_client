@@ -9,7 +9,7 @@ import PersonalInformationForm from '../../components/SignUpForms/PersonalInform
 import EducationForm from '../../components/SignUpForms/EducationForm';
 import "../../global.css";
 import axios from "axios";
-import api from "../../api";
+import api from "../../api.js";
 import { useNavigate } from "react-router-dom";
 import BannerSmall from "../../components/Banner/BannerSmall";
 import bannerImage from '../../assets/images/pup-login-banner.jpg';

@@ -12,6 +12,7 @@ import bannerImage from "../../assets/images/pup-login-banner.jpg";
 import CircularLoader from "../../components/CircularLoader/CircularLoader";
 import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import ModalContainer from "../../components/ModalContainer/ModalContainer";
+import api from "../../api.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");

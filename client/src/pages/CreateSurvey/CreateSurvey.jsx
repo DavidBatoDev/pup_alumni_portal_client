@@ -4,6 +4,7 @@ import axios from 'axios';
 import AdminSidebar from '../../components/AdminSidebar/AdminSidebar';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import './CreateSurvey.css';
+import api from '../../api.js';
 
 const CreateSurvey = () => {
   const navigate = useNavigate();

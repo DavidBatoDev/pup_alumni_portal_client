@@ -6,6 +6,7 @@ import Carousel from 'react-multi-carousel';
 import CustomAlert from '../CustomAlert/CustomAlert';
 import CircularLoader from '../CircularLoader/CircularLoader';
 import 'react-multi-carousel/lib/styles.css';
+import api from '../../api.js';
 
 const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_registered, is_active, openFeedbackModal, eventFeedbackData }) => {
   const [loading, setLoading] = useState(false); // State for loading

@@ -5,7 +5,7 @@ import bannerImage2 from '../../assets/images/eventimage2.jpg';
 import './EventHistory.css';
 import EventsFilterSection from '../../components/EventsFilterSection/EventsFilterSection';
 import EventAuth from '../../components/EventSectionAuth/EventAuth';
-import api from '../../api';
+import api from '../../api.js';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import MainFooter from '../../components/MainFooter/MainFooter';

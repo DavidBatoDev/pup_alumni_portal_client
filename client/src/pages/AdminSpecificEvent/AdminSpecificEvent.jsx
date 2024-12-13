@@ -9,6 +9,7 @@ import AdminEventsFormModal from '../../components/AdminEventsFormModal/AdminEve
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { useParams } from 'react-router-dom';
+import api from '../../api.js';
 
 const AdminSpecificEvent = () => {
   const { eventId } = useParams();

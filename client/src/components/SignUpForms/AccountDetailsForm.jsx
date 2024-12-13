@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import CircularLoader from "../CircularLoader/CircularLoader";
-import api from "../../api";
+import api from "../../api.js";
 import { useNavigate } from "react-router-dom";
 
 const AccountDetailsForm = ({

@@ -8,6 +8,7 @@ import SurveyListing from '../../components/SurveyListing/SurveyListing';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import './AdminSurveyDashboard.css';
 import { useNavigate } from 'react-router-dom';
+import api from '../../api';
 
 const AdminSurveyDashboard = () => {
   const navigate = useNavigate();

@@ -5,7 +5,7 @@ import ModalContainer from "../ModalContainer/ModalContainer";
 import CustomAlert from "../CustomAlert/CustomAlert"; // Uncomment if using CustomAlert
 import SurveyCard from "../SurveyCards/SurveyCards";
 import "./SurveyPopupModal.css";
-import api from "../../api";
+import api from "../../api.js";
 import { useSelector } from "react-redux";
 
 const SurveyPopupModal = () => {

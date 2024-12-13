@@ -17,6 +17,7 @@ import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/pup-login-banner.jpg';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import ProfileSidebar from '../../components/ProfileSidebar/ProfileSidebar';
+import api from '../../api.js';
 
 import './Profile.css';
 
@@ -30,12 +31,8 @@ const Profile = () => {
 
   useEffect(() => {
     // Set up axios request with Authorization header
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/profile`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include the token in the Authorization header
-        },
-      })
+    api
+      .api(`/api/profile`)
       .then((response) => {
         if (response.data.success) {
           setProfile(response.data.data);
