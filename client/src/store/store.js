@@ -4,7 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import { combineReducers } from 'redux';
 import {thunk} from 'redux-thunk'; // Import redux-thunk correctly
-import userReducer from './userSlice';
+import userReducer from './UserSlice.js';
 
 // Configuration for redux-persist
 const persistConfig = {
