@@ -6,7 +6,7 @@ import SpecificEventSidebar from '../../components/SpecificEventSidebar/Specific
 import SpecificEventMainContent from '../../components/SpecificEventMainContent/SpecificEventMainContent';
 import bannerImage from '../../assets/images/eventimage1.png';
 import axios from 'axios';
-import './SpecificEvent.css';
+import './Specificevent.css';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import 'swiper/css/bundle';
 import { Navigation } from 'swiper/modules';
