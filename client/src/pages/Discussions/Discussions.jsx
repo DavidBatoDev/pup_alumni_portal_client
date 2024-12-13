@@ -15,7 +15,6 @@ import DiscussionTableHeader from '../../components/DiscussionTableHeader/Discus
 import DiscussionTableThread from '../../components/DiscussionTableThread/DiscussionTableThread';
 import DiscussionCardThread from '../../components/DiscussionCardThread/DiscussionCardThread';
 import DiscussionThreadModal from '../../components/DiscussionThreadModal/DiscussionThreadModal'; // Import DiscussionThreadModal
-import SearchBar from '../../components/SearchBar/SearchBar';
 
 import "./Discussions.css";
 import axios from 'axios';
@@ -258,7 +257,7 @@ const Discussions = () => {
       <DiscussionThreadModal
         showModal={showModal}
         closeModal={() => setShowModal(false)}
-        onCreateThread={handleCreateThread}
+        onSubmitThread ={handleCreateThread}
       />
 
       <MainFooter />
