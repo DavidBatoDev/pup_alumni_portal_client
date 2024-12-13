@@ -4,7 +4,7 @@ import { logout } from "./store/UserSlice.js";
 
 // Create an Axios instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL, // Replace with your API URL
+  baseURL: `${import.meta.env.VITE_BACKEND_URL}`, // Replace with your API URL
   timeout: 10000, // Optional: Add a timeout for requests
 });
 
