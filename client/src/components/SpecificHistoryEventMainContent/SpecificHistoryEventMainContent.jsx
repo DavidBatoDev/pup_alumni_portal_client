@@ -4,10 +4,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import CustomAlert from '../CustomAlert/CustomAlert';
 import CircularLoader from '../CircularLoader/CircularLoader';
-import image1 from '../../assets/images/eventImage1.png';
-import image2 from '../../assets/images/eventImage2.jpg';
-import image3 from '../../assets/images/eventImage3.jpg';
-import image4 from '../../assets/images/eventImage4.jpg';
+import image1 from '../../assets/images/eventimage1.png';
+import image2 from '../../assets/images/eventimage2.jpg';
+import image3 from '../../assets/images/eventimage3.jpg';
+import image4 from '../../assets/images/eventimage4.jpg';
 import singleImage from '../../assets/svgs/image-outline.svg';
 import gridImage from '../../assets/svgs/grid-outline.svg';
 

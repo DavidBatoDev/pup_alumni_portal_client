@@ -7,9 +7,9 @@ import axios from 'axios';
 import './SpecificHistoryPage.css';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import SpecificHistoryEventSidebar from '../../components/SpecificHistoryEventSidebar/SpecificHistoryEventSidebar';
-import image1 from '../../assets/images/eventImage1.png';
-import image2 from '../../assets/images/eventImage2.jpg';
-import image3 from '../../assets/images/eventImage3.jpg';
+import image1 from '../../assets/images/eventimage1.png';
+import image2 from '../../assets/images/eventimage2.jpg';
+import image3 from '../../assets/images/eventimage3.jpg';
 import SpecificHistoryEventMainContent from '../../components/SpecificHistoryEventMainContent/SpecificHistoryEventMainContent';
 import CustomAlert from '../../components/CustomAlert/CustomAlert'; // Import CustomAlert
 
