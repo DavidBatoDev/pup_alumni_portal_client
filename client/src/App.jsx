@@ -22,7 +22,7 @@ import ProfileSettings from './pages/Profile/ProfileSettings';
 import ProfilePasswordSecurity from './pages/Profile/ProfilePasswordSecurity';
 import ProfileNotificationPreferences from './pages/Profile/ProfileNotificationPreferences';
 import ProfilePrivacySettings from './pages/Profile/ProfilePrivacySettings';
-import SpecificEvent from './pages/SpecificEvent/SpecificEvent';
+import SpecificEvent from './pages/SpecificEvent/Specificevent';
 import EventHistory from './pages/EventHistory/EventHistory';
 import SpecificHistoryPage from './pages/SpecificHistoryPage/SpecificHistoryPage';
 import Alumni from './pages/Alumni/Alumni';
