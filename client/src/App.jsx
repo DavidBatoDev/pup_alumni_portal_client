@@ -68,7 +68,7 @@ function App() {
       {showSurvey && <SurveyPopupModal />}
       {
         showStartMessage &&
-        <ModalContainer showModal={showStartMessage} fitcontent={true} hidePadding={true} hideHeader={true} closeModal={() => setShowStartMessage(false)}>
+        <ModalContainer title={''} showModal={showStartMessage} fitcontent={true} hidePadding={true} hideHeader={true} closeModal={() => setShowStartMessage(false)}>
             <img className='start--poster-img' src={startPoster} alt="" />
         </ModalContainer>
       }
