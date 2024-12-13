@@ -7,7 +7,7 @@
     padding: 0;
     object-fit: contain;
 
-    z-index: 10000;
+    z-index: 10;
     background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
