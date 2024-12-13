@@ -8,6 +8,8 @@ import { useMediaQuery } from 'react-responsive';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import 'react-quill/dist/quill.snow.css';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
+import api from '../../api.js';
+
 
 const AdminEventsDashboard = () => {
   const [eventsList, setEventsList] = useState([]);

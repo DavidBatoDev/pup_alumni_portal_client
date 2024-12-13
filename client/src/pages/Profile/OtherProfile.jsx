@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "../../api";
+import api from "../../api.js";
 import CircularLoader from "../../components/CircularLoader/CircularLoader";
 import BannerSmall from "../../components/Banner/BannerSmall";
 import bannerImage from "../../assets/images/pup-login-banner.jpg";

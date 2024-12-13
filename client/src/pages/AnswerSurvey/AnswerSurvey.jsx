@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import api from '../../api';
+import api from '../../api.js';
 import { useParams, useNavigate } from 'react-router-dom';
 import './AnswerSurvey.css';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';

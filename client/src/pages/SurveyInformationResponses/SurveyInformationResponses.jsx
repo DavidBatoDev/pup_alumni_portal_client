@@ -5,6 +5,7 @@ import AdminSidebar from '../../components/AdminSidebar/AdminSidebar';
 import './SurveyInformationResponses.css';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import { useMediaQuery } from 'react-responsive';
+import api from '../../api.js';
 
 const SurveyInformationResponses = () => {
   const { surveyId } = useParams();

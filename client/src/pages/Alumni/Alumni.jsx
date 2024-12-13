@@ -8,7 +8,7 @@ import grid from "../../assets/svgs/grid-outline.svg";
 import menuIcon from "../../assets/svgs/menu-outline.svg";
 import AlumniCards from "../../components/AlumniCards/AlumniCards";
 import CircularLoader from "../../components/CircularLoader/CircularLoader";
-import api from "../../api";
+import api from "../../api.js";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import MainFooter from "../../components/MainFooter/MainFooter";
 

@@ -44,7 +44,7 @@ const ProfileSettings = () => {
 
   useEffect(() => {
     api
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/profile`)
+      .get(`/api/profile`)
       .then((response) => {
         if (response.data.success) {
           setProfile({

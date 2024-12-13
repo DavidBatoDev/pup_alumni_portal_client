@@ -11,7 +11,7 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import echo from "../../echo";
 import CircularLoader from "../../components/CircularLoader/CircularLoader";
 import MainFooter from "../../components/MainFooter/MainFooter";
-import api from "../../api";
+import api from "../../api.js";
 
 const Surveys = () => {
   const [unansweredSurveysData, setUnansweredSurveysData] = useState([]);

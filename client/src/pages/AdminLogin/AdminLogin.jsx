@@ -10,6 +10,7 @@ import bannerImage from '../../assets/images/pup-login-banner.jpg';
 import './AdminLogin.css';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
+import api from '../../api.js';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
