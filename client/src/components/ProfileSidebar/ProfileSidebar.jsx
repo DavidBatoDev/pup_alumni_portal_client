@@ -70,7 +70,7 @@ const ProfileSidebar = () => {
                   Profile Settings
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink
                   to="/profile/security"
                   className={({ isActive }) => (isActive ? 'active' : '')}
@@ -93,7 +93,7 @@ const ProfileSidebar = () => {
                 >
                   Privacy Settings
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
             <button className="scroll-button right rounded-circle" onClick={() => scroll('right')}><i className="scroll-arrow fa-solid fa-chevron-right fa-xs"></i></button>
           </div>
