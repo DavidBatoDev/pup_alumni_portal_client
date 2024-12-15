@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './ModalContainer.css';
 
-const ModalContainer = ({ showModal, closeModal, title, children, hideHeader, fullView, hidePadding, fitcontent }) => {
+const ModalContainer = ({ showModal, closeModal, title, children, hideHeader, fullView, hidePadding, fitcontent, mobileModal }) => {
   const [animationClass, setAnimationClass] = useState('');
 
   useEffect(() => {
@@ -16,12 +16,14 @@ const ModalContainer = ({ showModal, closeModal, title, children, hideHeader, fu
   return (
     <div className={`desktop-modal ${showModal ? 'show' : ''} ${animationClass} ${fullView ? 'full-view' : ''}`}>
       <div className={`desktop-modal-overlay ${animationClass} cursor-pointer`} onClick={closeModal}  />
-      <div className={`desktop-modal-content position-relative ${animationClass} ${fullView ? 'full-view' : ''} ${fitcontent ? 'fit-content' : ''}`}>
-        <div className={`desktop-modal-header ${hideHeader ? 'd-none' : ''}`}>
+      <div className={`desktop-modal-content position-relative ${animationClass} ${fullView ? 'full-view' : ''} ${fitcontent ? 'fit-content' : ''} ${mobileModal ? 'mobile-modal' : ''}`}>
+        <div className={`desktop-modal-header ${mobileModal ? 'mobile-modal' : ''} ${hideHeader ? 'hidden' : ''}`}>
           <h2 className="desktop-modal-title">{title}</h2>
           <button className="close-btn" onClick={closeModal}>&times;</button>
         </div>
-        <div className={`desktop-modal-body ${fullView ? 'full-view' : ''} ${hidePadding ? 'p-0' : ""} ${fitcontent ? 'fit-content' : ''}`}>{children}</div>
+        <div className={`desktop-modal-body ${fullView ? 'full-view' : ''} ${hidePadding ? 'p-0' : ""} ${fitcontent ? 'fit-content' : ''} ${mobileModal ? 'mobile-modal' : ''}`}>
+          {children}
+        </div>
       </div>
     </div>
   );
