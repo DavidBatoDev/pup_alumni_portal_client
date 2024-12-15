@@ -8,7 +8,7 @@ import "./SurveyPopupModal.css";
 import api from "../../api.js";
 import { useSelector } from "react-redux";
 
-const SurveyPopupModal = () => {
+const SurveyPopupModal = ({closeModal}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -91,7 +91,7 @@ const SurveyPopupModal = () => {
           </div>
           <div className="survey-card-popup">
             {surveys?.length > 0 ? (
-              <SurveyCard surveys={surveys} answered={false} />
+              <SurveyCard surveys={surveys} answered={false} closeModal={closeModal} />
             ) : (
               !loading && <p>No surveys available.</p>
             )}

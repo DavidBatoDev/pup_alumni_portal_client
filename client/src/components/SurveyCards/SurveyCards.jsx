@@ -1,9 +1,18 @@
 import React from 'react';
 import './SurveyCards.css'; // Import the updated CSS file for styling
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const SurveyCard = ({ surveys, answered, isRowLayout = true }) => {
+const SurveyCard = ({ surveys, answered, isRowLayout = true, closeModal }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleGotoSurvey = (surveyId) => {
+    if (location.pathname !== '/surveys') {
+      closeModal();
+    }
+    navigate(`/survey/${surveyId}`);
+  }
+
 
   return (
     <>
@@ -21,7 +30,7 @@ const SurveyCard = ({ surveys, answered, isRowLayout = true }) => {
                 </div>
                 {!answered && (
                   <button
-                    onClick={() => navigate(`/survey/${survey.survey_id}`)}
+                    onClick={() => handleGotoSurvey(survey.survey_id)}
                     className="survey-card-btn-primary"
                   >
                     Take Survey

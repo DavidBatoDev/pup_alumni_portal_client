@@ -65,7 +65,7 @@ function App() {
 
   return (
     <Router>
-      {showSurvey && <SurveyPopupModal />}
+      {showSurvey && <SurveyPopupModal closeModal={() => setShowSurvey(false)} />}
       {showStartMessage && (
         <ModalContainer
           title={""}
