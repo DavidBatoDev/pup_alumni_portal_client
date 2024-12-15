@@ -352,6 +352,50 @@ const AdminEventsFormModal = ({
       setLoading(false);
     }
   }
+
+  // utils 
+  const customLinkHandler = function () {
+    const url = prompt('Enter the URL:')
+
+    if (url) {
+      // Ensure URL starts with 'http://' or 'https://'
+      const absoluteUrl = url.startsWith('http://') || url.startsWith('https://') ? url : `https://${url}`;
+      const range = this.quill.getSelection();
+      if (range) {
+        // Apply the link formatting to the selected text
+        this.quill.formatText(range.index, range.length, 'link', absoluteUrl);
+      }
+    }
+  };
+
+  const modules = {
+    toolbar: {
+      container: [
+        ['bold', 'italic', 'underline', 'strike'], // Text styling
+        [{ list: 'ordered' }, { list: 'bullet' }], // Lists
+        [{ indent: '-1' }, { indent: '+1' }], // Indentation
+        [{ align: [] }], // Text alignment
+        ['link'], // Add link
+        ['clean'], // Clear formatting
+      ],
+      handlers: {
+        link: customLinkHandler, // Override default link handler
+      },
+    },
+  };
+
+  const formats = [
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'list',
+    'bullet',
+    'indent',
+    'align',
+    'link',
+    'image',
+  ];
   
 
   return (
@@ -528,29 +572,8 @@ const AdminEventsFormModal = ({
               value={newEvent.description}
               onChange={(value) => setNewEvent((prev) => ({ ...prev, description: value }))}
               style={{ height: '150px' }}
-              modules={{
-                toolbar: [
-                  ['bold', 'italic', 'underline', 'strike'],
-                  [{ list: 'ordered' }, { list: 'bullet' }],
-                  [{ indent: '-1' }, { indent: '+1' }],
-                  [{ align: [] }],
-                  ['link'],
-                  ['clean'],
-                ],
-              }}
-              formats={[
-                'bold',
-                'italic',
-                'underline',
-                'strike',
-                'list',
-                'bullet',
-                'indent',
-                'align',
-                'link',
-                'image',
-              ]}
-              className="events-form-quill"
+              modules={modules}
+              formats={formats}
             />
             {!validation.description && (
               <div className="invalid-feedback d-block">
