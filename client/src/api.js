@@ -51,10 +51,13 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    console.log("error", error.response);
+
     // Check if the error is due to token expiration
     if (
       error.response &&
       error.response.status === 401 &&
+      error.response.data.message === "Token has expired" &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;

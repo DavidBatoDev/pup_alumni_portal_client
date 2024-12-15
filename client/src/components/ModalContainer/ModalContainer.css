@@ -168,9 +168,23 @@
   }
 
   .desktop-modal-header {
-    display: flex !important;
+    display: flex;
     /* position: fixed; */
     width: 100%;
     border-radius: 0px;
   }
+
+  .desktop-modal-body.mobile-modal {
+    height: max-content;
+    min-height: 0px;
+  }
+  .desktop-modal-header.mobile-modal {
+    display: none;
+  }
+
+  .desktop-modal-content.mobile-modal {
+    width: max-content;
+    height: 100px;
+  }
+
 }

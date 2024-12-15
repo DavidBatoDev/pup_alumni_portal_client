@@ -80,8 +80,6 @@ const Login = () => {
       // make the email url encoded
       const emailUrl = encodeURIComponent(forgotPasswordEmail);
 
-      console.log(emailUrl);
-
       const response = await api.get(
         `/api/reset-password/${resetToken}?email=${emailUrl}`, { headers: { requiresAuth: false } }
       );
