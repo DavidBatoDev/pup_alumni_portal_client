@@ -46,8 +46,13 @@ const SpecificDiscussion = () => {
   const [showEditModal, setShowEditModal] = useState(false); // State to control the edit modal visibility
   const [editingThread, setEditingThread] = useState(null); // State to store the thread being edited
 
+  const navigate = useNavigate(); // Add this line to use navigate
+
   const handleOpenImage = (images) => {
-    setCurrentImages(images);
+    setCurrentImages(images.map((image) => ({
+      image_id: image.image_id,
+      image_path: image.image_path,
+    })));
     setShowImageModal(true);
   };
 
@@ -120,6 +125,12 @@ const SpecificDiscussion = () => {
         // Build the initial comment tree
         const tree = buildTree(formattedComments);
         setCommentTree(tree);
+
+        const existingImages = thread.images.map((image) => ({
+          image_id: image.image_id,
+          image_path: image.image_path,
+        }));
+        setCurrentImages(existingImages);
 
       } catch (error) {
         setError(error.message);
@@ -250,6 +261,27 @@ const SpecificDiscussion = () => {
 
   };
 
+  const submitDeleteThread = async (threadId) => {
+    try {
+      const response = await api.delete(`/api/threads/${threadId}`);
+      if (response.status === 200 || response.status === 204) {
+        console.log(`Thread ID: ${threadId} has been successfully deleted`);
+        navigate('/discussions');
+      } else {
+        const errorData = response.data;
+        const message = errorData.message ?? "An error occurred while deleting the thread.";
+        const errorMsg = errorData.error ?? '';
+        console.error(`Error deleting thread: ${message} : ${errorMsg}`);
+        setError(`${message} ${errorMsg}`);
+      }
+    } catch (error) {
+      console.error('Network error or no response:', error);
+      setError("An error occurred while deleting the thread.");
+    } finally {
+      setShowEditModal(false);
+    }
+  };
+
   return (
     <div className="specific-discussions-page">
       <Navbar />
@@ -332,8 +364,8 @@ const SpecificDiscussion = () => {
           className="h-100 w-100 position-relative swiper-container"
         >
           {currentImages.map((image, index) => (
-            <SwiperSlide className="d-flex " key={index}>
-              <div className="swiper-slide-background" style={{ backgroundImage: `url(${image?.image_path})` }}></div>
+            <SwiperSlide className="d-flex " key={image.image_id}>
+              <div className="swiper-slide-background" style={{ backgroundImage: `url(${image.image_path})` }}></div>
               <img src={image.image_path} className="d-block w-100 img-fluid swiper-slide-image" alt={`Slide ${index}`} />
             </SwiperSlide>
           ))}
@@ -346,6 +378,7 @@ const SpecificDiscussion = () => {
         onSubmitThread={submitEditThread}
         thread={editingThread} // Pass the thread to be edited
         isEditing={true} // Indicate that this is an edit operation
+        submitDeleteThread={submitDeleteThread} // Pass the delete function
       />
 
       <MainFooter />

@@ -258,6 +258,7 @@ const Discussions = () => {
         showModal={showModal}
         closeModal={() => setShowModal(false)}
         onSubmitThread ={handleCreateThread}
+        submitDeleteThread={() => console.log('Delete Thread')}
       />
 
       <MainFooter />
