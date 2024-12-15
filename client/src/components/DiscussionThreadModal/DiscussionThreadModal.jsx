@@ -104,7 +104,7 @@ const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, thread =
       formData.append('title', threadData.title);
       formData.append('description', threadData.description);
       tags.forEach((tag, index) => {
-        formData.append(`tags[${index}]`, tag);
+        formData.append(`tags[${index}]`, tag.name);
       });
       imageFiles.forEach((file, index) => {
         formData.append(`images[${index}]`, file);
@@ -117,7 +117,7 @@ const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, thread =
       const updatedData = {};
       if (threadData.title !== thread.title) updatedData.title = threadData.title;
       if (threadData.description !== thread.description) updatedData.description = threadData.description;
-      if (JSON.stringify(tags) !== JSON.stringify(thread.tags)) updatedData.tags = tags;
+      if (JSON.stringify(tags) !== JSON.stringify(thread.tags)) updatedData.tags = tags.map(tag => tag.name);
       if (imageFiles.length > 0) updatedData.images = imageFiles;
 
       // Pass updated data to the parent component for API call
