@@ -35,10 +35,10 @@ const AdminLogin = () => {
       setLoading(true);
 
       // Send a POST request to the backend for authentication
-      const response = await axios.post('/api/admin/login', {
+      const response = await api.post('/api/admin/login', {
         email,
         password,
-      });
+      }, { headers: { requiresAuth: false } });
 
       if (response.status !== 200) {
         const errorMessage = response.data.error
