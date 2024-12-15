@@ -5,7 +5,7 @@ import "react-quill/dist/quill.snow.css"; // Quill's default theme
 import ModalContainer from "../ModalContainer/ModalContainer";
 import "./DiscussionThreadModal.css";
 
-const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, thread = null, isEditing = false }) => {
+const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, submitDeleteThread, thread = null, isEditing = false }) => {
   const { user } = useSelector((state) => state.user); // Get user data
 
   // Thread Data (Request Body)
@@ -17,7 +17,7 @@ const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, thread =
   const [showImageUpload, setShowImageUpload] = useState(
     thread?.images?.length > 0 || false
   );
-  const [images, setImages] = useState(thread?.images?.map(image => image.image_url) || []); // Store uploaded images
+  const [images, setImages] = useState(thread?.images?.map(image => image.image_path) || []); // Store uploaded images
   const [imageFiles, setImageFiles] = useState([]); // Store actual file objects
   const [validation, setValidation] = useState({
     title: true,
@@ -31,9 +31,8 @@ const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, thread =
         description: thread.description || "",
       });
       setTags(thread.tags || []);
-      // console.log(thread.images);
-      // setImages(thread.images?.map(image => image.image_path) || []);
-      // setImageFiles(thread.images?.map(image => image.image_url) || []); // Correctly set imageFiles
+      setImages(thread.images?.map(image => image.image_path) || []);
+      setImageFiles([]); // Reset image files
     }
   }, [thread]);
 
@@ -142,6 +141,16 @@ const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, thread =
     if (!isEditing) { resetFormState(); }
     closeModal();
   }
+
+  const handleDelete = () => {
+    if (isEditing) {
+      console.log(submitDeleteThread);
+      submitDeleteThread(thread.thread_id);
+    } else {
+      resetFormState();
+      closeModal();
+    }
+  };
 
   return (
     <ModalContainer
@@ -297,12 +306,20 @@ const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, thread =
               <i className="fas fa-image"></i>
             </button>
           </div>
-          <button
-            className="btn btn-primary discussion-post-btn"
-            onClick={handleSubmit}
-          >
-            Post
-          </button>
+          <div className="d-flex gap-3 ">
+            <button
+              className="btn btn-primary raleway discussion-post-btn"
+              onClick={handleDelete}
+            >
+              Delete
+            </button>
+            <button
+              className="btn btn-primary raleway discussion-post-btn"
+              onClick={handleSubmit}
+            >
+              {isEditing ? "Save" : "Post"}
+            </button>
+          </div>
         </div>
       </div>
     </ModalContainer>
