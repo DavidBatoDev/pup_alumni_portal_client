@@ -40,6 +40,8 @@ const AdminLogin = () => {
         password,
       }, { headers: { requiresAuth: false } });
 
+      console.log(response);
+
       if (response.status !== 200) {
         const errorMessage = response.data.error
         console.log(errorMessage);

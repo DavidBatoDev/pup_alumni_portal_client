@@ -166,14 +166,37 @@ const AdminEventsFormModal = ({
   const handleSaveEvent = async () => {
     if (!validateFields()) return;
   
+    // Function to sanitize links in the description
+    const sanitizeDescriptionLinks = (htmlString) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlString, 'text/html');
+  
+      // Find all anchor (<a>) tags
+      const anchorTags = doc.querySelectorAll('a');
+      anchorTags.forEach((anchor) => {
+        const href = anchor.getAttribute('href');
+        // Ensure all links start with 'https://'
+        if (href && !href.startsWith('http://') && !href.startsWith('https://')) {
+          const cleanedHref = `https://${href.replace(/^(\/|\.\/)/, '')}`; // Add 'https://' prefix
+          anchor.setAttribute('href', cleanedHref);
+        }
+      });
+  
+      return doc.body.innerHTML; // Return the updated HTML string
+    };
+  
     try {
       setLoading(true);
       setUploading(true);
+  
+      // Sanitize description before appending to FormData
+      const sanitizedDescription = sanitizeDescriptionLinks(newEvent.description);
+  
       const formData = new FormData();
       formData.append('event_name', newEvent.event_name);
       formData.append('event_date', newEvent.event_date);
       formData.append('location', newEvent.location);
-      formData.append('description', newEvent.description);
+      formData.append('description', sanitizedDescription); // Use sanitized description
       formData.append('type', newEvent.type);
       formData.append('category', newEvent.category);
       formData.append('organization', newEvent.organization);
@@ -198,6 +221,7 @@ const AdminEventsFormModal = ({
   
       if (response.status === 200 || response.status === 201) {
         const updatedEvent = response.data.event;
+  
         if (isEditing && newEvent.is_active) {
           const updatedEventList = eventsList.map((event) =>
             event.event_id === currentEventId ? { ...event, ...updatedEvent } : event
@@ -205,23 +229,21 @@ const AdminEventsFormModal = ({
           setEventsList(updatedEventList);
           setAlert({ message: 'Event updated successfully!', severity: 'success' });
         } else if (isEditing && !newEvent.is_active) {
-          const updatedEventList = inactiveEventsList.map((event) => 
+          const updatedEventList = inactiveEventsList.map((event) =>
             event.event_id === currentEventId ? { ...event, ...updatedEvent } : event
           );
           setInactiveEventsList(updatedEventList);
           setAlert({ message: 'Event updated successfully!', severity: 'success' });
-        }
-        else {
+        } else {
           setEventsList((prevList) => [...prevList, updatedEvent]);
           setAlert({ message: 'Event added successfully!', severity: 'success' });
         }
         setUpdateSuccess(true);
   
-        // Delay modal closure to display alert
         setTimeout(() => {
           resetFormState();
           closeModal();
-        }, 2000); // Keep the modal open for 2 seconds
+        }, 2000);
       } else {
         setAlert({ message: 'Failed to save event. Please try again.', severity: 'error' });
       }
@@ -233,6 +255,7 @@ const AdminEventsFormModal = ({
       setUploading(false);
     }
   };
+  
 
   const handleDeleteEvent = async () => {
     try {
@@ -352,7 +375,7 @@ const AdminEventsFormModal = ({
       setLoading(false);
     }
   }
-  
+
 
   return (
     <ModalContainer
