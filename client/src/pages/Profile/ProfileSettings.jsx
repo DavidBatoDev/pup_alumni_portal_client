@@ -689,7 +689,8 @@ const ProfileSettings = () => {
                           onChange={(e) => handleEmploymentChange(job.employment_id, 'end_date', e.target.value)}
                         />
                       ) : (
-                        job.end_date ? new Date(job.end_date).toLocaleDateString() : 'Present'
+                        job.end_date && new Date(job?.end_date).getFullYear() !== 0
+                        ? new Date(job.end_date).toLocaleDateString() : 'Present'
                       )}
                     </td>
                     <td data-cell="Actions">
@@ -807,7 +808,8 @@ const ProfileSettings = () => {
                           onChange={(e) => handleEducationChange(edu.education_id, 'end_date', e.target.value)}
                         />
                       ) : (
-                        edu.end_date ? new Date(edu.end_date).toLocaleDateString() : 'Present'
+                        edu.end_date && new Date(edu?.end_date).getFullYear() !== 0
+                        ? new Date(edu.end_date).toLocaleDateString() : 'Present'
                       )}
                     </td>
                     <td data-cell="Actions">

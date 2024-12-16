@@ -37,6 +37,12 @@ const ProfileOverview = () => {
       .finally(() => dispatch(setLoading(false)));
   }, []);
 
+  useEffect(() => {
+    if (employmentHistory) {
+      console.log("Employment", employmentHistory?.map((job) => new Date(job?.end_date).getFullYear()));
+    }
+  }, [employmentHistory]);
+
   return (
     <>
       <div className="card mb-4 profile-section">
@@ -116,7 +122,7 @@ const ProfileOverview = () => {
                   <p className="card-text ">{job?.job_title}</p>
                   <p className="card-subtitle">
                     {new Date(job?.start_date).toLocaleDateString()} -{" "}
-                    {job?.end_date
+                    {job?.end_date && new Date(job?.end_date).getFullYear() !== 0
                       ? new Date(job?.end_date).toLocaleDateString()
                       : "Present"}
                   </p>
@@ -155,7 +161,7 @@ const ProfileOverview = () => {
                   <p className="card-text ">{education?.field_of_study}</p>
                   <p className="card-subtitle">
                     {new Date(education?.start_date).toLocaleDateString()} -{" "}
-                    {education?.end_date
+                    {education?.end_date && new Date(education?.end_date).getFullYear() !== 0
                       ? new Date(education?.end_date).toLocaleDateString()
                       : "Present"}
                   </p>
