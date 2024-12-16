@@ -93,15 +93,6 @@ const Signup = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
 
-  // const scrollToFormContainer = () => {
-  //   if (formContainerRef.current) {
-  //     formContainerRef.current.scrollIntoView({
-  //       behavior: 'smooth', // Ensures smooth scrolling
-  //       block: 'start', // Aligns to the top of the container
-  //     });
-  //   }
-  // };
-
   // Handle form changes for main form data
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -176,7 +167,7 @@ const Signup = () => {
       .sort((a, b) => new Date(a.start_date) - new Date(b.start_date)); // Sort by start_date in ascending order
 
     // Set current_job_title and current_employer from latest job entry of employment history
-    const latestEmployment = formattedEmploymentHistory.find((job) => !job.end_date);
+    const latestEmployment = data.position.sort((a, b) => new Date(a.start_date) - new Date(b.start_date)).find((job) => !job.end);
     if (latestEmployment) {
       setFormData({
         ...formData,
@@ -185,49 +176,68 @@ const Signup = () => {
       });
     }
 
+    console.log(formattedEmploymentHistory);
+    console.log(formattedEmploymentHistory.map((job) => new Date(job?.end_date).getFullYear() !== 0));
     setEmploymentHistory([...employmentHistory, ...formattedEmploymentHistory]);
     setEducationHistory([...educationHistory, ...formattedEducationHistory]);
   };
 
+  const fetchLinkedIn = async (url) => {
+    if (!url) {
+      setLinkedinError('LinkedIn profile URL is required');
+      return;
+    }
+
+    setLoading(true);
+    setLinkedinError(null);
+
+    const options = {
+      method: 'GET',
+      url: 'https://linkedin-data-api.p.rapidapi.com/get-profile-data-by-url',
+      params: {
+        url: url
+      },
+      headers: {
+        'x-rapidapi-key': '3c527754f3msh4f15cb231b6927bp144182jsn2f1487121bc8',
+        'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com'
+      }
+    };
+
+    try {
+      setLoading(true);
+      // (DUMMY CODE BELOW) Implement fetch data using LinkedIn API
+      const response = await axios.request(options);
+      if (response.data && response.status === 200 || response.status === 201) {
+        processLinkedInData(response.data);
+        educationFormRef.current.setFetchLinkedInSuccess(true);
+      }
+
+    } catch (error) {
+      console.error('Failed to fetch LinkedIn data:', error);
+      setLinkedinError('Failed to fetch LinkedIn data');
+    } finally {
+      setLoading(false);
+    }
+
+  };
+
   // Handle LinkedIn profile input change and API request for fetching data
-  const handleLinkedInChange = async (e) => {
+  const handleLinkedInChange = (e) => {
+    educationFormRef.current.setFetchLinkedInSuccess(false);
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
+    // console.log(name, value, educationFormRef.current.validateLinkedInProfile());
 
-    if (name === 'linkedin_profile' && value) {
-      setLoading(true);
-      setLinkedinError(null);
-
-      const options = {
-        method: 'GET',
-        url: 'https://linkedin-data-api.p.rapidapi.com/get-profile-data-by-url',
-        params: {
-          url: value
-        },
-        headers: {
-          'x-rapidapi-key': 'a30a131dc7msh773b412d847af6ap14d19djsnacf1132f828f',
-          'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com'
-        }
-      };
-
-      try {
-        setLoading(true);
-        // (DUMMY CODE BELOW) Implement fetch data using LinkedIn API
-        const response = await axios.request(options);
-        console.log("Linked In Profile Found: ", response.data);
-        if (response.data) {
-          processLinkedInData(response.data);
-        }
-      } catch (error) {
-        console.error('Failed to fetch LinkedIn data:', error);
-        setLinkedinError('Failed to fetch LinkedIn data');
-      } finally {
-        setLoading(false);
-      }
+    // Call validateLinkedInProfile before proceeding
+    if (!educationFormRef.current.validateLinkedInProfile()) {
+      return;
     }
+
+    // Call fetchLinkedIn function to fetch data
+    fetchLinkedIn(value);
   };
 
   // const debugHandleSubmit = (e) => {
@@ -306,7 +316,7 @@ const Signup = () => {
       <Navbar />
 
       {linkedinError && <CustomAlert severity={"warning"} message={linkedinError} onClose={() => setLinkedinError(null)} />}
-      
+
       {error && (
         <CustomAlert severity={"error"} message={error} onClose={() => setError(null)} />
       )}
@@ -334,8 +344,8 @@ const Signup = () => {
           </div>
 
           {/* Signup Form Section */}
-          <div className="row justify-content-center mt-5" style={{height: "100%"}}>
-            <form onSubmit={handleSubmit} style={{height: "100%"}} className="w-100" noValidate>
+          <div className="row justify-content-center mt-5" style={{ height: "100%" }}>
+            <form onSubmit={handleSubmit} style={{ height: "100%" }} className="w-100" noValidate>
               {/* Form Container */}
               <div className="container d-flex justify-content-center">
                 {/* Form Content based on Current Step */}

@@ -1,4 +1,5 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+/* eslint-disable react/display-name */
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import './EducationForm.css';
 
 const EducationForm = forwardRef(({
@@ -17,6 +18,29 @@ const EducationForm = forwardRef(({
   handleDeleteEducation
 }, ref) => {
   const [error, setError] = useState('');
+  const [fetchLinkedInSuccess, setFetchLinkedInSuccess] = useState(false);
+  const [validation, setValidation] = useState({
+    linkedin_profile: false,
+  });
+
+  const validateLinkedInProfile = () => {
+
+    const linkedinRegex = /^https?:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$/;
+    const cleanedLinkedIn = formData.linkedin_profile.trim();
+    const isValid = linkedinRegex.test(cleanedLinkedIn);
+    // console.log("LinkedIn URL:", cleanedLinkedIn, "isValid:", isValid);
+    if (!cleanedLinkedIn || !isValid) {
+      setValidation((prev) => ({ ...prev, linkedin_profile: false }));
+      return false;
+    }
+    setValidation((prev) => ({ ...prev, linkedin_profile: true }));
+    return true;
+  };
+
+  const handleLinkedInInputChange = (e) => {
+    handleLinkedInChange(e);
+    validateLinkedInProfile();
+  };
 
   const validateFields = () => {
     const agreeInfo = document.getElementById('agreeInfo').checked;
@@ -33,6 +57,8 @@ const EducationForm = forwardRef(({
 
   useImperativeHandle(ref, () => ({
     validateFields,
+    validateLinkedInProfile,
+    setFetchLinkedInSuccess
   }));
 
   return (
@@ -40,7 +66,7 @@ const EducationForm = forwardRef(({
       <h3 className="edu-form-section-title">EDUCATIONAL AND PROFESSIONAL INFORMATION</h3>
 
       {/* LinkedIn Profile Section */}
-      <div className="edu-form-group linkedin-input">
+      <div className={`edu-form-group linkedin-input ${validation.linkedin_profile && fetchLinkedInSuccess ? "was-validated" : "is-invalid"}`}>
         <label>
           LinkedIn Profile (Optional) <span className="edu-form-important-txt">*</span>
         </label>
@@ -51,11 +77,57 @@ const EducationForm = forwardRef(({
           <input
             type="text"
             name="linkedin_profile"
-            placeholder="LinkedIn Profile URL"
+            placeholder="https://www.linkedin.com/in/[your-profile]"
             value={formData.linkedin_profile}
-            onChange={handleLinkedInChange}
+            onChange={handleLinkedInInputChange}
+            onBlur={handleLinkedInInputChange}
             className="form-control"
           />
+        </div>
+        {!validation.linkedin_profile && (
+          <div className="invalid-feedback">
+            Please enter a valid LinkedIn profile URL.
+          </div>
+        )}
+      </div>
+
+      {/* Current Job and Employer Input (manual) */}
+      <div className="d-flex flex-md-row flex-column justify-content-between gap-md-3">
+        <div className="form-group w-100">
+          <label>
+            Current Job Title
+          </label>
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <i className="fa-solid fa-briefcase" aria-hidden="true"></i>
+            </span>
+            <input
+              type="text"
+              name="current_job_title"
+              placeholder="No Current Job Title"
+              className="form-control"
+              value={formData.current_job_title}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+        <div className="form-group w-100">
+          <label>
+            Current Employer
+          </label>
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <i className="fa-solid fa-user-tie" aria-hidden="true"></i>
+            </span>
+            <input
+              type="text"
+              name="current_employer"
+              placeholder="No Employer"
+              className="form-control"
+              value={formData.current_employer}
+              onChange={handleChange}
+            />
+          </div>
         </div>
       </div>
 
