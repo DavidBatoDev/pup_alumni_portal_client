@@ -72,7 +72,7 @@ const Alumni = () => {
       {loading && <CircularLoader />}
       {error && <div className="alert alert-danger">Error: {error}</div>}
       <Navbar />
-      <BannerSmall bannerImage={bannerImage} bannerTitle="Alumnis" breadcrumbs={[
+      <BannerSmall bannerImage={bannerImage} bannerTitle="Alumni" breadcrumbs={[
         { label: 'Home', link: '/' },
         { label: 'Alumni', link: '/alumni' },
       ]} />
