@@ -8,6 +8,7 @@ import "./SurveyPopupModal.css";
 import api from "../../api.js";
 import { useSelector } from "react-redux";
 import { Tooltip, Toast, Popover } from 'bootstrap'; // Import Bootstrap JS
+import CircularLoader from '../CircularLoader/CircularLoader';
 
 const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
   const navigate = useNavigate();
@@ -130,7 +131,7 @@ const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
           closeModal={closeModal} // Close notification modal
           title="Survey Notification"
         >
-          {loading && <div>Loading...</div>}
+          {loading && <CircularLoader noOverlay={true}/>}
 
           {/* Render error message if exists */}
           {error && (
