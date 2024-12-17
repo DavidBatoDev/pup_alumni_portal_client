@@ -45,37 +45,33 @@ function App() {
   const [showStartMessage, setShowStartMessage] = useState(false);
 
   useEffect(() => {
-    const fetchQuickSurvey = async () => {
-      setShowQuickSurvey(false);
+    const fetchSurveys = async () => {
       try {
-        if (!isAuthenticated || role != "alumni") return;
-        const response = await api.get("/api/quick-survey/status");
-        console.log("Fetch quick survey response: ", response.data);
-        if (response.data?.answered == false) {
-          setShowQuickSurvey(true);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
+        if (!isAuthenticated || role !== "alumni") return;
 
-    const fetchUnansweredSurveys = async () => {
-      setShowSurveyModal(false);
-      try {
-        if (!isAuthenticated || role != "alumni") return;
-        const response = await api.get("/api/survey/unanswered-surveys");
-        setShowSurveyModal(response.data?.surveys.length > 0);
+        const [quickSurveyResponse, unansweredSurveysResponse] = await Promise.all([
+          api.get("/api/quick-survey/status"),
+          api.get("/api/survey/unanswered-surveys")
+        ]);
+
+        const quickSurveyAnswered = quickSurveyResponse.data?.answered;
+        const unansweredSurveys = unansweredSurveysResponse.data?.surveys;
+
+        if (quickSurveyAnswered === false) {
+          setShowQuickSurvey(true);
+          setShowSurveyModal(true);
+        } else if (unansweredSurveys.length > 0) {
+          showQuickSurvey(false);
+          setShowSurveyModal(true);
+        } else {
+          setShowSurveyModal(false);
+        }
       } catch (error) {
         console.error(error);
       }
     };
 
-    fetchQuickSurvey();
-    fetchUnansweredSurveys();
-    // return () => {
-    //   setShowQuickSurvey(false);
-    //   setShowSurveyModal(false);
-    // }
+    fetchSurveys();
   }, [user, role, isAuthenticated]);
 
   useEffect(() => {
@@ -84,7 +80,12 @@ function App() {
 
   return (
     <Router>
-      {(showSurveyModal) && <SurveyPopupModal closeModal={() => setShowSurveyModal(false)} showQuickSurvey={showQuickSurvey}/>}
+      {showSurveyModal && (
+        <SurveyPopupModal
+          closeModal={() => setShowSurveyModal(false)}
+          showQuickSurvey={showQuickSurvey}
+        />
+      )}
       {showStartMessage && (
         <ModalContainer
           title={""}
