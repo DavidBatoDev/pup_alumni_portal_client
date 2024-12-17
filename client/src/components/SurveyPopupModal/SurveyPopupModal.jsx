@@ -9,7 +9,7 @@ import api from "../../api.js";
 import { useSelector } from "react-redux";
 import { Tooltip, Toast, Popover } from 'bootstrap'; // Import Bootstrap JS
 
-const SurveyPopupModal = ({ closeModal }) => {
+const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,11 +23,7 @@ const SurveyPopupModal = ({ closeModal }) => {
   const [loading, setLoading] = useState(false);
   const [surveys, setSurveys] = useState([]);
 
-  // Separate states for modals
-  const [showSurveyNotification, setShowSurveyNotification] = useState(true);
-  const [showSurveyIntro, setShowSurveyIntro] = useState(true);
-
-  // For survey intro form
+  // For quick survey form
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [otherOption, setOtherOption] = useState("");
 
@@ -48,12 +44,11 @@ const SurveyPopupModal = ({ closeModal }) => {
     const fetchSurveys = async () => {
       try {
         if (!isAuthenticated) {
-          setShowSurveyNotification(false);
           return;
         }
         setLoading(true);
         const response = await api.get("/api/survey/unanswered-surveys");
-        console.log("Unanswered Surveys: ", response.data.surveys);
+        // console.log("Unanswered Surveys: ", response.data.surveys);
         setSurveys(response.data?.surveys || []);
       } catch (error) {
         console.error("Error fetching surveys:", error);
@@ -74,7 +69,7 @@ const SurveyPopupModal = ({ closeModal }) => {
     });
   }, []);
 
-  // Handle checkbox change for survey intro
+  // Handle checkbox change for quick survey
   const handleCheckboxChange = (option) => {
     setSelectedOptions((prev) =>
       prev.includes(option)
@@ -96,32 +91,43 @@ const SurveyPopupModal = ({ closeModal }) => {
     setOtherOption(e.target.value);
   };
 
-  // Handle survey intro submit
-  const handleSurveyIntroSubmit = (e) => {
+  // Handle quick survey submit
+  const handleQuickSurveySubmit = async (e) => {
     e.preventDefault();
     if (!validateFields()) return;
 
     const submissionData = {
-      selectedOptions,
-      otherOption: otherOption.trim(),
+      selected_options: [...selectedOptions],
+      other_response: otherOption.trim(),
     };
-    console.log("Survey Intro Submission:", submissionData);
-    setShowSurveyIntro(false); // Close the intro modal
-  };
+    console.log("Quick Survey Submission:", submissionData);
 
-  // Handle redirect for surveys
-  // const handleSurveyRedirect = (surveyId) => {
-  //   setShowSurveyNotification(false); // Close the notification modal
-  //   navigate(`/survey/${surveyId}`);
-  // };
+    try {
+      setLoading(true);
+      const response = await api.post("/api/quick-survey/submit", submissionData);
+
+      if (response.status === 200 || response.status === 201) {
+        console.log("Quick survey submitted successfully:", response.data);
+      } else {
+        console.error("Quick survey submission failed:", response.data);
+        setError(response.data);
+      }
+    } catch (error) {
+      console.error("Error submitting quick survey:", error);
+      setError(error);
+    } finally {
+      setLoading(false);
+      closeModal();
+    }
+  };
 
   return (
     <>
       {/* Survey Notification Modal */}
-      {showSurveyNotification && (
+      {!showQuickSurvey ? (
         <ModalContainer
-          showModal={showSurveyNotification}
-          closeModal={() => setShowSurveyNotification(false)} // Close notification modal
+          showModal={!showQuickSurvey}
+          closeModal={closeModal} // Close notification modal
           title="Survey Notification"
         >
           {loading && <div>Loading...</div>}
@@ -151,7 +157,7 @@ const SurveyPopupModal = ({ closeModal }) => {
                 <SurveyCard
                   surveys={surveys}
                   answered={false}
-                  closeModal={() => setShowSurveyNotification(false)} // Close notification modal
+                  closeModal={closeModal} // Close notification modal
                 />
               </div>
             </>
@@ -161,29 +167,29 @@ const SurveyPopupModal = ({ closeModal }) => {
             <p className="mx-auto">No new surveys available at the moment.</p>
           )}
         </ModalContainer>
-      )}
+      ) : (
 
-      {/* Survey Intro Modal */}
-      {showSurveyIntro && (
+
+        // Quick Survey Modal
         <ModalContainer
-          showModal={showSurveyIntro}
-          closeModal={() => setShowSurveyIntro(false)} // Close intro modal
+          showModal={showQuickSurvey}
+          closeModal={closeModal} // Close quick survey modal
           title="Be a part of the PUP Graduate School Community!"
         >
-          <div className="intro-header my-3 fs-4 fw-bold">
+          <div className="quick-survey-header my-3 fs-4 fw-bold">
             As an Alumnus/Alumna of the PUP Graduate School, how would you like to be part of the university?
           </div>
-          <div className="survey-intro-popup-content d-flex flex-column">
-            <div className="intro-content-wrapper mt-4 gap-4 d-flex flex-column fs-6 mb-4 pb-4 border-bottom">
-              <div className="intro-content-header">
+          <div className="quick-survey-popup-content d-flex flex-column">
+            <div className="quick-survey-content-wrapper mt-4 gap-4 d-flex flex-column fs-6 mb-4 pb-4 border-bottom">
+              <div className="quick-survey-content-header">
                 <span className="fw-bold">GET THE CHANCE TO BE PART OF THE GRADUATE SCHOOL</span> by participating in the tracer study on the “Development of Alumni Engagement Portal System for Tracer Studies”.
               </div>
 
-              <div className="intro-content">
+              <div className="quick-survey-content">
                 As a sign of gratitude and appreciation for your support to the PUP Graduate School, for the first 100 alumni to respond to the survey, please accept the <span className="fw-bold">ONE HUNDRED PESO (P100.00) GCash after answering the short survey</span>. If you have any further inquiries about this survey, you may call the GS Office at 53351787 loc. 371 or 09457294287.
               </div>
 
-              <div className="intro-end d-flex flex-column justify-content-end">
+              <div className="quick-survey-end d-flex flex-column justify-content-end">
                 <p className="mb-0">Best,</p>
                 <p className="mb-0 fw-bold">DR. MARION A. CRESENCIO</p>
                 <p className="mb-0">Associate Dean, PUP Graduate School</p>
@@ -191,7 +197,7 @@ const SurveyPopupModal = ({ closeModal }) => {
             </div>
 
             <p>I want to be: (please choose as many options as apply to your interest)</p>
-            <form className="d-flex flex-column justify-content-center mx-4 mt-2 needs-validation" onSubmit={handleSurveyIntroSubmit}>
+            <form className="d-flex flex-column justify-content-center mx-4 mt-2 needs-validation" onSubmit={handleQuickSurveySubmit}>
               {/* Loop through options and display custom checkboxes */}
               {options.map((option, index) => (
                 <label key={index} className="survey-container d-flex align-items-center">

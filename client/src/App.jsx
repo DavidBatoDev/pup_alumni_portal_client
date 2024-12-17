@@ -40,23 +40,42 @@ import startPoster from "./assets/images/startPoster.png";
 function App() {
   const { user, role, isAuthenticated } = useSelector((state) => state.user);
 
-  const [showSurvey, setShowSurvey] = useState(true);
-
+  const [showSurveyModal, setShowSurveyModal] = useState(true);
+  const [showQuickSurvey, setShowQuickSurvey] = useState(false);
   const [showStartMessage, setShowStartMessage] = useState(false);
 
   useEffect(() => {
+    const fetchQuickSurvey = async () => {
+      setShowQuickSurvey(false);
+      try {
+        if (!isAuthenticated || role != "alumni") return;
+        const response = await api.get("/api/quick-survey/status");
+        console.log("Fetch quick survey response: ", response.data);
+        if (response.data?.answered == false) {
+          setShowQuickSurvey(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     const fetchUnansweredSurveys = async () => {
-      setShowSurvey(false);
+      setShowSurveyModal(false);
       try {
         if (!isAuthenticated || role != "alumni") return;
         const response = await api.get("/api/survey/unanswered-surveys");
-        setShowSurvey(response.data?.surveys.length > 0);
+        setShowSurveyModal(response.data?.surveys.length > 0);
       } catch (error) {
-        setShowSurvey(false);
+        console.error(error);
       }
     };
 
+    fetchQuickSurvey();
     fetchUnansweredSurveys();
+    // return () => {
+    //   setShowQuickSurvey(false);
+    //   setShowSurveyModal(false);
+    // }
   }, [user, role, isAuthenticated]);
 
   useEffect(() => {
@@ -65,7 +84,7 @@ function App() {
 
   return (
     <Router>
-      {showSurvey && <SurveyPopupModal closeModal={() => setShowSurvey(false)} />}
+      {(showSurveyModal) && <SurveyPopupModal closeModal={() => setShowSurveyModal(false)} showQuickSurvey={showQuickSurvey}/>}
       {showStartMessage && (
         <ModalContainer
           title={""}
