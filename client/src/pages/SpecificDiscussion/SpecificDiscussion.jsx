@@ -337,7 +337,7 @@ const SpecificDiscussion = () => {
             <div className='d-flex flex-column gap-2'>
               {commentTree.length > 0 ? (
                 commentTree.map(comment => (
-                  <DiscussionComment key={comment.comment_id} comment={comment} replies={comment.replies} submitReply={createCommentOrReply} />
+                  <DiscussionComment key={comment.comment_id} comment={comment} replies={comment.replies} submitReply={createCommentOrReply} commentLoading={commentLoading} />
                 ))
               ) : (
                 <div className="d-flex justify-content-center align-items-center w-100">
