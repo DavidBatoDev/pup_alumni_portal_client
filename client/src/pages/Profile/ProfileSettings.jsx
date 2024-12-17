@@ -16,6 +16,8 @@ const ProfileSettings = () => {
     last_name: '',
     email: '',
     phone: '',
+    current_job_title: '',
+    current_employer: '',
   });
   const [personalInfo, setPersonalInfo] = useState({
     date_of_birth: '',
@@ -52,6 +54,8 @@ const ProfileSettings = () => {
             last_name: response.data.data.last_name,
             email: response.data.data.email,
             phone: response.data.data.phone,
+            current_job_title: response.data.data.current_job_title,
+            current_employer: response.data.data.current_employer,
           })
           setPersonalInfo({
             date_of_birth: response.data.data.date_of_birth,
@@ -152,6 +156,40 @@ const ProfileSettings = () => {
       })
   }
 
+  const handleUpdateCurrentEmployment = () => {
+    const profileUpdate = {
+      current_job_title: profile.current_job_title,
+      current_employer: profile.current_employer,
+    };
+
+    api
+    .post('/api/update-profile', profileUpdate)
+    .then((response) => {
+      if (response.data.success) {
+        console.log('Profile updated successfully:', response.data.data);
+        setAlert({
+          severity: 'success',
+          message: 'Profile updated successfully',
+        });
+        setProfile({
+          current_job_title: response.data.data.current_job_title,
+          current_employer: response.data.data.current_employer,
+        });
+      }
+    })
+    .catch((error) => {
+      console.error('Error updating profile:', error);
+      setAlert({
+        severity: 'error',
+        message: 'Error updating profile',
+      });
+    })
+    .finally(() => {
+      setTimeout(() => {
+        handleCloseAlert();
+      }, 5000);
+    })
+  }
 
   const handlePhotoChange = (e) => {
     const linkForFile = URL.createObjectURL(e.target.files[0]);
@@ -290,7 +328,7 @@ const ProfileSettings = () => {
       postal_code: '',
       country: '',
     };
-    setEditableAddress([... editableAddress, newAddress]);
+    setEditableAddress([...editableAddress, newAddress]);
     setEditingAddressId(newAddress.address_id);
   }
 
@@ -611,8 +649,24 @@ const ProfileSettings = () => {
       {/* Career & Education History Section */}
       <div className="card mb-4 profile-section">
         <h3 className="card-title">Career & Education History</h3>
+
+        <div className="row mb-3">
+          <div className="col-12 col-md-6">
+            <label className="form-label">Current Job Title</label>
+            <input type="text" className="form-control" name='current_job_title' value={profile.current_job_title} onChange={handleChangeProfile} />
+          </div>
+          <div className="col-12 col-md-6 mb-3 mb-md-0">
+            <label className="form-label">Current Employer</label>
+            <input type="text" className="form-control" name='current_employer' value={profile.current_employer} onChange={handleChangeProfile} />
+          </div>
+        </div>
+        <div>
+          <button onClick={handleUpdateCurrentEmployment} className="btn btn-primary">Save New Changes</button>
+        </div>
+
         {/* Employment History */}
-        <h5>Employment History</h5>
+        <h5 className="mt-4 border-top pt-3">Employment History</h5>
+
         <div className='table-responsive'>
           <table className="table table-sm table-striped table-hover">
             <thead>
@@ -690,7 +744,7 @@ const ProfileSettings = () => {
                         />
                       ) : (
                         job.end_date && new Date(job?.end_date).getFullYear() !== 0
-                        ? new Date(job.end_date).toLocaleDateString() : 'Present'
+                          ? new Date(job.end_date).toLocaleDateString() : 'Present'
                       )}
                     </td>
                     <td data-cell="Actions">
@@ -809,7 +863,7 @@ const ProfileSettings = () => {
                         />
                       ) : (
                         edu.end_date && new Date(edu?.end_date).getFullYear() !== 0
-                        ? new Date(edu.end_date).toLocaleDateString() : 'Present'
+                          ? new Date(edu.end_date).toLocaleDateString() : 'Present'
                       )}
                     </td>
                     <td data-cell="Actions">
