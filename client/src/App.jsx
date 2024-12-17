@@ -40,23 +40,38 @@ import startPoster from "./assets/images/startPoster.png";
 function App() {
   const { user, role, isAuthenticated } = useSelector((state) => state.user);
 
-  const [showSurvey, setShowSurvey] = useState(true);
-
+  const [showSurveyModal, setShowSurveyModal] = useState(true);
+  const [showQuickSurvey, setShowQuickSurvey] = useState(false);
   const [showStartMessage, setShowStartMessage] = useState(false);
 
   useEffect(() => {
-    const fetchUnansweredSurveys = async () => {
-      setShowSurvey(false);
+    const fetchSurveys = async () => {
       try {
-        if (!isAuthenticated || role != "alumni") return;
-        const response = await api.get("/api/survey/unanswered-surveys");
-        setShowSurvey(response.data?.surveys.length > 0);
+        if (!isAuthenticated || role !== "alumni") return;
+
+        const [quickSurveyResponse, unansweredSurveysResponse] = await Promise.all([
+          api.get("/api/quick-survey/status"),
+          api.get("/api/survey/unanswered-surveys")
+        ]);
+
+        const quickSurveyAnswered = quickSurveyResponse.data?.answered;
+        const unansweredSurveys = unansweredSurveysResponse.data?.surveys;
+
+        if (quickSurveyAnswered === false) {
+          setShowQuickSurvey(true);
+          setShowSurveyModal(true);
+        } else if (unansweredSurveys.length > 0) {
+          showQuickSurvey(false);
+          setShowSurveyModal(true);
+        } else {
+          setShowSurveyModal(false);
+        }
       } catch (error) {
-        setShowSurvey(false);
+        console.error(error);
       }
     };
 
-    fetchUnansweredSurveys();
+    fetchSurveys();
   }, [user, role, isAuthenticated]);
 
   useEffect(() => {
@@ -65,7 +80,12 @@ function App() {
 
   return (
     <Router>
-      {showSurvey && <SurveyPopupModal closeModal={() => setShowSurvey(false)} />}
+      {showSurveyModal && (
+        <SurveyPopupModal
+          closeModal={() => setShowSurveyModal(false)}
+          showQuickSurvey={showQuickSurvey}
+        />
+      )}
       {showStartMessage && (
         <ModalContainer
           title={""}

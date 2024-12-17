@@ -7,21 +7,24 @@ import SurveyCard from "../SurveyCards/SurveyCards";
 import "./SurveyPopupModal.css";
 import api from "../../api.js";
 import { useSelector } from "react-redux";
+import { Tooltip, Toast, Popover } from 'bootstrap'; // Import Bootstrap JS
+import CircularLoader from '../CircularLoader/CircularLoader';
 
-const SurveyPopupModal = ({ closeModal }) => {
+const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [validation, setValidation] = useState({
+    selectedOptions: true,
+    otherOption: true,
+  })
 
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [surveys, setSurveys] = useState([]);
 
-  // Separate states for modals
-  const [showSurveyNotification, setShowSurveyNotification] = useState(true);
-  const [showSurveyIntro, setShowSurveyIntro] = useState(true);
-
-  // For survey intro form
+  // For quick survey form
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [otherOption, setOtherOption] = useState("");
 
@@ -42,7 +45,6 @@ const SurveyPopupModal = ({ closeModal }) => {
     const fetchSurveys = async () => {
       try {
         if (!isAuthenticated) {
-          setShowSurveyNotification(false);
           return;
         }
         setLoading(true);
@@ -60,7 +62,15 @@ const SurveyPopupModal = ({ closeModal }) => {
     fetchSurveys();
   }, [isAuthenticated]);
 
-  // Handle checkbox change for survey intro
+  // Initialize Bootstrap tooltips
+  useEffect(() => {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new Tooltip(tooltipTriggerEl)
+    });
+  }, []);
+
+  // Handle checkbox change for quick survey
   const handleCheckboxChange = (option) => {
     setSelectedOptions((prev) =>
       prev.includes(option)
@@ -69,36 +79,60 @@ const SurveyPopupModal = ({ closeModal }) => {
     );
   };
 
+  const validateFields = () => {
+    const newValidation = {
+      selectedOptions: selectedOptions.length > 0,
+      otherOption: selectedOptions.includes("Others") ? otherOption.trim().length > 0 : true,
+    }
+    setValidation(newValidation);
+    return Object.values(newValidation).every((val) => val);
+  }
+
   const handleOtherInputChange = (e) => {
     setOtherOption(e.target.value);
   };
 
-  // Handle survey intro submit
-  const handleSurveyIntroSubmit = () => {
-    const submissionData = {
-      selectedOptions,
-      otherOption: otherOption.trim(),
-    };
-    console.log("Survey Intro Submission:", submissionData);
-    setShowSurveyIntro(false); // Close the intro modal
-  };
+  // Handle quick survey submit
+  const handleQuickSurveySubmit = async (e) => {
+    e.preventDefault();
+    if (!validateFields()) return;
 
-  // Handle redirect for surveys
-  const handleSurveyRedirect = (surveyId) => {
-    setShowSurveyNotification(false); // Close the notification modal
-    navigate(`/survey/${surveyId}`);
+    const submissionData = {
+      selected_options: [...selectedOptions],
+      other_response: otherOption.trim(),
+    };
+    console.log("Quick Survey Submission:", submissionData);
+
+    try {
+      setLoading(true);
+      const response = await api.post("/api/quick-survey/submit", submissionData);
+
+      if (response.status === 200 || response.status === 201) {
+        console.log("Quick survey submitted successfully:", response.data);
+      } else {
+        console.error("Quick survey submission failed:", response.data);
+        setError(response.data);
+      }
+    } catch (error) {
+      console.error("Error submitting quick survey:", error);
+      setError(error);
+    } finally {
+      setLoading(false);
+      closeModal();
+    }
   };
 
   return (
     <>
       {/* Survey Notification Modal */}
-      {showSurveyNotification && (
+      {!showQuickSurvey ? (
         <ModalContainer
-          showModal={showSurveyNotification}
-          closeModal={() => setShowSurveyNotification(false)} // Close notification modal
+          showModal={!showQuickSurvey}
+          closeModal={closeModal} // Close notification modal
           title="Survey Notification"
+
         >
-          {loading && <div>Loading...</div>}
+          {loading && <CircularLoader noOverlay={true}/>}
 
           {/* Render error message if exists */}
           {error && (
@@ -125,7 +159,7 @@ const SurveyPopupModal = ({ closeModal }) => {
                 <SurveyCard
                   surveys={surveys}
                   answered={false}
-                  closeModal={() => setShowSurveyNotification(false)} // Close notification modal
+                  closeModal={closeModal} // Close notification modal
                 />
               </div>
             </>
@@ -135,21 +169,39 @@ const SurveyPopupModal = ({ closeModal }) => {
             <p className="mx-auto">No new surveys available at the moment.</p>
           )}
         </ModalContainer>
-      )}
+      ) : (
 
-      {/* Survey Intro Modal */}
-      {showSurveyIntro && (
+
+        // Quick Survey Modal
         <ModalContainer
-          showModal={showSurveyIntro}
-          closeModal={() => setShowSurveyIntro(false)} // Close intro modal
+          showModal={showQuickSurvey}
+          closeModal={closeModal} // Close quick survey modal
           title="Be a part of the PUP Graduate School Community!"
+          hideHeader={true}
+          mobileModal={true}
         >
-          <div className="intro-header my-3 fs-4 fw-bold">
+          <div className="quick-survey-header my-3 fs-4 fw-bold">
             As an Alumnus/Alumna of the PUP Graduate School, how would you like to be part of the university?
           </div>
-          <div className="survey-intro-popup-content d-flex flex-column">
+          <div className="quick-survey-popup-content d-flex flex-column">
+            <div className="quick-survey-content-wrapper mt-4 gap-4 d-flex flex-column fs-6 mb-4 pb-4 border-bottom">
+              <div className="quick-survey-content-header">
+                <span className="fw-bold">GET THE CHANCE TO BE PART OF THE GRADUATE SCHOOL</span> by participating in the tracer study on the “Development of Alumni Engagement Portal System for Tracer Studies”.
+              </div>
+
+              <div className="quick-survey-content">
+                As a sign of gratitude and appreciation for your support to the PUP Graduate School, for the first 100 alumni to respond to the survey, please accept the <span className="fw-bold">ONE HUNDRED PESO (P100.00) GCash after answering the short survey</span>. If you have any further inquiries about this survey, you may call the GS Office at 53351787 loc. 371 or 09457294287.
+              </div>
+
+              <div className="quick-survey-end d-flex flex-column justify-content-end">
+                <p className="mb-0">Best,</p>
+                <p className="mb-0 fw-bold">DR. MARION A. CRESENCIO</p>
+                <p className="mb-0">Associate Dean, PUP Graduate School</p>
+              </div>
+            </div>
+
             <p>I want to be: (please choose as many options as apply to your interest)</p>
-            <form className="d-flex flex-column justify-content-center mx-4 mt-2">
+            <form className="d-flex flex-column justify-content-center mx-4 mt-2 needs-validation" onSubmit={handleQuickSurveySubmit}>
               {/* Loop through options and display custom checkboxes */}
               {options.map((option, index) => (
                 <label key={index} className="survey-container d-flex align-items-center">
@@ -165,7 +217,7 @@ const SurveyPopupModal = ({ closeModal }) => {
               ))}
 
               {/* "Others" option */}
-              <label className="survey-container d-flex align-items-center gap-2">
+              <label className={`survey-container d-flex align-items-center gap-2 ${!validation.otherOption ? 'is-invalid' : ''}`}>
                 Others:
                 <input
                   type="checkbox"
@@ -177,41 +229,28 @@ const SurveyPopupModal = ({ closeModal }) => {
                   type="text"
                   value={otherOption}
                   onChange={handleOtherInputChange}
-                  className="survey-other-input"
+                  className={`survey-other-input ${!validation.otherOption ? 'is-invalid text-danger' : ''}`}
                   placeholder="Please Specify"
                   disabled={!selectedOptions.includes("Others")}
                 />
               </label>
+              {!validation.selectedOptions && (
+                <div className="invalid-feedback d-block" data-bs-toggle="tooltip" title="Please check at least one option">Please check at least one option</div>
+              )}
+              {!validation.otherOption && (
+                <div className="invalid-feedback d-block" data-bs-toggle="tooltip" title="Please specify the &quot;Others&quot; option">Please specify the &quot;Others&quot; option</div>
+              )}
 
-          
-            </form>
-
-            <div className="intro-content-wrapper mt-4 gap-4 d-flex flex-column fs-6">
-              <div className="intro-content-header">
-                <span className="fw-bold">GET THE CHANCE TO BE PART OF THE GRADUATE SCHOOL</span> by participating in the tracer study on the “Development of Alumni Engagement Portal System for Tracer Studies”.
-              </div>
-
-              <div className="intro-content">
-              As a sign of gratitude and appreciation for your support to the PUP Graduate School, for the first 100 alumni to respond to the survey, please accept the <span className="fw-bold">ONE HUNDRED PESO (P100.00) GCash after answering the short survey</span>. If you have any further inquiries about this survey, you may call the GS Office at 53351787 loc. 371 or 09457294287.
-              </div>
-
-              <div className="intro-end d-flex flex-column justify-content-end">
-                <p className="mb-0">Best,</p>
-                <p className="mb-0 fw-bold">DR. MARION A. CRESENCIO</p>
-                <p className="mb-0">Associate Dean, PUP Graduate School</p>
-              </div>
-            </div>
-
-             {/* Submit button */}
-             <div className="survey-submit-container my-4">
+              {/* Submit button */}
+              <div className="survey-submit-container my-4">
                 <button
-                  type="button"
+                  type="submit"
                   className="btn btn-secondary w-100"
-                  onClick={handleSurveyIntroSubmit}
                 >
                   Submit
                 </button>
               </div>
+            </form>
           </div>
         </ModalContainer>
       )}

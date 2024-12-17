@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import './DiscussionComment.css';
 import { Link } from 'react-router-dom';
+import CircularLoader from '../../components/CircularLoader/CircularLoader'; // Import CircularLoader
 
-const DiscussionComment = ({ comment, replies, submitReply }) => {
+const DiscussionComment = ({ comment, replies, submitReply, commentLoading }) => { // Add commentLoading prop
   const [replyContent, setReplyContent] = useState('');
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [showReplies, setShowReplies] = useState(false);  // State to toggle replies visibility
@@ -95,10 +96,14 @@ const DiscussionComment = ({ comment, replies, submitReply }) => {
                 comment={reply}
                 replies={reply.replies}
                 submitReply={submitReply}
+                commentLoading={commentLoading} // Pass commentLoading prop
               />
             ))}
           </div>
         )}
+
+        {/* CircularLoader for loading state */}
+        {commentLoading && <CircularLoader noOverlay={true} />}
       </div>
     </div>
   );
