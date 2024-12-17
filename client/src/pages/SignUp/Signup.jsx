@@ -1,4 +1,3 @@
-// src/pages/SignUp/signup.jsx
 import React, { useState, useRef, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import MainFooter from "../../components/MainFooter/MainFooter";
@@ -61,6 +60,9 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [linkedinError, setLinkedinError] = useState(null);
+
+  const [verifiedAlumni, setVerifiedAlumni] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -183,7 +185,7 @@ const Signup = () => {
         ...prevFormData,
         current_job_title: latestEmployment.title || '',
         current_employer: latestEmployment.companyName || '',
-      }));  
+      }));
     }
 
     setEmploymentHistory([...employmentHistory, ...formattedEmploymentHistory]);
@@ -212,17 +214,20 @@ const Signup = () => {
     };
 
     try {
+      setLoading(true);
       const response = await axios.request(options);
-      if (response.data && (response.status === 200 || response.status === 201)) {
+      if (response.data && response.status === 200 || response.status === 201) {
         processLinkedInData(response.data);
         educationFormRef.current.setFetchLinkedInSuccess(true);
       }
+
     } catch (error) {
       console.error('Failed to fetch LinkedIn data:', error);
       setLinkedinError('Failed to fetch LinkedIn data');
     } finally {
       setLoading(false);
     }
+
   };
 
   const validateLinkedInProfile = (url) => {
@@ -257,10 +262,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null); // Reset error before submit
-    console.log('Form Data:', formData);
-
     const isValid = educationFormRef.current.validateFields();
-    console.log('Is Valid:', isValid);
     if (!isValid) {
       setError('You must agree to the terms and privacy policy.');
       return; // If validation fails, stop the submission
@@ -355,9 +357,8 @@ const Signup = () => {
               <div className="container d-flex justify-content-center">
                 {/* Form Content based on Current Step */}
                 <div className="forms-container">
-                {currentStep === 1 && (
-                  <>
-                    {!isAccountConfirmed ? (
+                  {currentStep === 1 && (
+                    <>
                       <AccountDetailsForm
                         nextStep={nextStep}
                         formData={formData}
@@ -367,31 +368,21 @@ const Signup = () => {
                         isEmailOrStudentNumberValid={isEmailOrStudentNumberValid}
                         emailOrStudentNumberIsValid={emailOrStudentNumberIsValid}
                         currentStep={currentStep}
-                        setAccountConfirmed={setIsAccountConfirmed} // Pass handler
+                        setAccountConfirmed={setIsAccountConfirmed}
                       />
-                    ) : (
-                      <>
-                       <AccountDetailsForm
-                        nextStep={nextStep}
-                        formData={formData}
-                        handleChange={handleChange}
-                        changeDetails={changeDetails}
-                        setLoading={setLoading}
-                        isEmailOrStudentNumberValid={isEmailOrStudentNumberValid}
-                        emailOrStudentNumberIsValid={emailOrStudentNumberIsValid}
-                        currentStep={currentStep}
-                        setAccountConfirmed={setIsAccountConfirmed} // Pass handler
-                      />
+
+                      {/* Always show PersonalInformationForm after alumni verification */}
+                      {(isAccountConfirmed || formData.email || verifiedAlumni) && (
                         <PersonalInformationForm
                           nextStep={nextStep}
                           prevStep={prevStep}
                           formData={formData}
                           handleChange={handleChange}
                         />
-                      </>
-                    )}
-                  </>
-                )}
+                      )}
+                    </>
+                  )}
+
 
 
                   {currentStep === 2 && (
