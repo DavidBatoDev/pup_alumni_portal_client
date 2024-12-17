@@ -145,7 +145,7 @@ const Signup = () => {
         start_date: job.start
           ? `${job.start.year}-${String(job.start.month + 1).padStart(2, '0')}-${String(job.start.day || 1).padStart(2, '0')}`
           : '',
-        end_date: job.end
+        end_date: job.end && job.end.year !== 0
           ? `${job.end.year}-${String(job.end.month + 1).padStart(2, '0')}-${String(job.end.day || 1).padStart(2, '0')}`
           : '',
         description: job.description || '',
@@ -160,24 +160,25 @@ const Signup = () => {
         start_date: education.start
           ? `${education.start.year}-${String(education.start.month + 1).padStart(2, '0')}-${String(education.start.day || 1).padStart(2, '0')}`
           : '',
-        end_date: education.end
+        end_date: education.end && education.end.year !== 0
           ? `${education.end.year}-${String(education.end.month + 1).padStart(2, '0')}-${String(education.end.day || 1).padStart(2, '0')}`
           : '',
       }))
       .sort((a, b) => new Date(a.start_date) - new Date(b.start_date)); // Sort by start_date in ascending order
 
     // Set current_job_title and current_employer from latest job entry of employment history
-    const latestEmployment = data.position.sort((a, b) => new Date(a.start_date) - new Date(b.start_date)).find((job) => !job.end);
+    const latestEmployment = data.position.sort(
+      (a, b) => new Date(a.start_date) - new Date(b.start_date)
+    ).find((job) => (new Date(job?.end_date).getFullYear() !== null));
+
     if (latestEmployment) {
       setFormData({
         ...formData,
-        current_job_title: latestEmployment.job_title || '',
-        current_employer: latestEmployment.company || '',
+        current_job_title: latestEmployment.title || '',
+        current_employer: latestEmployment.companyName || '',
       });
     }
 
-    console.log(formattedEmploymentHistory);
-    console.log(formattedEmploymentHistory.map((job) => new Date(job?.end_date).getFullYear() !== 0));
     setEmploymentHistory([...employmentHistory, ...formattedEmploymentHistory]);
     setEducationHistory([...educationHistory, ...formattedEducationHistory]);
   };
@@ -205,7 +206,6 @@ const Signup = () => {
 
     try {
       setLoading(true);
-      // (DUMMY CODE BELOW) Implement fetch data using LinkedIn API
       const response = await axios.request(options);
       if (response.data && response.status === 200 || response.status === 201) {
         processLinkedInData(response.data);
@@ -221,6 +221,13 @@ const Signup = () => {
 
   };
 
+  const validateLinkedInProfile = (url) => {
+    const linkedinRegex = /^https?:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$/;
+    const cleanedLinkedIn = url.trim();
+    const isValid = linkedinRegex.test(cleanedLinkedIn);
+    return cleanedLinkedIn !== '' && isValid;
+  };
+
   // Handle LinkedIn profile input change and API request for fetching data
   const handleLinkedInChange = (e) => {
     educationFormRef.current.setFetchLinkedInSuccess(false);
@@ -229,24 +236,18 @@ const Signup = () => {
       ...formData,
       [name]: value,
     });
-    // console.log(name, value, educationFormRef.current.validateLinkedInProfile());
 
     // Call validateLinkedInProfile before proceeding
-    if (!educationFormRef.current.validateLinkedInProfile()) {
+    const condition = validateLinkedInProfile(value);
+    if (!condition) {
+      educationFormRef.current.setValidation((prev) => ({ ...prev, linkedin_profile: false }));
       return;
     }
+    educationFormRef.current.setValidation((prev) => ({ ...prev, linkedin_profile: true }));
 
     // Call fetchLinkedIn function to fetch data
     fetchLinkedIn(value);
   };
-
-  // const debugHandleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setError(null);
-
-  //   console.log(employmentHistory)
-  //   console.log(educationHistory)
-  // }
 
   // Handle main form submission
   const handleSubmit = async (e) => {

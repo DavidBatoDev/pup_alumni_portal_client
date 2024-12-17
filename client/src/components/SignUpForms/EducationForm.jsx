@@ -23,23 +23,8 @@ const EducationForm = forwardRef(({
     linkedin_profile: false,
   });
 
-  const validateLinkedInProfile = () => {
-
-    const linkedinRegex = /^https?:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$/;
-    const cleanedLinkedIn = formData.linkedin_profile.trim();
-    const isValid = linkedinRegex.test(cleanedLinkedIn);
-    // console.log("LinkedIn URL:", cleanedLinkedIn, "isValid:", isValid);
-    if (!cleanedLinkedIn || !isValid) {
-      setValidation((prev) => ({ ...prev, linkedin_profile: false }));
-      return false;
-    }
-    setValidation((prev) => ({ ...prev, linkedin_profile: true }));
-    return true;
-  };
-
   const handleLinkedInInputChange = (e) => {
     handleLinkedInChange(e);
-    validateLinkedInProfile();
   };
 
   const validateFields = () => {
@@ -57,8 +42,9 @@ const EducationForm = forwardRef(({
 
   useImperativeHandle(ref, () => ({
     validateFields,
-    validateLinkedInProfile,
-    setFetchLinkedInSuccess
+    setFetchLinkedInSuccess,
+    validation,
+    setValidation
   }));
 
   return (
@@ -80,7 +66,6 @@ const EducationForm = forwardRef(({
             placeholder="https://www.linkedin.com/in/[your-profile]"
             value={formData.linkedin_profile}
             onChange={handleLinkedInInputChange}
-            onBlur={handleLinkedInInputChange}
             className="form-control"
           />
         </div>
