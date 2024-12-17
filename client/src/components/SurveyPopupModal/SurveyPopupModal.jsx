@@ -7,7 +7,6 @@ import SurveyCard from "../SurveyCards/SurveyCards";
 import "./SurveyPopupModal.css";
 import api from "../../api.js";
 import { useSelector } from "react-redux";
-import CircularLoader from "../CircularLoader/CircularLoader.jsx";
 
 const SurveyPopupModal = ({ closeModal }) => {
   const navigate = useNavigate();
@@ -99,9 +98,7 @@ const SurveyPopupModal = ({ closeModal }) => {
           closeModal={() => setShowSurveyNotification(false)} // Close notification modal
           title="Survey Notification"
         >
-          {loading &&
-            <CircularLoader noOverlay={true} />
-          }
+          {loading && <div>Loading...</div>}
 
           {/* Render error message if exists */}
           {error && (
@@ -195,7 +192,7 @@ const SurveyPopupModal = ({ closeModal }) => {
               </div>
 
               <div className="intro-content">
-                As a sign of gratitude and appreciation for your support to the PUP Graduate School, for the first 100 alumni to respond to the survey, please accept the <span className="fw-bold">ONE HUNDRED PESO (P100.00) GCash after answering the short survey</span>. If you have any further inquiries about this survey, you may call the GS Office at 53351787 loc. 371 or 09457294287.
+              As a sign of gratitude and appreciation for your support to the PUP Graduate School, for the first 100 alumni to respond to the survey, please accept the <span className="fw-bold">ONE HUNDRED PESO (P100.00) GCash after answering the short survey</span>. If you have any further inquiries about this survey, you may call the GS Office at 53351787 loc. 371 or 09457294287.
               </div>
 
               <div className="intro-end d-flex flex-column justify-content-end">
@@ -205,16 +202,16 @@ const SurveyPopupModal = ({ closeModal }) => {
               </div>
             </div>
 
-            {/* Submit button */}
-            <div className="survey-submit-container my-4">
-              <button
-                type="button"
-                className="btn btn-secondary w-100"
-                onClick={handleSurveyIntroSubmit}
-              >
-                Submit
-              </button>
-            </div>
+             {/* Submit button */}
+             <div className="survey-submit-container my-4">
+                <button
+                  type="button"
+                  className="btn btn-secondary w-100"
+                  onClick={handleSurveyIntroSubmit}
+                >
+                  Submit
+                </button>
+              </div>
           </div>
         </ModalContainer>
       )}
