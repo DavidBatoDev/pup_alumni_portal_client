@@ -40,6 +40,8 @@ const Signup = () => {
     current_employer: '',
   });
 
+  const [isAccountConfirmed, setIsAccountConfirmed] = useState(false);
+
   const [isEmailOrStudentNumberValid, setIsEmailOrStudentNumberValid] = useState(false);
 
   const emailOrStudentNumberIsValid = () => {
@@ -74,6 +76,11 @@ const Signup = () => {
       major: program
     });
   }
+
+  // Handle modal confirmation (Still Continue)
+  const handleModalConfirmation = () => {
+    setIsAccountConfirmed(true);
+  };
 
   useEffect(() => {
     // scrollToFormContainer();
@@ -345,34 +352,52 @@ const Signup = () => {
           </div>
 
           {/* Signup Form Section */}
-          <div className="row justify-content-center mt-5" style={{ height: "100%" }}>
+          <div className="row justify-content-center" style={{ marginTop: "100px" }}>
             <form onSubmit={handleSubmit} style={{ height: "100%" }} className="w-100" noValidate>
               {/* Form Container */}
               <div className="container d-flex justify-content-center">
                 {/* Form Content based on Current Step */}
                 <div className="forms-container">
-                  {currentStep === 1 && (
-                    <AccountDetailsForm
-                      nextStep={nextStep}
-                      prevStep={prevStep}
-                      formData={formData}
-                      handleChange={handleChange}
-                      changeDetails={changeDetails}
-                      setLoading={setLoading}
-                      isEmailOrStudentNumberValid={isEmailOrStudentNumberValid}
-                      emailOrStudentNumberIsValid={emailOrStudentNumberIsValid}
-                      currentStep={currentStep}
-                    />
-                  )}
+                {currentStep === 1 && (
+                  <>
+                    {!isAccountConfirmed ? (
+                      <AccountDetailsForm
+                        nextStep={nextStep}
+                        formData={formData}
+                        handleChange={handleChange}
+                        changeDetails={changeDetails}
+                        setLoading={setLoading}
+                        isEmailOrStudentNumberValid={isEmailOrStudentNumberValid}
+                        emailOrStudentNumberIsValid={emailOrStudentNumberIsValid}
+                        currentStep={currentStep}
+                        setAccountConfirmed={setIsAccountConfirmed} // Pass handler
+                      />
+                    ) : (
+                      <>
+                       <AccountDetailsForm
+                        nextStep={nextStep}
+                        formData={formData}
+                        handleChange={handleChange}
+                        changeDetails={changeDetails}
+                        setLoading={setLoading}
+                        isEmailOrStudentNumberValid={isEmailOrStudentNumberValid}
+                        emailOrStudentNumberIsValid={emailOrStudentNumberIsValid}
+                        currentStep={currentStep}
+                        setAccountConfirmed={setIsAccountConfirmed} // Pass handler
+                      />
+                        <PersonalInformationForm
+                          nextStep={nextStep}
+                          prevStep={prevStep}
+                          formData={formData}
+                          handleChange={handleChange}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+
+
                   {currentStep === 2 && (
-                    <PersonalInformationForm
-                      nextStep={nextStep}
-                      prevStep={prevStep}
-                      formData={formData}
-                      handleChange={handleChange}
-                    />
-                  )}
-                  {currentStep === 3 && (
                     <EducationForm
                       ref={educationFormRef}
                       nextStep={nextStep}

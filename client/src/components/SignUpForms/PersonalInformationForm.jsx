@@ -150,94 +150,102 @@ const PersonalInformationForm = ({ nextStep, prevStep, formData, handleChange })
         <label>
           Address <span className="important-txt">*</span>
         </label>
-        <div className="input-group">
-          <span className="input-group-text bg-white">
-            <i className="fas fa-map-pin"></i>
-          </span>
-          <input
-            type="text"
-            name="street"
-            placeholder="Street"
-            value={formData.street}
-            onChange={handleChange}
-            required
-            className={`form-control ${validation.street ? '' : 'is-invalid'}`}
-          />
-          {!validation.street && (
-            <div className="invalid-feedback">Street is required</div>
-          )}
+
+        <div className="input-wrapper d-flex gap-2">
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <i className="fas fa-map-pin"></i>
+            </span>
+            <input
+              type="text"
+              name="street"
+              placeholder="Street"
+              value={formData.street}
+              onChange={handleChange}
+              required
+              className={`form-control ${validation.street ? '' : 'is-invalid'}`}
+            />
+            {!validation.street && (
+              <div className="invalid-feedback">Street is required</div>
+            )}
+          </div>
+
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <i className="fas fa-map-pin"></i>
+            </span>
+            <input
+              type="text"
+              name="city"
+              placeholder="City"
+              value={formData.city}
+              onChange={handleChange}
+              required
+              className={`form-control ${validation.city ? '' : 'is-invalid'}`}
+            />
+            {!validation.city && (
+              <div className="invalid-feedback">City is required</div>
+            )}
+          </div>
         </div>
 
-        <div className="input-group">
-          <span className="input-group-text bg-white">
-            <i className="fas fa-map-pin"></i>
-          </span>
-          <input
-            type="text"
-            name="city"
-            placeholder="City"
-            value={formData.city}
-            onChange={handleChange}
-            required
-            className={`form-control ${validation.city ? '' : 'is-invalid'}`}
-          />
-          {!validation.city && (
-            <div className="invalid-feedback">City is required</div>
-          )}
-        </div>
-        <div className="input-group">
-          <span className="input-group-text bg-white">
-            <i className="fas fa-map-pin"></i>
-          </span>
-          <input
-            type="text"
-            name="state"
-            placeholder="State"
-            value={formData.state}
-            onChange={handleChange}
-            required
-            className={`form-control ${validation.state ? '' : 'is-invalid'}`}
-          />
-          {!validation.state && (
-            <div className="invalid-feedback">State is required</div>
-          )}
-        </div>
 
-        <div className="input-group">
-          <span className="input-group-text bg-white">
-            <i className="fas fa-map-marked-alt"></i>
-          </span>
-          <input
-            type="text"
-            name="postal_code"
-            placeholder="Postal Code"
-            value={formData.postal_code}
-            onChange={handleChange}
-            required
-            className={`form-control ${validation.postal_code ? '' : 'is-invalid'}`}
-          />
-          {!validation.postal_code && (
-            <div className="invalid-feedback">Postal Code is required</div>
-          )}
-        </div>
+        <div className="input-wrapper d-flex gap-2">
+          <div className="input-group">
+              <span className="input-group-text bg-white">
+                <i className="fas fa-map-pin"></i>
+              </span>
+              <input
+                type="text"
+                name="state"
+                placeholder="State"
+                value={formData.state}
+                onChange={handleChange}
+                required
+                className={`form-control ${validation.state ? '' : 'is-invalid'}`}
+              />
+              {!validation.state && (
+                <div className="invalid-feedback">State is required</div>
+              )}
+            </div>
+          
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <i className="fas fa-map-marked-alt"></i>
+            </span>
+            <input
+              type="text"
+              name="postal_code"
+              placeholder="Postal Code"
+              value={formData.postal_code}
+              onChange={handleChange}
+              required
+              className={`form-control ${validation.postal_code ? '' : 'is-invalid'}`}
+            />
+            {!validation.postal_code && (
+              <div className="invalid-feedback">Postal Code is required</div>
+            )}
+          </div>
 
-        <div className="input-group">
-          <span className="input-group-text bg-white">
-            <i className="fas fa-map-marked-alt"></i>
-          </span>
-          <input
-            type="text"
-            name="country"
-            placeholder="Country"
-            value={formData.country}
-            onChange={handleChange}
-            required
-            className={`form-control ${validation.country ? '' : 'is-invalid'}`}
-          />
-          {!validation.country && (
-            <div className="invalid-feedback">Country is required</div>
-          )}
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <i className="fas fa-map-marked-alt"></i>
+            </span>
+            <input
+              type="text"
+              name="country"
+              placeholder="Country"
+              value={formData.country}
+              onChange={handleChange}
+              required
+              className={`form-control ${validation.country ? '' : 'is-invalid'}`}
+            />
+            {!validation.country && (
+              <div className="invalid-feedback">Country is required</div>
+            )}
+          </div>
         </div>
+        
 
       </div>
       <div className="form-group">
@@ -246,62 +254,66 @@ const PersonalInformationForm = ({ nextStep, prevStep, formData, handleChange })
         </label>
 
         <div className="input-group">
-          <span className="input-group-text bg-white">
-            <i className="fas fa-map-pin"></i>
-          </span>
-          <input
-            type="text"
-            name="graduation_year"
-            placeholder="graduation_year"
-            value={formData.graduation_year}
-            onChange={handleChange}
-            required
-            className={`form-control ${validation.graduation_year ? '' : 'is-invalid'}`}
-          />
-          {!validation.graduation_year && (
-            <div className="invalid-feedback">Graduation year is required and must be a valid year</div>
-          )}
-        </div>
+            <span className="input-group-text bg-white">
+              <i className="fas fa-map-pin"></i>
+            </span>
+            <input
+              type="text"
+              name="graduation_year"
+              placeholder="graduation_year"
+              value={formData.graduation_year}
+              onChange={handleChange}
+              required
+              className={`form-control ${validation.graduation_year ? '' : 'is-invalid'}`}
+            />
+            {!validation.graduation_year && (
+              <div className="invalid-feedback">Graduation year is required and must be a valid year</div>
+            )}
+          </div>
 
-        <div className="input-group">
-          <span className="input-group-text bg-white">
-            <i className="fas fa-map-pin"></i>
-          </span>
-          <input
-            type="text"
-            name="degree"
-            placeholder="degree"
-            value={formData.degree}
-            onChange={handleChange}
-            required
-            className={`form-control ${validation.degree ? '' : 'is-invalid'}`}
-          />
-          {!validation.degree && (
-            <div className="invalid-feedback">Degree is required</div>
-          )}
-        </div>
 
-        <div className="input-group">
-          <span className="input-group-text bg-white">
-            <i className="fas fa-map-pin"></i>
-          </span>
-          <input
-            type="text"
-            name="major"
-            placeholder="major"
-            value={formData.major}
-            onChange={handleChange}
-            required
-            className={`form-control ${validation.major ? '' : 'is-invalid'}`}
-          />
-          {!validation.major && (
-            <div className="invalid-feedback">Major is required</div>
-          )}
+        <div className="input-wrapper d-flex gap-2">
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <i className="fas fa-map-pin"></i>
+            </span>
+            <input
+              type="text"
+              name="degree"
+              placeholder="degree"
+              value={formData.degree}
+              onChange={handleChange}
+              required
+              className={`form-control ${validation.degree ? '' : 'is-invalid'}`}
+            />
+            {!validation.degree && (
+              <div className="invalid-feedback">Degree is required</div>
+            )}
+          </div>
+
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <i className="fas fa-map-pin"></i>
+            </span>
+            <input
+              type="text"
+              name="major"
+              placeholder="major"
+              value={formData.major}
+              onChange={handleChange}
+              required
+              className={`form-control ${validation.major ? '' : 'is-invalid'}`}
+            />
+            {!validation.major && (
+              <div className="invalid-feedback">Major is required</div>
+            )}
+          </div>
         </div>
+        
       </div>
       <div className="d-flex justify-content-between">
         <button className="btn btn-secondary" onClick={prevStep}>Back</button>
-        <button className="btn btn-danger" onClick={handleNextClick}>Next</button>
+        <button className="btn btn-secondary" style={{backgroundColor : "#a50000"}} onClick={handleNextClick}>Next</button>
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ const AccountDetailsForm = ({
   isEmailOrStudentNumberValid,
   emailOrStudentNumberIsValid,
   currentStep,
+  setAccountConfirmed
 }) => {
   const navigate = useNavigate();
   const [emailOrStudentNumberField, setEmailOrStudentNumberField] =
@@ -36,9 +37,6 @@ const AccountDetailsForm = ({
       setEmailOrStudentNumberEntered(true);
 
     }
-
-
-
   }, [currentStep]);
 
   const [validation, setValidation] = useState({
@@ -242,9 +240,11 @@ const AccountDetailsForm = ({
           },
         }
       )
+      setAccountConfirmed(true); // Update parent state
       setEmailOrStudentNumberEntered(true);
       setContinueWithNoAccount(true);
       emailOrStudentNumberIsValid();
+      setShowModal(false);
       
     } else {
       setEmailError("Failed to send verification email.");
@@ -463,9 +463,7 @@ const AccountDetailsForm = ({
           Already have an account?
         </Link>
         {emailOrStudentNumberEntered ? (
-          <button className="btn btn-danger" onClick={handleNextStep}>
-            Next
-          </button>
+          <p></p>
         ) : (
           <button
             type="button"
@@ -539,7 +537,8 @@ const AccountDetailsForm = ({
               </button>
               <button
                 type="button"
-                className="btn btn-danger"
+                className="btn btn-secondary"
+                style={{backgroundColor: isEmailExists ? "#dc3545" : "#a50000"}}
                 onClick={handleModalConfirm}
               >
                 {isEmailExists ? "Send Verification" : "Still Continue"}

@@ -278,7 +278,7 @@ const EducationForm = forwardRef(({
       </div>
 
       {/* Submit Button */}
-      <div className="d-flex justify-content-center edu-form-submit-box align-items-center">
+      <div className="d-flex justify-content-between edu-form-submit-box align-items-center">
         <div className="w-auto">
           <div className="edu-form-footer">
             <div className="edu-form-checkbox-section">
@@ -295,14 +295,17 @@ const EducationForm = forwardRef(({
             </div>
           </div>
         </div>
-        <div className="w-auto">
-          <button className="btn btn-secondary" onClick={prevStep}>Back</button>
+        <div className="d-flex align-items-center w-auto gap-2 edu-form-btns">
+          <div className="w-auto">
+            <button className="btn btn-secondary" onClick={prevStep}>Back</button>
+          </div>
+          <div className="w-auto edu-form-submit">
+            <button type="submit" className="btn btn-secondary" style={{backgroundColor: "#a5000"}}>
+              Submit & Register
+            </button>
+          </div>
         </div>
-        <div className="w-auto edu-form-submit">
-          <button type="submit" className="btn btn-danger">
-            Submit & Register
-          </button>
-        </div>
+        
       </div>
       {error && <p className="edu-form-error-message text-center">{error}</p>}
 
