@@ -181,11 +181,11 @@ const Signup = () => {
     ).find((job) => (new Date(job?.end_date).getFullYear() !== null));
 
     if (latestEmployment) {
-      setFormData({
-        ...formData,
+      setFormData((prevFormData) => ({
+        ...prevFormData,
         current_job_title: latestEmployment.title || '',
         current_employer: latestEmployment.companyName || '',
-      });
+      }));
     }
 
     setEmploymentHistory([...employmentHistory, ...formattedEmploymentHistory]);
@@ -241,10 +241,10 @@ const Signup = () => {
   const handleLinkedInChange = (e) => {
     educationFormRef.current.setFetchLinkedInSuccess(false);
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
-    });
+    }));
 
     // Call validateLinkedInProfile before proceeding
     const condition = validateLinkedInProfile(value);
