@@ -37,6 +37,89 @@
   column-gap: 20px;
 }
 
+.survey-other-input {
+  padding: 0px !important; /* Small padding for spacing */
+  border: none !important; /* Remove all borders */
+  border-bottom: 1px solid #ccc !important; /* Add a bottom border to simulate a line */
+  outline: none !important; /* Remove outline on focus */
+  background-color: transparent !important; /* Make background transparent */
+  font-size: 17px !important; /* Adjust font size for consistency */
+  width: 100% !important; /* Optional: Full width input */
+  transition: border-color 0.3s ease !important; /* Smooth transition for border color */
+  border-radius: 0 !important;
+}
+
+.survey-other-input:focus {
+  border-bottom: 2px solid #a50000 !important; /* Highlight bottom border on focus */
+}
+
+/* Container for the custom checkbox */
+.survey-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.survey-container input {
+  cursor: pointer;
+  width: 0;
+}
+
+/* Create the custom checkbox design */
+.survey-checkmark {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 20px;
+  width: 20px;
+  background-color: #ccc;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+/* Add a grey background color on hover */
+.survey-container:hover input ~ .survey-checkmark {
+  background-color: #b1b0b0;
+}
+
+/* Add a blue background when checked */
+.survey-container input:checked ~ .survey-checkmark {
+  background-color: #a50000;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.survey-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.survey-container input:checked ~ .survey-checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.survey-container .survey-checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
 /* mobile media */
 
 @media screen and (max-width: 768px) {

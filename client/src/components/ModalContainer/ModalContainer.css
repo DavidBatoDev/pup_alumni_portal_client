@@ -82,7 +82,10 @@
 .desktop-modal-title {
   font-size: 22px;
   font-weight: 600;
+  margin-bottom: 0;
 }
+
+
 
 .desktop-modal-body {
   padding: 10px 30px;
