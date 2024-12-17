@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/api': {
-          target: env.VITE_BACKEND_URL || 'https://pupalumniportalserver-production.up.railway.app', // Use env variable
+          target: env.VITE_BACKEND_URL || 'http://pupgs.com', // Use env variable
           changeOrigin: true,
           secure: true,
         },
