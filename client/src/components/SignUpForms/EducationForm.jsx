@@ -7,7 +7,7 @@ const EducationForm = forwardRef(({
   prevStep,
   formData,
   handleChange,
-  handleLinkedInChange,
+    handleLinkedInChange,
   handleEmploymentChange,
   handleEducationChange,
   addNewEmployment,
@@ -52,7 +52,7 @@ const EducationForm = forwardRef(({
       <h3 className="edu-form-section-title">EDUCATIONAL AND PROFESSIONAL INFORMATION</h3>
 
       {/* LinkedIn Profile Section */}
-      <div className={`edu-form-group linkedin-input ${validation.linkedin_profile && fetchLinkedInSuccess ? "was-validated" : "is-invalid"}`}>
+      <div className={`edu-form-group linkedin-input ${validation.linkedin_profile ? "was-validated" : ""}`}>
         <label>
           LinkedIn Profile (Optional) <span className="edu-form-important-txt">*</span>
         </label>
@@ -66,7 +66,7 @@ const EducationForm = forwardRef(({
             placeholder="https://www.linkedin.com/in/[your-profile]"
             value={formData.linkedin_profile}
             onChange={handleLinkedInInputChange}
-            className="form-control"
+            className={`form-control ${!validation.linkedin_profile && formData.linkedin_profile !== "" ? "is-invalid" : ""}`}
           />
         </div>
         {!validation.linkedin_profile && (
@@ -305,7 +305,7 @@ const EducationForm = forwardRef(({
             </button>
           </div>
         </div>
-        
+
       </div>
       {error && <p className="edu-form-error-message text-center">{error}</p>}
 
