@@ -130,6 +130,7 @@ const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
           showModal={!showQuickSurvey}
           closeModal={closeModal} // Close notification modal
           title="Survey Notification"
+
         >
           {loading && <CircularLoader noOverlay={true}/>}
 
@@ -176,6 +177,8 @@ const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
           showModal={showQuickSurvey}
           closeModal={closeModal} // Close quick survey modal
           title="Be a part of the PUP Graduate School Community!"
+          hideHeader={true}
+          mobileModal={true}
         >
           <div className="quick-survey-header my-3 fs-4 fw-bold">
             As an Alumnus/Alumna of the PUP Graduate School, how would you like to be part of the university?

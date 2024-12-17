@@ -85,13 +85,12 @@
   margin-bottom: 0;
 }
 
-
-
 .desktop-modal-body {
   padding: 10px 30px;
   background: #f4f4f4;
   position: relative;
   min-height: 400px;
+  max-height: 600px;
 }
 
 .desktop-modal-body .full-view {
@@ -149,8 +148,6 @@
     width: max-content;
     height: 100px;
   }
-
-
 }
 
 /* for Ipad */
@@ -188,5 +185,4 @@
     width: max-content;
     height: min-content;
   }
-
 }
