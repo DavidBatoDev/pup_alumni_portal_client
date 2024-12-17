@@ -49,7 +49,7 @@ const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
         }
         setLoading(true);
         const response = await api.get("/api/survey/unanswered-surveys");
-        // console.log("Unanswered Surveys: ", response.data.surveys);
+        console.log("Unanswered Surveys: ", response.data.surveys);
         setSurveys(response.data?.surveys || []);
       } catch (error) {
         console.error("Error fetching surveys:", error);
