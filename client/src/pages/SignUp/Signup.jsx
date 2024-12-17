@@ -179,11 +179,11 @@ const Signup = () => {
     ).find((job) => (new Date(job?.end_date).getFullYear() !== null));
 
     if (latestEmployment) {
-      setFormData({
-        ...formData,
+      setFormData((prevFormData) => ({
+        ...prevFormData,
         current_job_title: latestEmployment.title || '',
         current_employer: latestEmployment.companyName || '',
-      });
+      }));  
     }
 
     setEmploymentHistory([...employmentHistory, ...formattedEmploymentHistory]);
@@ -212,20 +212,17 @@ const Signup = () => {
     };
 
     try {
-      setLoading(true);
       const response = await axios.request(options);
-      if (response.data && response.status === 200 || response.status === 201) {
+      if (response.data && (response.status === 200 || response.status === 201)) {
         processLinkedInData(response.data);
         educationFormRef.current.setFetchLinkedInSuccess(true);
       }
-
     } catch (error) {
       console.error('Failed to fetch LinkedIn data:', error);
       setLinkedinError('Failed to fetch LinkedIn data');
     } finally {
       setLoading(false);
     }
-
   };
 
   const validateLinkedInProfile = (url) => {
@@ -239,10 +236,10 @@ const Signup = () => {
   const handleLinkedInChange = (e) => {
     educationFormRef.current.setFetchLinkedInSuccess(false);
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
-    });
+    }));
 
     // Call validateLinkedInProfile before proceeding
     const condition = validateLinkedInProfile(value);
