@@ -1,5 +1,5 @@
 // src/components/FeaturesSection/FeaturesSection.jsx
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import './FeaturesSection.css';
 import featureIcon1 from '../../assets/svgs/chat.svg';
 import featureIcon2 from '../../assets/svgs/briefcase.svg';
@@ -32,27 +32,45 @@ const FeaturesSection = () => {
     }
   ]
 
-  // useEffect(() => {
-  //   const observerOptions = {
-  //     threshold: 0.2, // Trigger animation when 20% of the card is visible
-  //   };
+  const [fadeUp, setFadeUp] = useState([false, false, false, false]);
 
-  //   const observer = new IntersectionObserver((entries) => {
-  //     entries.forEach((entry) => {
-  //       if (entry.isIntersecting) {
-  //         entry.target.classList.add('fadeInUp'); // Apply the animation class
-  //       } else {
-  //         entry.target.classList.remove('fadeInUp'); // Remove the animation class when out of view
-  //       }
-  //     });
-  //   }, observerOptions);
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.2, // Trigger animation when 20% of the card is visible
+    };
 
-  //   featureRefs.current.forEach((feature) => {
-  //     if (feature) observer.observe(feature);
-  //   });
+    const observer = new IntersectionObserver((entries) => {
+      entries.map((feature, index) => {
+        if (feature.isIntersecting) {
+          setFadeUp((prev) => {
+            return prev.map((item, i) => {
+              if (i === index) {
+                return true;
+              } else {
+                return item;
+              }
+            });
+          });
+        } else {
+          setFadeUp((prev) => {
+            return prev.map((item, i) => {
+              if (i === index) {
+                return false;
+              } else {
+                return item;
+              }
+            });
+          });
+        }
+      });
+    }, observerOptions);
 
-  //   return () => observer.disconnect();
-  // }, []);
+    featureRefs.current.forEach((feature) => {
+      if (feature) observer.observe(feature);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="features-section glass">
@@ -67,7 +85,7 @@ const FeaturesSection = () => {
                 key={index}
               >
                 <div
-                  className="feature-card animated"
+                  className={`feature-card animated ${fadeUp[index] ? 'fadeInUp' : ''}`}
                   ref={(el) => (featureRefs.current[index] = el)}
                   style={{ animationDelay: `${index * 0.2}s` }}
                 >
