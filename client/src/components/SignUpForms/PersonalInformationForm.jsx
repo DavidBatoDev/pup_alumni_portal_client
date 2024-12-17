@@ -311,8 +311,7 @@ const PersonalInformationForm = ({ nextStep, prevStep, formData, handleChange })
         </div>
         
       </div>
-      <div className="d-flex justify-content-between">
-        <button className="btn btn-secondary" onClick={prevStep}>Back</button>
+      <div className="d-flex justify-content-end">
         <button className="btn btn-secondary" style={{backgroundColor : "#a50000"}} onClick={handleNextClick}>Next</button>
       </div>
     </div>

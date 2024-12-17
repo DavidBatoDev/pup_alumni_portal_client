@@ -1,4 +1,3 @@
-// src/pages/SignUp/signup.jsx
 import React, { useState, useRef, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import MainFooter from "../../components/MainFooter/MainFooter";
@@ -61,6 +60,9 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [linkedinError, setLinkedinError] = useState(null);
+
+  const [verifiedAlumni, setVerifiedAlumni] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -179,11 +181,11 @@ const Signup = () => {
     ).find((job) => (new Date(job?.end_date).getFullYear() !== null));
 
     if (latestEmployment) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
+      setFormData({
+        ...formData,
         current_job_title: latestEmployment.title || '',
         current_employer: latestEmployment.companyName || '',
-      }));
+      });
     }
 
     setEmploymentHistory([...employmentHistory, ...formattedEmploymentHistory]);
@@ -212,17 +214,20 @@ const Signup = () => {
     };
 
     try {
+      setLoading(true);
       const response = await axios.request(options);
-      if (response.data && (response.status === 200 || response.status === 201)) {
+      if (response.data && response.status === 200 || response.status === 201) {
         processLinkedInData(response.data);
         educationFormRef.current.setFetchLinkedInSuccess(true);
       }
+
     } catch (error) {
       console.error('Failed to fetch LinkedIn data:', error);
       setLinkedinError('Failed to fetch LinkedIn data');
     } finally {
       setLoading(false);
     }
+
   };
 
   const validateLinkedInProfile = (url) => {
@@ -236,10 +241,10 @@ const Signup = () => {
   const handleLinkedInChange = (e) => {
     educationFormRef.current.setFetchLinkedInSuccess(false);
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+    setFormData({
+      ...formData,
       [name]: value,
-    }));
+    });
 
     // Call validateLinkedInProfile before proceeding
     const condition = validateLinkedInProfile(value);
@@ -352,9 +357,8 @@ const Signup = () => {
               <div className="container d-flex justify-content-center">
                 {/* Form Content based on Current Step */}
                 <div className="forms-container">
-                {currentStep === 1 && (
-                  <>
-                    {!isAccountConfirmed ? (
+                  {currentStep === 1 && (
+                    <>
                       <AccountDetailsForm
                         nextStep={nextStep}
                         formData={formData}
@@ -364,31 +368,21 @@ const Signup = () => {
                         isEmailOrStudentNumberValid={isEmailOrStudentNumberValid}
                         emailOrStudentNumberIsValid={emailOrStudentNumberIsValid}
                         currentStep={currentStep}
-                        setAccountConfirmed={setIsAccountConfirmed} // Pass handler
+                        setAccountConfirmed={setIsAccountConfirmed}
                       />
-                    ) : (
-                      <>
-                       <AccountDetailsForm
-                        nextStep={nextStep}
-                        formData={formData}
-                        handleChange={handleChange}
-                        changeDetails={changeDetails}
-                        setLoading={setLoading}
-                        isEmailOrStudentNumberValid={isEmailOrStudentNumberValid}
-                        emailOrStudentNumberIsValid={emailOrStudentNumberIsValid}
-                        currentStep={currentStep}
-                        setAccountConfirmed={setIsAccountConfirmed} // Pass handler
-                      />
+
+                      {/* Always show PersonalInformationForm after alumni verification */}
+                      {(isAccountConfirmed || formData.email || verifiedAlumni) && (
                         <PersonalInformationForm
                           nextStep={nextStep}
                           prevStep={prevStep}
                           formData={formData}
                           handleChange={handleChange}
                         />
-                      </>
-                    )}
-                  </>
-                )}
+                      )}
+                    </>
+                  )}
+
 
 
                   {currentStep === 2 && (
