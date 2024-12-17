@@ -463,7 +463,7 @@ const AccountDetailsForm = ({
           Already have an account?
         </Link>
         {emailOrStudentNumberEntered ? (
-          <p></p>
+         <p></p>
         ) : (
           <button
             type="button"
