@@ -107,6 +107,7 @@ const SpecificEvent = () => {
         onCreateEventFeedback={onCreateEventFeedback} 
         />
 
+      {loading && <CircularLoader />}
 
       <div className="background" style={{
         backgroundImage: `url(${backgroundImage})`,
@@ -147,6 +148,8 @@ const SpecificEvent = () => {
           is_active={eventData.is_active}
           openFeedbackModal={() => setShowEventFeedbackModal(true)}
           eventFeedbackData={eventFeedbackData}
+          LoadingTrue={() => setLoading(true)}
+          LoadingFalse={() => setLoading(false)}
         />
       </div>
     </div>
