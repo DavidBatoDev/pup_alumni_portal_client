@@ -4,13 +4,16 @@
     object-fit: contain;
 }
 
-
 @media screen and (max-width: 768px) {
+  .start--poster-container {
+    
+  }
+
     .start--poster-img {
         height: 300px;
         width: 300px;
         display: flex;
         object-fit: contain;
     }
-    
+
 }

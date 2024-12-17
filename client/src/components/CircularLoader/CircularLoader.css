@@ -12,6 +12,10 @@
   z-index: 9999; /* High z-index to stay above all content */
 }
 
+.loader-overlay.no-overlay {
+  background: transparent; /* Transparent background */
+}
+
 /* Base styling for the loader container */
 .loader-container {
   display: flex;

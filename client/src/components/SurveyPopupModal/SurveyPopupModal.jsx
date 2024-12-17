@@ -7,8 +7,9 @@ import SurveyCard from "../SurveyCards/SurveyCards";
 import "./SurveyPopupModal.css";
 import api from "../../api.js";
 import { useSelector } from "react-redux";
+import CircularLoader from "../CircularLoader/CircularLoader.jsx";
 
-const SurveyPopupModal = ({closeModal}) => {
+const SurveyPopupModal = ({ closeModal }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -68,7 +69,9 @@ const SurveyPopupModal = ({closeModal}) => {
       closeModal={() => setShowModal(false)}
       title="Survey Notification"
     >
-      {loading && <div>Loading...</div>}
+      {loading &&
+        <CircularLoader noOverlay={true}/>
+      }
 
       {/* Render error message if exists */}
       {error && (

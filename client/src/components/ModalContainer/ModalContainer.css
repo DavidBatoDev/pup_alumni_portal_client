@@ -184,7 +184,7 @@
 
   .desktop-modal-content.mobile-modal {
     width: max-content;
-    height: 100px;
+    height: min-content;
   }
 
 }
