@@ -1,7 +1,7 @@
 import React from 'react';
 import './CircularLoader.css';
 
-const CircularLoader = ({noOverlay}) => {
+const CircularLoader = ({noOverlay = false}) => {
   return (
     <div className={`loader-overlay ${noOverlay ? 'no-overlay' : ''}`}>
       <div className="loader-container">
@@ -11,8 +11,5 @@ const CircularLoader = ({noOverlay}) => {
   );
 };
 
-CircularLoader.defaultProps = {
-  noOverlay: false,
-};
 
 export default CircularLoader;

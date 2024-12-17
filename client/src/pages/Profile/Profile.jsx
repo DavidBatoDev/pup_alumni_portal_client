@@ -44,7 +44,7 @@ const Profile = () => {
       .catch((error) => {
         console.error('Error fetching profile data:', error);
       })
-      .finally(() => setLoading(false));
+      .finally(() => setLoading(false));  
   }, []);
 
   return (

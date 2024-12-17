@@ -40,7 +40,7 @@ import startPoster from "./assets/images/startPoster.png";
 function App() {
   const { user, role, isAuthenticated } = useSelector((state) => state.user);
 
-  const [showSurveyModal, setShowSurveyModal] = useState(true);
+  const [showSurveyModal, setShowSurveyModal] = useState(false);
   const [showQuickSurvey, setShowQuickSurvey] = useState(false);
   const [showStartMessage, setShowStartMessage] = useState(false);
 
@@ -61,7 +61,7 @@ function App() {
           setShowQuickSurvey(true);
           setShowSurveyModal(true);
         } else if (unansweredSurveys.length > 0) {
-          showQuickSurvey(false);
+          setShowQuickSurvey(false);
           setShowSurveyModal(true);
         } else {
           setShowSurveyModal(false);

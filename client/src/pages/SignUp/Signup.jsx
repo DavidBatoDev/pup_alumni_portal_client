@@ -183,7 +183,7 @@ const Signup = () => {
         ...prevFormData,
         current_job_title: latestEmployment.title || '',
         current_employer: latestEmployment.companyName || '',
-      }));  
+      }));
     }
 
     setEmploymentHistory([...employmentHistory, ...formattedEmploymentHistory]);
@@ -257,10 +257,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null); // Reset error before submit
-    console.log('Form Data:', formData);
-
     const isValid = educationFormRef.current.validateFields();
-    console.log('Is Valid:', isValid);
     if (!isValid) {
       setError('You must agree to the terms and privacy policy.');
       return; // If validation fails, stop the submission

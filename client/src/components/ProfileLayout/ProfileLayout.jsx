@@ -19,12 +19,18 @@ const ProfileLayout = () => {
   useEffect(() => {
     dispatch(setLoading(true));
 
-
-    return () => {
+    const timeoutId = setTimeout(() => {
       if (userLoading) {
         dispatch(setLoading(false));
       }
-    }
+    }, 3000); // Set the timeout duration in milliseconds (e.g., 3000ms = 3 seconds)
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (userLoading) {
+        dispatch(setLoading(false));
+      }
+    };
   }, [dispatch]);
 
   return (
@@ -33,8 +39,8 @@ const ProfileLayout = () => {
       <BannerSmall bannerTitle="Profile Overview" bannerImage={bannerImage} />
       <div className="background profile-layout-background"></div>
 
-      { userLoading && <CircularLoader /> }
-  
+      { userLoading && <CircularLoader noOverlay={false}/> }
+
       <div className="container-fluid profile-layout-content glass">
         <div className="row profile-layout-row">
           {/* Profile Sidebar */}

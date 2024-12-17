@@ -35,9 +35,9 @@ const ProfileSettings = () => {
   const [editableEducationHistory, setEditableEducationHistory] = useState([...educationHistory]);
 
   // State to keep track of which rows are currently being edited
-  const [editingAddressId, setEditingAddressId] = useState(null); // Pending for change in backend to use address_id
-  const [editingEmploymentId, setEditingEmploymentId] = useState(null);
-  const [editingEducationId, setEditingEducationId] = useState(null);
+  const [editingAddressId, setEditingAddressId] = useState(""); // Pending for change in backend to use address_id
+  const [editingEmploymentId, setEditingEmploymentId] = useState("");
+  const [editingEducationId, setEditingEducationId] = useState("");
 
   const [alert, setAlert] = useState({
     severity: '',
@@ -114,11 +114,10 @@ const ProfileSettings = () => {
         }
       })
       .catch((error) => {
-        const errorMsg = Object.keys(error.response.data.message)[0];
         console.error('Error updating profile:', error);
         setAlert({
           severity: 'error',
-          message: error.response.data.message[errorMsg],
+          message: 'Error updating profile. Try again later.',
         });
       }).finally(() => {
         setTimeout(() => {
@@ -240,7 +239,7 @@ const ProfileSettings = () => {
 
   // Handle saving changes for address
   const saveAddressChanges = (id) => {
-    setEditingAddressId(null);
+    setEditingAddressId("");
     console.log("Sending address data:", editableAddress);
     const updatedAddress = editableAddress.find((address) => address.address_id === id);
     api
@@ -248,7 +247,7 @@ const ProfileSettings = () => {
       .then((response) => {
         if (response.data.success) {
           console.log('Address updated successfully:', response.data.data);
-          setEditingAddressId(null); // Exit editing mode
+          setEditingAddressId(""); // Exit editing mode
         }
       })
       .catch((error) => {
@@ -258,7 +257,7 @@ const ProfileSettings = () => {
 
   // Handle saving changes for employment history
   const saveEmploymentChanges = (id) => {
-    setEditingEmploymentId(null);
+    setEditingEmploymentId("");
     console.log("Sending employment data:", editableEmploymentHistory);
     const updatedEmployment = editableEmploymentHistory.find((job) => job.employment_id === id);
     api
@@ -289,7 +288,7 @@ const ProfileSettings = () => {
                 console.error('Error updating profile:', profileError);
               });
           }
-          setEditingEmploymentId(null); // Exit editin  g mode
+          setEditingEmploymentId(""); // Exit editin  g mode
         }
       })
       .catch((error) => {
@@ -300,7 +299,7 @@ const ProfileSettings = () => {
 
   // Handle saving changes for education history
   const saveEducationChanges = (id) => {
-    setEditingEducationId(null); // Exit editing mode
+    setEditingEducationId(""); // Exit editing mode
     console.log("Sending education data:", editableEducationHistory);
 
     const updatedEducation = editableEducationHistory.find((edu) => edu.education_id === id);
@@ -310,7 +309,7 @@ const ProfileSettings = () => {
       .then((response) => {
         if (response.data.success) {
           console.log('Education history updated successfully:', response.data.data);
-          setEditingEducationId(null); // Exit editing mode
+          setEditingEducationId(""); // Exit editing mode
         }
       })
       .catch((error) => {
@@ -382,7 +381,7 @@ const ProfileSettings = () => {
               (addr) => addr.address_id === address.address_id ? response.data.data : addr
             )
           );
-          setEditingAddressId(null);
+          setEditingAddressId("");
         }
       })
       .catch((error) => {
@@ -404,7 +403,7 @@ const ProfileSettings = () => {
               job.employment_id === validEmployment.employment_id ? response.data.data : job
             )
           );
-          setEditingEmploymentId(null);
+          setEditingEmploymentId("");
         }
       })
       .catch((error) => {
@@ -423,7 +422,7 @@ const ProfileSettings = () => {
           setEditableEducationHistory((prev) =>
             prev.map((edu) => (edu.education_id === education.education_id ? response.data.data : edu))
           );
-          setEditingEducationId(null);
+          setEditingEducationId("");
         }
       })
       .catch((error) => {
@@ -447,7 +446,7 @@ const ProfileSettings = () => {
 
             <div className='d-flex flex-column ms-2'>
               <label className="form-label">Profile Picture</label>
-              <p className="">{profile?.profile_picture + " under 10MB" || "No Image Provided"}</p>
+              <p className="">{profile?.profile_picture?.name + " under 10MB" || "No Image Provided"}</p>
             </div>
 
             <div className="d-flex ms-auto ps-auto gap-1 justify-content-start align-items-center btn-profile-button">
