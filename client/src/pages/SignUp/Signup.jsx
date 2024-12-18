@@ -50,6 +50,8 @@ const Signup = () => {
     setIsEmailOrStudentNumberValid(true);
   }
 
+  const accountDetailsFormRef = useRef();
+  const personalInformationFormRef = useRef();
   const educationFormRef = useRef(); // Create a ref for the EducationForm
 
   // Step state to track the current form step
@@ -98,8 +100,16 @@ const Signup = () => {
     }
   }, [currentStep]);
 
+  const validateAllForms = () => { // Helper function to validate all forms before advancing
+    const isAccountDetailsValid = accountDetailsFormRef.current.validateFields();
+    const isPersonalInformationValid = personalInformationFormRef.current.validateFields();
+    return isAccountDetailsValid && isPersonalInformationValid;
+  };
+
   const nextStep = () => {
-    setCurrentStep((prevStep) => prevStep + 1);
+    if (validateAllForms()) { // Call validateFields to first two forms before advancing
+      setCurrentStep((prevStep) => prevStep + 1);
+    }
   };
 
   const prevStep = () => {
@@ -373,7 +383,7 @@ const Signup = () => {
                   {currentStep === 1 && (
                     <>
                       <AccountDetailsForm
-                        nextStep={nextStep}
+                        ref={accountDetailsFormRef}
                         formData={formData}
                         handleChange={handleChange}
                         changeDetails={changeDetails}
@@ -387,8 +397,8 @@ const Signup = () => {
                       {/* Always show PersonalInformationForm after alumni verification */}
                       {(isAccountConfirmed || formData.email || verifiedAlumni) && (
                         <PersonalInformationForm
+                          ref={personalInformationFormRef}
                           nextStep={nextStep}
-                          prevStep={prevStep}
                           formData={formData}
                           handleChange={handleChange}
                         />

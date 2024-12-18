@@ -1,9 +1,12 @@
 import "./signUpForms.css";
 
-import React, { useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 
-const PersonalInformationForm = ({ nextStep, prevStep, formData, handleChange }) => {
-
+const PersonalInformationForm = forwardRef(({
+  nextStep,
+  formData,
+  handleChange
+}, ref) => {
   const [validation, setValidation] = useState({
     first_name: true,
     last_name: true,
@@ -50,12 +53,9 @@ const PersonalInformationForm = ({ nextStep, prevStep, formData, handleChange })
     return Object.values(newValidation).every(value => value === true);
   };
 
-  const handleNextClick = () => {
-    if (validateFields()) {
-      nextStep();
-    }
-  };
-
+  useImperativeHandle(ref, () => ({
+    validateFields
+  }));
 
   return (
     <div className="form-section">
@@ -208,7 +208,7 @@ const PersonalInformationForm = ({ nextStep, prevStep, formData, handleChange })
                 <div className="invalid-feedback">State is required</div>
               )}
             </div>
-          
+
           <div className="input-group">
             <span className="input-group-text bg-white">
               <i className="fas fa-map-marked-alt"></i>
@@ -245,7 +245,7 @@ const PersonalInformationForm = ({ nextStep, prevStep, formData, handleChange })
             )}
           </div>
         </div>
-        
+
 
       </div>
       <div className="form-group">
@@ -309,13 +309,15 @@ const PersonalInformationForm = ({ nextStep, prevStep, formData, handleChange })
             )}
           </div>
         </div>
-        
+
       </div>
       <div className="d-flex justify-content-end">
-        <button className="btn btn-secondary" style={{backgroundColor : "#a50000"}} onClick={handleNextClick}>Next</button>
+        <button className="btn btn-secondary" style={{backgroundColor : "#a50000"}} onClick={nextStep}>Next</button>
       </div>
     </div>
   );
-}
+});
+
+PersonalInformationForm.displayName = 'PersonalInformationForm';
 
 export default PersonalInformationForm;
