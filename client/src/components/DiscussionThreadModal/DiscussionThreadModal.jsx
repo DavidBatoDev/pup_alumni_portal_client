@@ -23,6 +23,7 @@ const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, submitDe
     title: true,
     description: true
   })
+  const [imagesToDelete, setImagesToDelete] = useState([]); // Track images to delete
 
   useEffect(() => {
     if (thread) {
@@ -48,7 +49,6 @@ const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, submitDe
       title: threadData.title.trim().length > 0 && threadData.title !== "",
       description: threadData.description.replace(/<(.|\n)*?>/g, '').trim() === '' ? false : true
     }
-    console.log(newValidation);
     setValidation(newValidation);
     return Object.values(newValidation).every((value) => value === true);
   };
@@ -72,9 +72,23 @@ const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, submitDe
   };
 
   const handleRemoveImage = (index) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index)); // Remove image at specific index
-    setImageFiles((prevFiles) => prevFiles.filter((_, i) => i !== index)); // Remove file at specific index
+    if (index < thread?.images?.length) {
+      const deletedImageId = thread.images[index].image_id;
+      setImagesToDelete((prev) => {
+        // Only add if it doesn't already exist
+        if (!prev.includes(deletedImageId)) {
+          return [...prev, deletedImageId];
+        }
+        return prev;
+      });
+    }
+  
+    // Remove the image preview and file
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    setImageFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
+  
+  
 
   // Handle tags
   const handleAddTag = (e) => {
@@ -93,48 +107,34 @@ const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, submitDe
   };
 
   // Handle submit
-  const handleSubmit = () => {
-    // Validation
-    if (!validateFields()) return;
+// Handle submit
+const handleSubmit = () => {
+  if (!validateFields()) return;
 
-    if (!isEditing) {
-      // Creating Thread:
-      const formData = new FormData();
-      formData.append('title', threadData.title);
-      formData.append('description', threadData.description);
-      tags.forEach((tag, index) => {
-        formData.append(`tags[${index}]`, tag.name);
-      });
-      imageFiles.forEach((file, index) => {
-        formData.append(`images[${index}]`, file);
-      });
-
-      // Pass thread data to the parent component for API call and reset form state
-      onSubmitThread(formData);
-    } else {
-      // Editing Thread:
-      const updatedData = {};
-      if (threadData.title !== thread.title) updatedData.title = threadData.title;
-      if (threadData.description !== thread.description) updatedData.description = threadData.description;
-      if (JSON.stringify(tags) !== JSON.stringify(thread.tags)) updatedData.tags = tags.map(tag => tag.name);
-      if (imageFiles.length > 0) updatedData.images = imageFiles;
-
-      // Pass updated data to the parent component for API call
-      onSubmitThread(updatedData);
-    }
-
-    setTimeout(() => {
-      resetFormState();
-      closeModal();
-    }, 2000); // Keep the modal open for 2 seconds
+  const updatedThreadData = {
+    title: threadData.title,
+    description: threadData.description,
+    tags: tags.map(tag => tag.name),
+    images: imageFiles, // New image files
+    images_to_delete: imagesToDelete, // IDs of images to delete
+    existing_images: thread?.images
+      ?.filter((_, index) => !imagesToDelete.includes(thread.images[index].image_id))
+      .map((image) => image.image_id), // IDs of existing images
   };
+
+  // Pass the plain object to the parent component
+  onSubmitThread(updatedThreadData);
+};
+
+  
 
   const resetFormState = () => {
     resetValidation();
-    setThreadData({ title: "", description: "" }); // Reset form
-    setImages([]); // Clear uploaded images
-    setImageFiles([]); // Clear file objects
+    setThreadData({ title: "", description: "" });
+    setImages([]);
+    setImageFiles([]);
     setTags([]);
+    setImagesToDelete([]);
   }
 
   const handleUserClose = () => {
@@ -263,22 +263,25 @@ const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, submitDe
                 </div>
               ) : (
                 <>
-                  <div className="discussion-image-preview-container">
-                    {images.map((image, index) => (
-                      <div key={index} className="discussion-image-preview">
-                        <img src={image} alt={`Preview ${index}`} />
-                        <button
-                          className="discussion-remove-image-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleRemoveImage(index);
-                          }}
-                        >
-                          &times;
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+                <div className="discussion-image-preview-container">
+                  {images.map((image, index) => (
+                    <div key={index} className="discussion-image-preview">
+                      <img
+                        src={typeof image === "string" ? image : URL.createObjectURL(image)} 
+                        alt={`Preview ${index}`}
+                      />
+                      <button
+                        className="discussion-remove-image-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveImage(index);
+                        }}
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
+                </div>
                   <div className="discussion-add-more-container">
                     <button
                       className="discussion-add-more-btn"

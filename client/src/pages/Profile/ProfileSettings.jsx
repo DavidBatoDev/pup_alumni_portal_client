@@ -446,7 +446,7 @@ const ProfileSettings = () => {
 
             <div className='d-flex flex-column ms-2'>
               <label className="form-label">Profile Picture</label>
-              <p className="">{profile?.profile_picture?.name + " under 10MB" || "No Image Provided"}</p>
+              <p className="">{'The file is' + " under 10MB" || "No Image Provided"}</p>
             </div>
 
             <div className="d-flex ms-auto ps-auto gap-1 justify-content-start align-items-center btn-profile-button">

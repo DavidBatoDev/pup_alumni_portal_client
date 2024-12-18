@@ -23,7 +23,7 @@ const ProfileLayout = () => {
       if (userLoading) {
         dispatch(setLoading(false));
       }
-    }, 3000); // Set the timeout duration in milliseconds (e.g., 3000ms = 3 seconds)
+    }, 3000);
 
     return () => {
       clearTimeout(timeoutId);
