@@ -36,10 +36,8 @@ const DiscussionActionBar = ({ filter, setFilter, viewMode, setViewMode, onCreat
             onChange={handleViewChange}
             style={{ width: `${0.5 * viewMode.length + 5}rem` }}
           >
-            <option selected value="compact">
-              Compact
-            </option>
-            <option value="card">Card</option>
+            <option selected value="card">Card</option>
+            <option value="compact">Compact</option>
           </select>
         </div>
 

@@ -36,6 +36,17 @@
   margin: 0;
 }
 
+.discussion-card-thread .images-length-icon {
+  height: 45px;
+  width: 45px;
+  transition: transform 0.1s ease-in-out;
+}
+
+.discussion-card-thread .images-length-icon:hover {
+  color: #f9f9f9;
+  transform: translateY(-0.2rem);
+}
+
 .discussion-card-thread .thread-author {
   color: #1E1E1E;
   font-family: 'Crimson Text', sans-serif;

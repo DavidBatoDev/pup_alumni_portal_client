@@ -34,6 +34,7 @@ const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, submitDe
       setTags(thread.tags || []);
       setImages(thread.images?.map(image => image.image_path) || []);
       setImageFiles([]); // Reset image files
+      setShowImageUpload(thread.images?.length > 0 || false);
     }
   }, [thread]);
 
@@ -82,13 +83,13 @@ const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, submitDe
         return prev;
       });
     }
-  
+
     // Remove the image preview and file
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
     setImageFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
-  
-  
+
+
 
   // Handle tags
   const handleAddTag = (e) => {
@@ -126,7 +127,7 @@ const handleSubmit = () => {
   onSubmitThread(updatedThreadData);
 };
 
-  
+
 
   const resetFormState = () => {
     resetValidation();
@@ -267,7 +268,7 @@ const handleSubmit = () => {
                   {images.map((image, index) => (
                     <div key={index} className="discussion-image-preview">
                       <img
-                        src={typeof image === "string" ? image : URL.createObjectURL(image)} 
+                        src={typeof image === "string" ? image : URL.createObjectURL(image)}
                         alt={`Preview ${index}`}
                       />
                       <button

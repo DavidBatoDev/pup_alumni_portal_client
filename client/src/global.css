@@ -4,6 +4,12 @@
   background-color: rgb(255, 255, 255, 0.7);
 }
 
+.glass-less {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background-color: rgb(255, 255, 255, 0.1);
+}
+
 .glass-more {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);

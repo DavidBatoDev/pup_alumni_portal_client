@@ -24,7 +24,7 @@ const Discussions = () => {
   const [sortBy, setSortBy] = useState();
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('Best');
-  const [viewMode, setViewMode] = useState('compact');
+  const [viewMode, setViewMode] = useState('card');
   const [error, setError] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 

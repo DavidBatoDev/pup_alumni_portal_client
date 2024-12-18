@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import './DiscussionCardThread.css';
 
-const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenImage, handleEdit, isExpanded: alreadyExpanded = false}) => {
+const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenImage, handleEdit, isExpanded: alreadyExpanded = false }) => {
   const [vote, setVote] = useState(thread?.user_vote || null); // null: no vote, 'upvote': upvoted, 'downvote': downvoted
   const [voteCount, setVoteCount] = useState(thread?.upvotes - thread?.downvotes || 0);
 
@@ -65,7 +65,7 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenIma
             <div className='d-flex flex-column'>
               <Link className="text-decoration-none" to={`/profile/${thread?.author?.alumni_id}`}>
                 <p className="thread-author">{thread?.author?.name}</p>
-                </Link>
+              </Link>
               <div className='d-flex gap-2 align-bottom align-items-center'>
                 <p className="thread-num">Active {thread?.updated_at}</p>
                 <span>&middot;</span>
@@ -75,10 +75,10 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenIma
 
             {/* Edit Button */}
             {
-            user?.alumni_id === thread?.author?.alumni_id &&
-            <div className="flex-grow-1 h-100 d-flex flex-row-reverse align-content-start px-2" onClick={() => handleEdit(thread)}>
-              <i className="fa-solid fa-ellipsis"></i>
-            </div>
+              user?.alumni_id === thread?.author?.alumni_id &&
+              <div className="flex-grow-1 h-100 d-flex flex-row-reverse align-content-start px-2" onClick={() => handleEdit(thread)}>
+                <i className="fa-solid fa-ellipsis"></i>
+              </div>
             }
           </div>
         </div>
@@ -106,13 +106,19 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenIma
         )}
 
         {/* Thread Image(s) */}
+
         {thread?.images && thread?.images.length > 0 && (
           <div className="image-container" onClick={() => openImageModal(thread.images)}>
-            {thread?.images.map((image) => (
-              <img src={image?.image_path} alt={thread?.title} className="thread-image" />
-            ))}
+            {thread?.images.length > 1 &&
+              <div className="images-length-icon crimson-text glass-less text-white position-absolute top-0 z-2 m-2 rounded-circle d-flex gap-1 justify-content-center align-items-center">
+                <i className='fa-solid fa-image text-white'></i>{thread?.images?.length}
+              </div>
+            }
+
+            <img src={thread?.images[0].image_path} alt={thread?.title} className="img-fluid" />
           </div>
-        )}
+        )
+        }
 
         {/* Thread Actions */}
         <div className="thread-actions d-flex gap-2 mt-2">
