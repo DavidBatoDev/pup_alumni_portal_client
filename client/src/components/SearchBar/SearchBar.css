@@ -7,3 +7,7 @@
 .search-bar-container .form-control {
   font-size: 1rem;
 }
+
+.search-bar-container .btn {
+  height: inherit;
+}

@@ -33,8 +33,8 @@ const SearchBar = ({ onSearch, placeholder, buttonVisible }) => {
         }}
       />
       {buttonVisible && (
-        <button className="btn btn-outline-secondary">
-          <img className="search-icon" src={searchIcon} onClick={handleSearch} alt="Search Icon" />
+        <button className="btn btn-outline-secondary py-0" onClick={handleSearch}>
+          <i className='fa-solid fa-magnifying-glass'></i>
         </button>
       )}
     </div>
