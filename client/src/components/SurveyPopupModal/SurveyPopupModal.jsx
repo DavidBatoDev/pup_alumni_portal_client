@@ -101,16 +101,22 @@ const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
       selected_options: [...selectedOptions],
       other_response: otherOption.trim(),
     };
-    console.log("Quick Survey Submission:", submissionData);
+
 
     try {
       setLoading(true);
       const response = await api.post("/api/quick-survey/submit", submissionData);
 
       if (response.status === 200 || response.status === 201) {
-        console.log("Quick survey submitted successfully:", response.data);
+        // console.log("Quick survey submitted successfully:", response.data);
+        // check if he already answer the survey
+        const allUnansweredSuvey = await api.get("/api/survey/unanswered-surveys");
+        console.log("Unanswered Surveys: ", allUnansweredSuvey.data.surveys);
+        if (allUnansweredSuvey.data.surveys.find(survey => survey.survey_id === 1)) {
+          navigate('/survey/1')
+        }
       } else {
-        console.error("Quick survey submission failed:", response.data);
+        // console.error("Quick survey submission failed:", response.data);
         setError(response.data);
       }
     } catch (error) {
@@ -146,9 +152,9 @@ const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
           {!loading && !error && surveys.length > 0 && (
             <>
               <div className="d-flex flex-column justify-content-center align-items-center my-4 gap-3">
-                <div className="survey-popup-icon-container">
+                {/* <div className="survey-popup-icon-container">
                   <i className="survey-popup-icon fa-regular fa-2xl fa-bell"></i>
-                </div>
+                </div> */}
                 <h4>
                   {surveys.length > 0
                     ? `You have ${surveys.length} surveys to complete!`
@@ -247,7 +253,7 @@ const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
                   type="submit"
                   className="btn btn-secondary w-100"
                 >
-                  Submit
+                  Go to Survey
                 </button>
               </div>
             </form>

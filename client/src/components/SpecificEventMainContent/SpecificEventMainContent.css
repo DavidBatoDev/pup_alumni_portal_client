@@ -37,7 +37,7 @@
 
 .specific-event-description {
     margin: 20px 0;
-    text-align: justify;
+    text-align: start;
 }
 
 .specific-event-details .details-header h1 {

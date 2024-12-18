@@ -8,7 +8,7 @@ import CircularLoader from '../CircularLoader/CircularLoader';
 import 'react-multi-carousel/lib/styles.css';
 import api from '../../api.js';
 
-const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_registered, is_active, openFeedbackModal, eventFeedbackData, LoadingTrue, LoadingFalse }) => {
+const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_registered, setIsRegisteredTrue, is_active, openFeedbackModal, eventFeedbackData, LoadingTrue, LoadingFalse }) => {
   const [loading, setLoading] = useState(false); // State for loading
   const [alert, setAlert] = useState({ message: '', severity: '' }); // State for alert messages, 
   const navigate = useNavigate(); // Hook for navigation
@@ -53,9 +53,11 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
 
       // Handle success
       LoadingFalse() // Hide loader
-      setAlert({ message: 'You have successfully registered for the event!', severity: 'success' });
+      setAlert({ message: 'You have successfully registered for the event! Check your email!', severity: 'success' });
 
       // Navigate to /events page after a short delay
+    
+      setIsRegisteredTrue();
       setTimeout(() => navigate('/events'), 2000);
     } catch (error) {
       LoadingFalse() // Hide loader

@@ -118,7 +118,7 @@ const SpecificEvent = () => {
         {eventData.photos.map((photo, index) => (
           <SwiperSlide key={index} style={{ height: '100%' }}>
             <BannerSmall
-              bannerTitle={eventData.event_name}
+              // bannerTitle={eventData.event_name}
               bannerImage={photo?.photo_path ? photo?.photo_path : backgroundImage}
               breadcrumbs={[
                 { label: "Home", link: "/" },
@@ -145,6 +145,7 @@ const SpecificEvent = () => {
           venue={eventData.location}
           details={eventData.description}
           is_registered={isRegistered} // Pass registration status directly
+          setIsRegisteredTrue={() => setIsRegistered(true)} // Pass setter function
           is_active={eventData.is_active}
           openFeedbackModal={() => setShowEventFeedbackModal(true)}
           eventFeedbackData={eventFeedbackData}
