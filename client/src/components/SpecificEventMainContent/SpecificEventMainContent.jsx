@@ -8,9 +8,9 @@ import CircularLoader from '../CircularLoader/CircularLoader';
 import 'react-multi-carousel/lib/styles.css';
 import api from '../../api.js';
 
-const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_registered, is_active, openFeedbackModal, eventFeedbackData }) => {
+const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_registered, is_active, openFeedbackModal, eventFeedbackData, LoadingTrue, LoadingFalse }) => {
   const [loading, setLoading] = useState(false); // State for loading
-  const [alert, setAlert] = useState({ message: '', severity: '' }); // State for alert messages
+  const [alert, setAlert] = useState({ message: '', severity: '' }); // State for alert messages, 
   const navigate = useNavigate(); // Hook for navigation
 
   const responsive = {
@@ -41,7 +41,8 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
     }
 
     try {
-      setLoading(true); // Show loader
+      // setLoading(true); // Show loader
+      LoadingTrue();
       const token = localStorage.getItem('token');
 
       // Make the POST request to register for the event
@@ -51,13 +52,13 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
       );
 
       // Handle success
-      setLoading(false); // Hide loader
+      LoadingFalse() // Hide loader
       setAlert({ message: 'You have successfully registered for the event!', severity: 'success' });
 
       // Navigate to /events page after a short delay
       setTimeout(() => navigate('/events'), 2000);
     } catch (error) {
-      setLoading(false); // Hide loader
+      LoadingFalse() // Hide loader
 
       // Check if the error is due to already being registered
       if (error.response && error.response.status === 400 && error.response.data === 'You are already registered on the event.') {
@@ -65,13 +66,11 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
       } else {
         setAlert({ message: 'Failed to register for the event. Please try again.', severity: 'error' });
       }
-
-      console.log('RSVP Error:', error);
+    } finally {
+      // setLoading(false); // Hide loader
+      LoadingFalse();
     }
   };
-
-
-  console.log(eventFeedbackData);
 
   return (
     <div className="specific-event-details-container">

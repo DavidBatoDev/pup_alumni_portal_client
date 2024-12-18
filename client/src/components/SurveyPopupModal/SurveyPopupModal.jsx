@@ -7,7 +7,7 @@ import SurveyCard from "../SurveyCards/SurveyCards";
 import "./SurveyPopupModal.css";
 import api from "../../api.js";
 import { useSelector } from "react-redux";
-import { Tooltip, Toast, Popover } from 'bootstrap'; // Import Bootstrap JS
+import { Tooltip, Toast, Popover } from 'bootstrap'; 
 import CircularLoader from '../CircularLoader/CircularLoader';
 
 const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
