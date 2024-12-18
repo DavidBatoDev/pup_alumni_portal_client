@@ -205,6 +205,14 @@ const AnswerSurvey = () => {
     }
   };
 
+  const handleBack = () => {
+    if (currentSection > 0) {
+      setCurrentSection((prev) => prev - 1);
+    } else {
+      navigate(-1);
+    }
+  };
+
 
   function isRequiredUnanswered(question) {
     const response = responses[question.question_id];
@@ -235,7 +243,7 @@ const AnswerSurvey = () => {
       )}
 
       <div className="as-back-btn-container">
-        <button className="as-back-btn" onClick={() => navigate(-1)}>
+        <button className="as-back-btn" onClick={() => handleBack()}>
           <i className="fas fa-arrow-left"></i> Back
         </button>
       </div>

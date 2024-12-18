@@ -24,6 +24,8 @@ const ProfileSettings = () => {
     date_of_birth: '',
     linkedin_profile: '',
   });
+  
+  const [deleteProfilePicture, setDeleteProfilePicture] = useState(false);
   const [profilePicture, setProfilePicture] = useState('');
   const [address, setAddress] = useState({});
   const [employmentHistory, setEmploymentHistory] = useState([]);
@@ -56,7 +58,7 @@ const ProfileSettings = () => {
             first_name: response.data.data.first_name,
             last_name: response.data.data.last_name,
             email: response.data.data.email,
-            phone: response.data.data.phone,
+            phone: response.data.data.phone || '',
             current_job_title: response.data.data.current_job_title,
             current_employer: response.data.data.current_employer,
           })
@@ -68,6 +70,7 @@ const ProfileSettings = () => {
           setEditableAddress(response.data.data.address);
           setEditableEmploymentHistory(response.data.data.employment_history || []);
           setEditableEducationHistory(response.data.data.education_history || []);
+          setDeleteProfilePicture(false);
         }
       })
       .catch((error) => {
@@ -83,56 +86,62 @@ const ProfileSettings = () => {
     });
   };
 
-  const handleUpdateProfile = () => {
-    const body = new FormData();
-    body.append('first_name', profile.first_name);
-    body.append('last_name', profile.last_name);
-    body.append('phone', profile.phone);
-    if (user.email !== profile.email) {
-      body.append('email', profile.email);
-    }
-    if (profile.profile_picture && profile.profile_picture instanceof File) {
-      body.append('profile_picture', profile.profile_picture);
-      setUploading(true);
-    }
-    api
-      .post('/api/update-profile', body, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((response) => {
-        if (response.data.success) {
-          console.log('Profile updated successfully:', response.data.data);
-          setAlert({
-            severity: 'success',
-            message: 'Profile updated successfully',
-          });
-          setProfile({
-            first_name: response.data.data.first_name,
-            last_name: response.data.data.last_name,
-            email: response.data.data.email,
-            phone: response.data.data.phone
+  const handleUpdateProfile = async (e) => {
+      e.preventDefault();
+      const body = new FormData();
+      body.append('first_name', profile.first_name);
+      body.append('last_name', profile.last_name);
+      body.append('phone', profile.phone);
+
+      if (deleteProfilePicture) {
+          body.append('delete_profile_picture', true); 
+      }
+
+      if (profile.profile_picture && profile.profile_picture instanceof File) {
+          body.append('profile_picture', profile.profile_picture);
+          setUploading(true);
+      }
+
+      api
+          .post('/api/update-profile', body, {
+              headers: {
+                  'Content-Type': 'multipart/form-data',
+              },
           })
-          setProfilePicture(`${import.meta.env.VITE_BACKEND_URL}/storage/${response.data.data.profile_picture}`);
-          dispatch(updateUser({ user: response.data.data }));
-          setUploadSuccess(true);
-        }
-      })
-      .catch((error) => {
-        console.error('Error updating profile:', error);
-        setAlert({
-          severity: 'error',
-          message: 'Error updating profile. Try again later.',
-        });
-        setUploadSuccess(true);
-      }).finally(() => {
-        setUploading(false);
-        setTimeout(() => {
-          handleCloseAlert();
-        }, 5000);
-      })
-  }
+          .then((response) => {
+              if (response.data.success) {
+                  console.log('Profile updated successfully:', response.data.data);
+                  setAlert({
+                      severity: 'success',
+                      message: 'Profile updated successfully',
+                  });
+                  setProfile({
+                      first_name: response.data.data.first_name,
+                      last_name: response.data.data.last_name,
+                      email: response.data.data.email,
+                      phone: response.data.data.phone,
+                  });
+                  setProfilePicture(
+                      `${import.meta.env.VITE_BACKEND_URL}/storage/${response.data.data.profile_picture || 'profile_pictures/default-profile.jpg'}`
+                  );
+                  dispatch(updateUser({ user: {profile_picture: "profile_pictures/default-profile.jpg" ,...response.data.data }}));
+                  setUploadSuccess(true);
+              }
+          })
+          .catch((error) => {
+              console.error('Error updating profile:', error);
+              setAlert({
+                  severity: 'error',
+                  message: 'Error updating profile. Try again later.',
+              });
+          })
+          .finally(() => {
+              setUploading(false);
+              setTimeout(() => {
+                  handleCloseAlert();
+              }, 5000);
+          });
+  };
 
   const handleUpdatePersonalInfo = () => {
     api
@@ -302,8 +311,17 @@ const ProfileSettings = () => {
       .catch((error) => {
         console.error('Error updating employment history:', error);
       });
-
   };
+
+  const handleDeletePhoto =  () => {
+    setProfilePicture(`${import.meta.env.VITE_BACKEND_URL}/storage/profile_pictures/default-profile.jpg`);
+    setProfile({
+      ...profile,
+      profile_picture: null,
+    });
+    setDeleteProfilePicture(true);
+  }
+  
 
   // Handle saving changes for education history
   const saveEducationChanges = (id) => {
@@ -450,7 +468,7 @@ const ProfileSettings = () => {
 
 
             <div className="profile-image-container">
-              {uploading ? <CircularLoader noOverlay={true} positionRelative={true} /> : <img src={profilePicture} alt="Profile" className="profile-image rounded-circle" />}
+              {uploading ? <CircularLoader noOverlay={true} positionRelative={true} /> : <img src={profilePicture || 'profile_pictures/default-profile.jpg'} alt="Profile" className="profile-image rounded-circle" />}
             </div>
 
             <div className='d-flex flex-column ms-2'>
@@ -464,7 +482,7 @@ const ProfileSettings = () => {
             <div className="d-flex ms-auto ps-auto gap-1 justify-content-start align-items-center btn-profile-button">
               <label className="btn btn-outline-secondary btn-sm" htmlFor="photo-upload">Upload Picture</label>
               <input id='photo-upload' type="file" hidden accept="image/*" onChange={handlePhotoChange} />
-              <button className="btn btn-outline-danger btn-sm ms-2">Delete Picture</button>
+              <button onClick={handleDeletePhoto} className="btn btn-outline-danger btn-sm ms-2">Delete Picture</button>
             </div>
 
           </div>
@@ -485,11 +503,11 @@ const ProfileSettings = () => {
             <div className="row mb-3">
               <div className="col-12 col-md-6 mb-3 mb-md-0">
                 <label className="form-label">Email</label>
-                <input type="email" className="form-control" name='email' value={profile?.email || ''} onChange={handleChangeProfile} />
+                <input disabled type="email" className="form-control" name='email' value={profile?.email || ''} onChange={handleChangeProfile} />
               </div>
               <div className="col-12 col-md-6">
                 <label className="form-label">Phone</label>
-                <input type="tel" className="form-control" name='phone' value={profile?.phone} onChange={handleChangeProfile} />
+                <input type="tel" className="form-control" name='phone' value={profile?.phone || ''} onChange={handleChangeProfile} />
               </div>
             </div>
 
