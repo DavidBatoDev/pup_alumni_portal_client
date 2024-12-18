@@ -1,22 +1,21 @@
 import "./signUpForms.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useImperativeHandle, forwardRef  } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import CircularLoader from "../CircularLoader/CircularLoader";
 import api from "../../api.js";
 import { useNavigate } from "react-router-dom";
 
-const AccountDetailsForm = ({
-  nextStep,
+const AccountDetailsForm = forwardRef(({
   formData,
   handleChange,
-  changeDetails,
+  updateDetails,
   setLoading,
   isEmailOrStudentNumberValid,
   emailOrStudentNumberIsValid,
   currentStep,
   setAccountConfirmed
-}) => {
+}, ref) => {
   const navigate = useNavigate();
   const [emailOrStudentNumberField, setEmailOrStudentNumberField] =
     useState("");
@@ -268,13 +267,14 @@ const AccountDetailsForm = ({
           params: { email: alumniData.email_address },
         }, { headers: { requiresAuth: false } });
         if (response.data.success) {
-          changeDetails(
+          updateDetails(
             alumniData?.firstname,
             alumniData?.lastname,
             alumniData?.email_address,
             alumniData?.student_number,
             alumniData?.graduation_date.split("-")[0],
-            alumniData?.program
+            alumniData?.program,
+            alumniData?.contact_number
           );
           clearInterval(interval);
           setVerificationCheckInProgress(false);
@@ -299,11 +299,9 @@ const AccountDetailsForm = ({
     setVerificationCheckInProgress(true);
   };
 
-  const handleNextStep = () => {
-    if (validateFields()) {
-      nextStep();
-    }
-  };
+  useImperativeHandle(ref, () => ({
+    validateFields
+  }));
 
   return (
     <div className="form-section">
@@ -609,6 +607,8 @@ const AccountDetailsForm = ({
       )}
     </div>
   );
-};
+});
+
+AccountDetailsForm.displayName = "AccountDetailsForm";
 
 export default AccountDetailsForm;
