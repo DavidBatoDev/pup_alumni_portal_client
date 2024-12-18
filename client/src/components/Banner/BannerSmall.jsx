@@ -4,7 +4,12 @@ import './Banner.css';
 
 const BannerSmall = ({ bannerTitle, bannerImage, breadcrumbs = [] }) => {
   return (
-    <div className="banner-small" style={{ backgroundImage: `url(${bannerImage})` }}>
+  <div className="banner-small" style={{ 
+    backgroundImage: `url(${bannerImage})`, 
+    backgroundSize: 'contain', 
+    backgroundPosition: 'center', 
+    backgroundRepeat: 'no-repeat' 
+  }}>
       <div className="banner-content">
         <div className="banner-small-title-wrapper">
           <h1 className="banner-small-title">{bannerTitle}</h1>

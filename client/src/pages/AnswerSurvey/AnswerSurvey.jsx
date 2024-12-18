@@ -151,6 +151,7 @@ const AnswerSurvey = () => {
   
 
   const handleNextSection = () => {
+    setStatus({ message: '', severity: '' }); // Clear any previous status message
     const currentSectionData = surveyData.sections[currentSection];
     
     // Check if all required questions are answered
@@ -204,8 +205,6 @@ const AnswerSurvey = () => {
     }
   };
 
-  console.log('answered:', answered);
-
 
   function isRequiredUnanswered(question) {
     const response = responses[question.question_id];
@@ -249,7 +248,7 @@ const AnswerSurvey = () => {
       <div className="as-survey-section">
         <div className="as-survey-question-card">
           <h3 className="section-title">{currentSectionData.section_title}</h3>
-          <p className="section-description">{currentSectionData.section_description}</p>
+          <p className="section-description" dangerouslySetInnerHTML={{__html: currentSectionData.section_description}}/>
         </div>
         
         {currentSectionData.questions.map((question, index) => (

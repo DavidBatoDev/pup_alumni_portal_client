@@ -285,9 +285,10 @@ const AccountDetailsForm = ({
         }
       } catch (error) {
         console.log("Error checking verification:", error);
+        setEmailError("Failed to check verification status.");
       }
       elapsedTime += 5;
-      if (elapsedTime >= 120) {
+      if (elapsedTime >= 500) {
         clearInterval(interval);
         setVerificationCheckInProgress(false);
         setShowVerificationModal(false);
@@ -587,8 +588,7 @@ const AccountDetailsForm = ({
               </div>
               <div className="modal-body">
                 <p>
-                  A verification link has been sent to your email. Please click
-                  the link in your email to verify your account.
+                  A verification email will be sent to your inbox shortly. Please click the link in the email to verify your account
                 </p>
                 <p className="text-secondary">
                   We are checking for your email verification status...

@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import useNode from '../../hooks/useNode';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/js/bootstrap.bundle.min'; // Add this line to import Bootstrap JS
-import axios from 'axios';
 
 import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/discussionimage.jpg';
@@ -43,6 +42,7 @@ const SpecificDiscussion = () => {
 
   const [showImageModal, setShowImageModal] = useState(false);
   const [currentImages, setCurrentImages] = useState([]);
+  const [isFullViewModal, setIsFullViewModal] = useState(false);
 
   const [showEditModal, setShowEditModal] = useState(false); // State to control the edit modal visibility
   const [editingThread, setEditingThread] = useState(null); // State to store the thread being edited
@@ -116,26 +116,22 @@ const SpecificDiscussion = () => {
         setThread(formattedThread);
         // console.log("Threads:", formattedThread);
 
-        if (thread.comments.length > 0) {
-          const formattedComments = thread.comments.map((comment) => ({
-            ...comment,
-            created_at: timeAgo(comment.created_at),
-          }));
-          setComments(formattedComments);
-          // console.log('Comments:', commentTree)
+        const formattedComments = thread.comments.map((comment) => ({
+          ...comment,
+          created_at: timeAgo(comment.created_at),
+        }));
+        setComments(formattedComments);
+        // console.log('Comments:', commentTree)
 
-          // Build the initial comment tree
-          const tree = buildTree(formattedComments);
-          setCommentTree(tree);
-        }
+        // Build the initial comment tree
+        const tree = buildTree(formattedComments);
+        setCommentTree(tree);
 
-        if (thread.images.length > 0) {
-          const existingImages = thread.images.map((image) => ({
-            image_id: image.image_id,
-            image_path: image.image_path,
-          }));
-          setCurrentImages(existingImages);
-        }
+        const existingImages = thread.images.map((image) => ({
+          image_id: image.image_id,
+          image_path: image.image_path,
+        }));
+        setCurrentImages(existingImages);
 
       } catch (error) {
         setError(error.message);
@@ -147,6 +143,24 @@ const SpecificDiscussion = () => {
 
     fetchThreadData();
   }, [threadId]);
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1000) {
+        setIsFullViewModal(false);
+      } else {
+        setIsFullViewModal(true);
+      }
+    };
+  
+    handleResize(); // Call once to set initial state
+    window.addEventListener('resize', handleResize);
+  
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   // Create new comment or reply
   const createCommentOrReply = async (comment, parent_comment_id = null) => {
@@ -223,64 +237,71 @@ const SpecificDiscussion = () => {
 
   // Function to handle the submission of the edited thread
   const submitEditThread = async (updatedThreadData) => {
-    // Implement the API call to update the thread
+    const formData = new FormData();
+  
+    // Append updated thread data
+    if (updatedThreadData.title) formData.append('title', updatedThreadData.title);
+    if (updatedThreadData.description) formData.append('description', updatedThreadData.description);
+  
+    // Tags (if updated)
+    if (updatedThreadData.tags) {
+      updatedThreadData.tags.forEach((tag, index) => {
+        formData.append(`tags[${index}]`, tag);
+      });
+    }
+  
+    // Images to delete
+    if (updatedThreadData.images_to_delete) {
+      updatedThreadData.images_to_delete.forEach((id) =>
+        formData.append('images_to_delete[]', id)
+      );
+    }
+  
+    // Existing images (optional to keep track of images not to delete)
+    if (updatedThreadData.existing_images) {
+      updatedThreadData.existing_images.forEach((id) =>
+        formData.append('existing_images[]', id)
+      );
+    }
+  
+    // Add new image files
+    if (updatedThreadData.images) {
+      updatedThreadData.images.forEach((file) =>
+        formData.append('images[]', file)
+      );
+    }
+  
+    console.log('FormData Entries:');
+    for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+    }
+
     try {
-      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/threads/${editingThread.thread_id}`,
-        updatedThreadData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'multipart/form-data',
-        }
+      const response = await api.post(`/api/threads/${thread.thread_id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
 
+      console.log('thread.thread_id', thread.thread_id);
+      console.log('updatedThreadData', updatedThreadData);
+      console.log('response', response);
+  
       if (response.status === 200 || response.status === 201) {
-        console.log('Thread updated successfully:', response.data);
         const updatedThread = response.data.data;
-
-        const formattedUpdatedThread = {
+  
+        setThread({
           ...updatedThread,
           updated_at: timeAgo(updatedThread.updated_at),
           created_at: timeAgo(updatedThread.created_at),
-        }
-        setThread(formattedUpdatedThread);
-
-        if (thread.comments.length > 0) {
-          const formattedComments = thread.comments.map((comment) => ({
-            ...comment,
-            created_at: timeAgo(comment.created_at),
-          }));
-          setComments(formattedComments);
-          // console.log('Comments:', commentTree)
-
-          const tree = buildTree(formattedComments);
-          setCommentTree(tree);
-        }
-
-        if (updatedThread.images.length > 0) {
-          const updatedImages = updatedThread.images.map((image) => ({
-            image_id: image.image_id,
-            image_path: image.image_path,
-          }));
-          setCurrentImages(updatedImages);
-        }
-      }
-      else {
-        // Handle HTTP errors
-        const errorData = response.data;
-        const message = errorData.message ?? "An error occurred while updating the thread.";
-        const errorMsg = errorData.error ?? '';
-        console.error(`Error updating thread: ${message} : ${errorMsg}`);
-        setError(`${message} ${errorMsg}`);
+        });
+        setShowEditModal(false);
       }
     } catch (error) {
-      console.error('Network error or no response:', error);
-      setError("An error occurred while updating the thread.");
-      return;
-    } finally {
-      setShowEditModal(false);
+      console.error('Error updating thread:', error);
+      setError("Failed to update the thread.");
     }
-
   };
+  
+  
 
   const submitDeleteThread = async (threadId) => {
     try {
@@ -358,7 +379,7 @@ const SpecificDiscussion = () => {
             <div className='d-flex flex-column gap-2'>
               {commentTree.length > 0 ? (
                 commentTree.map(comment => (
-                  <DiscussionComment key={comment.comment_id} comment={comment} replies={comment.replies} submitReply={createCommentOrReply} commentLoading={commentLoading} />
+                  <DiscussionComment key={comment.comment_id} comment={comment} replies={comment.replies} submitReply={createCommentOrReply} />
                 ))
               ) : (
                 <div className="d-flex justify-content-center align-items-center w-100">
@@ -376,8 +397,9 @@ const SpecificDiscussion = () => {
         showModal={showImageModal}
         title={"Showing " + currentImages.length + " pictures"}
         closeModal={closeImageModal}
-        hideHeader={true}
+        hideHeader={isFullViewModal}
         hidePadding={true}
+        fullView={isFullViewModal}
       >
         <Swiper
           navigation

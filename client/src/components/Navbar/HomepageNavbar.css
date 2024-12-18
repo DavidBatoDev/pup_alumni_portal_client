@@ -178,7 +178,7 @@
 }
 
   /* Responsive adjustments for smaller screens */
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     .navbar {
       height: auto; /* Auto height for mobile */
     }
