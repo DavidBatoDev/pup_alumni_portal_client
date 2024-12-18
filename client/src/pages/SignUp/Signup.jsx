@@ -72,7 +72,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
 
-  const changeDetails = (first_name, last_name, email, student_number, graduation_year, program) => {
+  const updateDetails = (first_name, last_name, email, student_number, graduation_year, program, phone) => {
     setFormData({
       ...formData,
       first_name: first_name,
@@ -81,7 +81,7 @@ const Signup = () => {
       student_number: student_number,
       graduation_year: graduation_year,
       major: program,
-      phone: formData.phone,
+      phone: phone,
     });
   }
 
@@ -386,7 +386,7 @@ const Signup = () => {
                         ref={accountDetailsFormRef}
                         formData={formData}
                         handleChange={handleChange}
-                        changeDetails={changeDetails}
+                        updateDetails={updateDetails}
                         setLoading={setLoading}
                         isEmailOrStudentNumberValid={isEmailOrStudentNumberValid}
                         emailOrStudentNumberIsValid={emailOrStudentNumberIsValid}

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const AccountDetailsForm = forwardRef(({
   formData,
   handleChange,
-  changeDetails,
+  updateDetails,
   setLoading,
   isEmailOrStudentNumberValid,
   emailOrStudentNumberIsValid,
@@ -267,13 +267,14 @@ const AccountDetailsForm = forwardRef(({
           params: { email: alumniData.email_address },
         }, { headers: { requiresAuth: false } });
         if (response.data.success) {
-          changeDetails(
+          updateDetails(
             alumniData?.firstname,
             alumniData?.lastname,
             alumniData?.email_address,
             alumniData?.student_number,
             alumniData?.graduation_date.split("-")[0],
-            alumniData?.program
+            alumniData?.program,
+            alumniData?.contact_number
           );
           clearInterval(interval);
           setVerificationCheckInProgress(false);
