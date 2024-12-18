@@ -28,6 +28,8 @@ const ProfileSettings = () => {
   const [employmentHistory, setEmploymentHistory] = useState([]);
   const [educationHistory, setEducationHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
 
   // Create local state for employment and education history to handle editing
   const [editableAddress, setEditableAddress] = useState({ ...address });
@@ -90,6 +92,7 @@ const ProfileSettings = () => {
     }
     if (profile.profile_picture) {
       body.append('profile_picture', profile.profile_picture);
+      setUploading(true);
     }
     api
       .post('/api/update-profile', body, {
@@ -140,6 +143,7 @@ const ProfileSettings = () => {
             date_of_birth: response.data.data.date_of_birth,
             linkedin_profile: response.data.data.linkedin_profile,
           });
+          setProfilePicture(`${import.meta.env.VITE_BACKEND_URL}/storage/${response.data.data.profile_picture}`);
         }
       })
       .catch((error) => {
