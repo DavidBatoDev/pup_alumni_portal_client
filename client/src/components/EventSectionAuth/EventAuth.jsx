@@ -74,13 +74,13 @@ const EventAuth = ({ events, isTabletView, maxVisibleCategories, toggleFilterSec
             {!eventHistoryView ?
               <div className="d-flex justify-content-center">
                 <Link to={`/events/events-history`} className="view-event-history">
-                  View Events History
+                  View Past Events
                 </Link>
               </div>
               :
               <div className="d-flex justify-content-center">
                 <Link to={`/events`} className="view-event-history">
-                  Go Back to Events
+                  View Upcoming Events
                 </Link>
               </div>
             }
