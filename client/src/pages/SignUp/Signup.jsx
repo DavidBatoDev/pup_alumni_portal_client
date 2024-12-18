@@ -37,6 +37,7 @@ const Signup = () => {
     major: '',
     current_job_title: '',
     current_employer: '',
+    phone: '',
   });
 
   const [isAccountConfirmed, setIsAccountConfirmed] = useState(false);
@@ -75,7 +76,8 @@ const Signup = () => {
       email: email,
       student_number: student_number,
       graduation_year: graduation_year,
-      major: program
+      major: program,
+      phone: formData.phone,
     });
   }
 
@@ -152,10 +154,10 @@ const Signup = () => {
         company: job.companyName || '',
         job_title: job.title || '',
         start_date: job.start
-          ? `${job.start.year}-${String(job.start.month + 1).padStart(2, '0')}-${String(job.start.day || 1).padStart(2, '0')}`
+          ? `${job.start.year}-${String(job.start.month || 1).padStart(2, '0')}-${String(job.start.day || 1).padStart(2, '0')}`
           : '',
         end_date: job.end && job.end.year !== 0
-          ? `${job.end.year}-${String(job.end.month + 1).padStart(2, '0')}-${String(job.end.day || 1).padStart(2, '0')}`
+          ? `${job.end.year}-${String(job.end.month || 1).padStart(2, '0')}-${String(job.end.day || 1).padStart(2, '0')}`
           : '',
         description: job.description || '',
       }))
@@ -167,10 +169,10 @@ const Signup = () => {
         degree: education.degree || '',
         field_of_study: education.fieldOfStudy || '',
         start_date: education.start
-          ? `${education.start.year}-${String(education.start.month + 1).padStart(2, '0')}-${String(education.start.day || 1).padStart(2, '0')}`
+          ? `${education.start.year}-${String(education.start.month || 1).padStart(2, '0')}-${String(education.start.day || 1).padStart(2, '0')}`
           : '',
         end_date: education.end && education.end.year !== 0
-          ? `${education.end.year}-${String(education.end.month + 1).padStart(2, '0')}-${String(education.end.day || 1).padStart(2, '0')}`
+          ? `${education.end.year}-${String(education.end.month || 1).padStart(2, '0')}-${String(education.end.day || 1).padStart(2, '0')}`
           : '',
       }))
       .sort((a, b) => new Date(a.start_date) - new Date(b.start_date)); // Sort by start_date in ascending order
@@ -187,6 +189,8 @@ const Signup = () => {
         current_employer: latestEmployment.companyName || '',
       }));
     }
+
+    console.log('Formatted Employment History:', formattedEmploymentHistory);
 
     setEmploymentHistory([...employmentHistory, ...formattedEmploymentHistory]);
     setEducationHistory([...educationHistory, ...formattedEducationHistory]);
@@ -287,12 +291,14 @@ const Signup = () => {
 
       // Function to submit a single employment history entry
       const submitEmploymentHistory = async (history) => {
+        console.log('Employment History Entry Submitting:', history);
         await api.post('/api/add-employment-history', history);
         console.log('Employment History Entry Added');
       };
 
       // Function to submit a single education history entry
       const submitEducationHistory = async (history) => {
+        console.log('Education History Entry Submitting:', history);
         await api.post('/api/add-education-history', history);
         console.log('Education History Entry Added');
       };

@@ -45,6 +45,7 @@ const AccountDetailsForm = ({
     password: true,
     password_confirmation: true,
     emailOrStudentNumberField: true,
+    phone: true,
   });
 
   const validateFields = () => {
@@ -66,6 +67,7 @@ const AccountDetailsForm = ({
         formData.password_confirmation.trim() !== "" &&
         formData.password === formData.password_confirmation,
       emailOrStudentNumberField: emailOrStudentNumberValidation,
+      phone: formData.phone.trim() === "" || /^[0-9]{10,15}$/.test(formData.phone),
     };
 
     setValidation(newValidation);
@@ -75,7 +77,8 @@ const AccountDetailsForm = ({
       newValidation.email &&
       newValidation.student_number &&
       newValidation.password &&
-      newValidation.password_confirmation
+      newValidation.password_confirmation &&
+      newValidation.phone
     );
   };
 
@@ -118,11 +121,11 @@ const AccountDetailsForm = ({
 
   const handleNextClick = async () => {
 
-  
+
     if (validateEmailOrStudentNumberField()) {
       try {
         setEmailError("");
-  
+
         // Determine if the input is an email or student number
         const requestParamsOrBody = checkIfEmailOrStudentNumber(emailOrStudentNumberField);
 
@@ -136,12 +139,12 @@ const AccountDetailsForm = ({
             return;
           }
         }
-        
+
         // Perform the check for alumni based on the input type (email or student number)
         const checkAlumniResponse = await checkAlumni(requestParamsOrBody, emailOrStudentNumberField);
-  
+
         if (checkAlumniResponse) {
-  
+
           if (checkAlumniResponse.status === 201) {
             // If the response status is 201, check for graduates
             await handleGraduateSearch(requestParamsOrBody, emailOrStudentNumberField);
@@ -159,17 +162,17 @@ const AccountDetailsForm = ({
       }
     }
   };
-  
+
   // Helper function to handle alumni check (email or student number)
   const checkAlumni = async (type, value) => {
     try {
-  
+
       const response = await api.post(`/api/check-alumni`, {
         [type]: value, // Dynamically set the key based on the type (email or student_number)
       }, { headers: { requiresAuth: false } });
 
       console.log(response);
-  
+
       return response;
     } catch (error) {
       console.log(`Error during axios.post for ${type}:`, error);
@@ -177,11 +180,11 @@ const AccountDetailsForm = ({
       return null; // Return null if there's an error to prevent further execution
     }
   };
-  
+
   // Helper function to handle graduate search (email or student number)
   const handleGraduateSearch = async (type, value) => {
     try {
-  
+
       const response = await api.get(`/api/graduates/search`, {
         params: { [type]: value }, // Dynamically set the query param based on the type
       }, { headers: { requiresAuth: false } });
@@ -195,7 +198,7 @@ const AccountDetailsForm = ({
         })
         return;
       }
-  
+
       const emailExists = response.data.success;
       setIsEmailExists(emailExists);
       setAlumniData(response.data.data);
@@ -205,7 +208,7 @@ const AccountDetailsForm = ({
       setEmailError("There was an issue fetching graduate data.");
     }
   };
-  
+
 
   const handleModalConfirm = async () => {
     setShowModal(false);
@@ -245,7 +248,7 @@ const AccountDetailsForm = ({
       setContinueWithNoAccount(true);
       emailOrStudentNumberIsValid();
       setShowModal(false);
-      
+
     } else {
       setEmailError("Failed to send verification email.");
       setTimeout(() => {
@@ -441,6 +444,29 @@ const AccountDetailsForm = ({
               />
               {!validation.password_confirmation && (
                 <div className="invalid-feedback">Passwords must match</div>
+              )}
+            </div>
+          </div>
+          <div className="form-group">
+            <label>
+              Phone Number (Optional)
+            </label>
+            <div className="input-group">
+              <span className="input-group-text bg-white">
+                <i className="fas fa-phone"></i>
+              </span>
+              <input
+                type="text"
+                className={`form-control ${validation.phone ? "" : "is-invalid"}`}
+                name="phone"
+                placeholder="1234567890"
+                value={formData.phone}
+                onChange={handleChange}
+              />
+              {!validation.phone && (
+                <div className="invalid-feedback">
+                  Valid phone number is required (10-15 digits)
+                </div>
               )}
             </div>
           </div>

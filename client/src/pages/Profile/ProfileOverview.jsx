@@ -14,8 +14,6 @@ const ProfileOverview = () => {
   const [educationHistory, setEducationHistory] = useState([]);
   const { userLoading } = useSelector((state) => state.user);
 
-  console.log("User Loading: ", userLoading);
-
   const linkedin_url = "https://linkedin.com/juandelacruz";
 
   useEffect(() => {
@@ -36,12 +34,6 @@ const ProfileOverview = () => {
       })
       .finally(() => dispatch(setLoading(false)));
   }, []);
-
-  useEffect(() => {
-    if (employmentHistory) {
-      console.log("Employment", employmentHistory?.map((job) => new Date(job?.end_date).getFullYear()));
-    }
-  }, [employmentHistory]);
 
   return (
     <>
