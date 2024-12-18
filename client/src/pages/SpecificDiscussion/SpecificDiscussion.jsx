@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import useNode from '../../hooks/useNode';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/js/bootstrap.bundle.min'; // Add this line to import Bootstrap JS
+import axios from 'axios';
 
 import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/discussionimage.jpg';
@@ -115,22 +116,26 @@ const SpecificDiscussion = () => {
         setThread(formattedThread);
         // console.log("Threads:", formattedThread);
 
-        const formattedComments = thread.comments.map((comment) => ({
-          ...comment,
-          created_at: timeAgo(comment.created_at),
-        }));
-        setComments(formattedComments);
-        // console.log('Comments:', commentTree)
+        if (thread.comments.length > 0) {
+          const formattedComments = thread.comments.map((comment) => ({
+            ...comment,
+            created_at: timeAgo(comment.created_at),
+          }));
+          setComments(formattedComments);
+          // console.log('Comments:', commentTree)
 
-        // Build the initial comment tree
-        const tree = buildTree(formattedComments);
-        setCommentTree(tree);
+          // Build the initial comment tree
+          const tree = buildTree(formattedComments);
+          setCommentTree(tree);
+        }
 
-        const existingImages = thread.images.map((image) => ({
-          image_id: image.image_id,
-          image_path: image.image_path,
-        }));
-        setCurrentImages(existingImages);
+        if (thread.images.length > 0) {
+          const existingImages = thread.images.map((image) => ({
+            image_id: image.image_id,
+            image_path: image.image_path,
+          }));
+          setCurrentImages(existingImages);
+        }
 
       } catch (error) {
         setError(error.message);
@@ -220,10 +225,16 @@ const SpecificDiscussion = () => {
   const submitEditThread = async (updatedThreadData) => {
     // Implement the API call to update the thread
     try {
-      const response = await api.put(`/api/threads/${thread.thread_id}`, updatedThreadData);
+      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/threads/${editingThread.thread_id}`,
+        updatedThreadData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data',
+        }
+      });
 
       if (response.status === 200 || response.status === 201) {
-        // console.log('Thread updated successfully:', response.data);
+        console.log('Thread updated successfully:', response.data);
         const updatedThread = response.data.data;
 
         const formattedUpdatedThread = {
@@ -233,15 +244,25 @@ const SpecificDiscussion = () => {
         }
         setThread(formattedUpdatedThread);
 
-        const formattedComments = thread.comments.map((comment) => ({
-          ...comment,
-          created_at: timeAgo(comment.created_at),
-        }));
-        setComments(formattedComments);
-        // console.log('Comments:', commentTree)
+        if (thread.comments.length > 0) {
+          const formattedComments = thread.comments.map((comment) => ({
+            ...comment,
+            created_at: timeAgo(comment.created_at),
+          }));
+          setComments(formattedComments);
+          // console.log('Comments:', commentTree)
 
-        const tree = buildTree(formattedComments);
-        setCommentTree(tree);
+          const tree = buildTree(formattedComments);
+          setCommentTree(tree);
+        }
+
+        if (updatedThread.images.length > 0) {
+          const updatedImages = updatedThread.images.map((image) => ({
+            image_id: image.image_id,
+            image_path: image.image_path,
+          }));
+          setCurrentImages(updatedImages);
+        }
       }
       else {
         // Handle HTTP errors

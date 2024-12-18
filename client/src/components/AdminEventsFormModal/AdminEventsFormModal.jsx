@@ -165,12 +165,12 @@ const AdminEventsFormModal = ({
 
   const handleSaveEvent = async () => {
     if (!validateFields()) return;
-  
+
     // Function to sanitize links in the description
     const sanitizeDescriptionLinks = (htmlString) => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlString, 'text/html');
-  
+
       // Find all anchor (<a>) tags
       const anchorTags = doc.querySelectorAll('a');
       anchorTags.forEach((anchor) => {
@@ -181,17 +181,17 @@ const AdminEventsFormModal = ({
           anchor.setAttribute('href', cleanedHref);
         }
       });
-  
+
       return doc.body.innerHTML; // Return the updated HTML string
     };
-  
+
     try {
       setLoading(true);
       setUploading(true);
-  
+
       // Sanitize description before appending to FormData
       const sanitizedDescription = sanitizeDescriptionLinks(newEvent.description);
-  
+
       const formData = new FormData();
       formData.append('event_name', newEvent.event_name);
       formData.append('event_date', newEvent.event_date);
@@ -204,7 +204,7 @@ const AdminEventsFormModal = ({
       photosToDelete.forEach((photoId) => formData.append('photos_to_delete[]', photoId));
       specificEventPhotoIds.forEach((photoId) => formData.append('existing_photos[]', photoId));
       tempPhotos.forEach((photo) => formData.append('photos[]', photo));
-  
+
       const response = isEditing
         ? await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/admin/update-event/${currentEventId}`, formData, {
             headers: {
@@ -218,10 +218,10 @@ const AdminEventsFormModal = ({
               'Content-Type': 'multipart/form-data',
             },
           });
-  
+
       if (response.status === 200 || response.status === 201) {
         const updatedEvent = response.data.event;
-  
+
         if (isEditing && newEvent.is_active) {
           const updatedEventList = eventsList.map((event) =>
             event.event_id === currentEventId ? { ...event, ...updatedEvent } : event
@@ -239,7 +239,7 @@ const AdminEventsFormModal = ({
           setAlert({ message: 'Event added successfully!', severity: 'success' });
         }
         setUpdateSuccess(true);
-  
+
         setTimeout(() => {
           resetFormState();
           closeModal();
@@ -255,29 +255,29 @@ const AdminEventsFormModal = ({
       setUploading(false);
     }
   };
-  
+
 
   const handleDeleteEvent = async () => {
     try {
       let theEventList = newEvent.is_active ? eventsList : inactiveEventsList;
       setLoading(true);
       const response = await api.delete(`/api/admin/event/${currentEventId}`);
-  
+
       if (response.status === 200) {
         const updatedEventList = theEventList.filter((event) => event.event_id !== currentEventId);
         if (newEvent.is_active) setEventsList(updatedEventList);
         else setInactiveEventsList(updatedEventList);
-  
+
         // Display success alert and delay modal closure
         setAlert({ message: 'Event deleted successfully!', severity: 'success' });
-  
+
         setUpdateSuccess(true);
-        
+
         // Delay modal close to let the alert display
         setTimeout(() => {
           closeModal();
         }, 2000); // Keep the modal open for 2 seconds
-  
+
       } else {
         setAlert({ message: 'Failed to delete event. Please try again.', severity: 'error' });
       }
@@ -300,7 +300,7 @@ const AdminEventsFormModal = ({
     if (deletedPhotoId) {
       setPhotosToDelete((prevPhotos) => [...prevPhotos, deletedPhotoId]);
     }
-    
+
   }
 
   const handleEndEvent = async () => {
@@ -316,13 +316,13 @@ const AdminEventsFormModal = ({
 
         const updatedEventList = eventsList.filter((event) => event.event_id !== currentEventId);
         setEventsList(updatedEventList);
-  
+
         const updatedInActiveEventList = [...inactiveEventsList, theEvent];
         setInactiveEventsList(updatedInActiveEventList);
-  
+
         setAlert({ message: 'Event ended successfully!', severity: 'success' });
         setUpdateSuccess(true);
-  
+
         // Delay modal close to let the alert display
         setTimeout(() => {
           closeModal();
@@ -337,7 +337,7 @@ const AdminEventsFormModal = ({
       setLoading(false);
     }
   };
-  
+
 
 
   const handleReOpenEvent = async () => {
@@ -346,7 +346,7 @@ const AdminEventsFormModal = ({
       const response = await api.put(`/api/admin/event/${currentEventId}/unend`, null);
 
       if (response.status === 200) {
-        // get the event from the inactive event list 
+        // get the event from the inactive event list
         const theEvent = inactiveEventsList.find((event) => event.event_id === currentEventId);
 
         const updatedInActiveEventList = inactiveEventsList.filter((event) =>

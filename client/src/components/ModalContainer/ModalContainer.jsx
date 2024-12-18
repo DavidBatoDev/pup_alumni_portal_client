@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './ModalContainer.css';
 
-const ModalContainer = ({ showModal, closeModal, title, children, hideHeader, fullView, hidePadding, fitcontent, mobileModal }) => {
+const ModalContainer = ({ showModal, closeModal, title = 'Modal Title', children, hideHeader = false, fullView = false, hidePadding, fitcontent, mobileModal }) => {
   const [animationClass, setAnimationClass] = useState('');
 
   useEffect(() => {
@@ -38,10 +38,6 @@ ModalContainer.propTypes = {
   fullView: PropTypes.bool,
 };
 
-ModalContainer.defaultProps = {
-  title: 'Modal Title',
-  hideHeader: false,
-  fullView: false,
-};
+
 
 export default ModalContainer;
