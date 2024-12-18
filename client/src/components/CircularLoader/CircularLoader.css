@@ -16,6 +16,12 @@
   background: transparent; /* Transparent background */
 }
 
+.loader-overlay.position-relative {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+}
+
 /* Base styling for the loader container */
 .loader-container {
   display: flex;
