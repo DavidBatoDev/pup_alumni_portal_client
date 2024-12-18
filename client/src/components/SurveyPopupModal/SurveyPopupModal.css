@@ -120,6 +120,11 @@
   transform: rotate(45deg);
 }
 
+.survey-submit-container .btn {
+  background-color: #a50000;
+  font-size: 1rem;
+}
+
 /* mobile media */
 
 @media screen and (max-width: 768px) {

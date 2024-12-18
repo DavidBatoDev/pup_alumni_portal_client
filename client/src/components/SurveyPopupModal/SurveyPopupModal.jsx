@@ -7,7 +7,7 @@ import SurveyCard from "../SurveyCards/SurveyCards";
 import "./SurveyPopupModal.css";
 import api from "../../api.js";
 import { useSelector } from "react-redux";
-import { Tooltip, Toast, Popover } from 'bootstrap'; 
+import { Tooltip, Toast, Popover } from 'bootstrap';
 import CircularLoader from '../CircularLoader/CircularLoader';
 
 const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
@@ -138,7 +138,7 @@ const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
           title="Survey Notification"
 
         >
-          {loading && <CircularLoader noOverlay={true}/>}
+          {loading && <CircularLoader noOverlay={true} />}
 
           {/* Render error message if exists */}
           {error && (
@@ -190,22 +190,6 @@ const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
             As an Alumnus/Alumna of the PUP Graduate School, how would you like to be part of the university?
           </div>
           <div className="quick-survey-popup-content d-flex flex-column">
-            <div className="quick-survey-content-wrapper mt-4 gap-4 d-flex flex-column fs-6 mb-4 pb-4 border-bottom">
-              <div className="quick-survey-content-header">
-                <span className="fw-bold">GET THE CHANCE TO BE PART OF THE GRADUATE SCHOOL</span> by participating in the tracer study on the “Development of Alumni Engagement Portal System for Tracer Studies”.
-              </div>
-
-              <div className="quick-survey-content">
-                As a sign of gratitude and appreciation for your support to the PUP Graduate School, for the first 100 alumni to respond to the survey, please accept the <span className="fw-bold">ONE HUNDRED PESO (P100.00) GCash after answering the short survey</span>. If you have any further inquiries about this survey, you may call the GS Office at 53351787 loc. 371 or 09457294287.
-              </div>
-
-              <div className="quick-survey-end d-flex flex-column justify-content-end">
-                <p className="mb-0">Best,</p>
-                <p className="mb-0 fw-bold">DR. MARION A. CRESENCIO</p>
-                <p className="mb-0">Associate Dean, PUP Graduate School</p>
-              </div>
-            </div>
-
             <p>I want to be: (please choose as many options as apply to your interest)</p>
             <form className="d-flex flex-column justify-content-center mx-4 mt-2 needs-validation" onSubmit={handleQuickSurveySubmit}>
               {/* Loop through options and display custom checkboxes */}
@@ -247,11 +231,27 @@ const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
                 <div className="invalid-feedback d-block" data-bs-toggle="tooltip" title="Please specify the &quot;Others&quot; option">Please specify the &quot;Others&quot; option</div>
               )}
 
+              <div className="quick-survey-content-wrapper mt-4 gap-4 d-flex flex-column fs-6">
+                <div className="quick-survey-content-header">
+                  <span className="fw-bold">GET THE CHANCE TO BE PART OF THE GRADUATE SCHOOL</span> by participating in the tracer study on the “Development of Alumni Engagement Portal System for Tracer Studies”.
+                </div>
+
+                <div className="quick-survey-content">
+                  As a sign of gratitude and appreciation for your support to the PUP Graduate School, for the first 100 alumni to respond to the survey, please accept the <span className="fw-bold">ONE HUNDRED PESO (P100.00) GCash after answering the short survey</span>. If you have any further inquiries about this survey, you may call the GS Office at 53351787 loc. 371 or 09457294287.
+                </div>
+
+                <div className="quick-survey-end d-flex flex-column justify-content-end">
+                  <p className="mb-0">Best,</p>
+                  <p className="mb-0 fw-bold">DR. MARION A. CRESENCIO</p>
+                  <p className="mb-0">Associate Dean, PUP Graduate School</p>
+                </div>
+              </div>
+
               {/* Submit button */}
-              <div className="survey-submit-container my-4">
+              <div className="survey-submit-container my-5">
                 <button
                   type="submit"
-                  className="btn btn-secondary w-100"
+                  className="btn btn-secondary w-100 rounded-5"
                 >
                   Go to Survey
                 </button>

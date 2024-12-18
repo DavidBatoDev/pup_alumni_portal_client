@@ -30,9 +30,10 @@ const EducationForm = forwardRef(({
   const validateFields = () => {
     const agreeInfo = document.getElementById('agreeInfo').checked;
     const privacyPolicy = document.getElementById('privacyPolicy').checked;
+    const termsOfService = document.getElementById('termsOfService').checked;
 
-    if (!agreeInfo || !privacyPolicy) {
-      setError('You must agree to the terms and privacy policy.');
+    if (!agreeInfo || !privacyPolicy || !termsOfService) {
+      setError('You must agree to the terms, privacy policy, and terms of service.');
       return false;
     }
 
@@ -291,6 +292,12 @@ const EducationForm = forwardRef(({
               <input type="checkbox" id="privacyPolicy" required />
               <label htmlFor="privacyPolicy">
                 I’ve read and accept the <a href="#">Privacy Policy</a> *
+              </label>
+            </div>
+            <div className="edu-form-checkbox-section">
+              <input type="checkbox" id="termsOfService" required />
+              <label htmlFor="termsOfService">
+                I’ve read and accept the <a href="#">Terms of Service</a> *
               </label>
             </div>
           </div>
