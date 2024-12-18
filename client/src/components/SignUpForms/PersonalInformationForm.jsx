@@ -18,7 +18,6 @@ const PersonalInformationForm = forwardRef(({
     postal_code: true,
     country: true,
     graduation_year: true,
-    degree: true,
     major: true,
   });
 
@@ -43,7 +42,6 @@ const PersonalInformationForm = forwardRef(({
       postal_code: formData.postal_code?.trim() !== '',
       country: formData.country?.trim() !== '',
       graduation_year: validateGraduationYear(formData.graduation_year),
-      degree: formData.degree?.trim() !== '',
       major: formData.major?.trim() !== '',
     };
 
@@ -79,7 +77,7 @@ const PersonalInformationForm = forwardRef(({
                 required
                 className={`form-control ${validation.first_name ? '' : 'is-invalid'}`}
               />
-                {!validation.first_name && (
+              {!validation.first_name && (
                 <div className="invalid-feedback">First name is required</div>
               )}
             </div>
@@ -98,7 +96,7 @@ const PersonalInformationForm = forwardRef(({
                 required
                 className={`form-control ${validation.last_name ? '' : 'is-invalid'}`}
               />
-                {!validation.last_name && (
+              {!validation.last_name && (
                 <div className="invalid-feedback">Last name is required</div>
               )}
             </div>
@@ -154,7 +152,7 @@ const PersonalInformationForm = forwardRef(({
         <div className="input-wrapper d-flex gap-2">
           <div className="input-group">
             <span className="input-group-text bg-white">
-              <i className="fas fa-map-pin"></i>
+              <i className="fas fa-road"></i>
             </span>
             <input
               type="text"
@@ -172,7 +170,7 @@ const PersonalInformationForm = forwardRef(({
 
           <div className="input-group">
             <span className="input-group-text bg-white">
-              <i className="fas fa-map-pin"></i>
+              <i className="fas fa-city"></i>
             </span>
             <input
               type="text"
@@ -192,22 +190,22 @@ const PersonalInformationForm = forwardRef(({
 
         <div className="input-wrapper d-flex gap-2">
           <div className="input-group">
-              <span className="input-group-text bg-white">
-                <i className="fas fa-map-pin"></i>
-              </span>
-              <input
-                type="text"
-                name="state"
-                placeholder="State"
-                value={formData.state}
-                onChange={handleChange}
-                required
-                className={`form-control ${validation.state ? '' : 'is-invalid'}`}
-              />
-              {!validation.state && (
-                <div className="invalid-feedback">State is required</div>
-              )}
-            </div>
+            <span className="input-group-text bg-white">
+              <i className="fas fa-signs-post"></i>
+            </span>
+            <input
+              type="text"
+              name="state"
+              placeholder="State"
+              value={formData.state}
+              onChange={handleChange}
+              required
+              className={`form-control ${validation.state ? '' : 'is-invalid'}`}
+            />
+            {!validation.state && (
+              <div className="invalid-feedback">State is required</div>
+            )}
+          </div>
 
           <div className="input-group">
             <span className="input-group-text bg-white">
@@ -229,7 +227,7 @@ const PersonalInformationForm = forwardRef(({
 
           <div className="input-group">
             <span className="input-group-text bg-white">
-              <i className="fas fa-map-marked-alt"></i>
+              <i className="fas fa-globe"></i>
             </span>
             <input
               type="text"
@@ -253,9 +251,10 @@ const PersonalInformationForm = forwardRef(({
           Scholastic Information <span className="important-txt">*</span>
         </label>
 
-        <div className="input-group">
+        <div className='input-wrapper d-flex gap-2'>
+          <div className="input-group">
             <span className="input-group-text bg-white">
-              <i className="fas fa-map-pin"></i>
+              <i className="fas fa-graduation-cap"></i>
             </span>
             <input
               type="text"
@@ -271,29 +270,9 @@ const PersonalInformationForm = forwardRef(({
             )}
           </div>
 
-
-        <div className="input-wrapper d-flex gap-2">
           <div className="input-group">
             <span className="input-group-text bg-white">
-              <i className="fas fa-map-pin"></i>
-            </span>
-            <input
-              type="text"
-              name="degree"
-              placeholder="degree"
-              value={formData.degree}
-              onChange={handleChange}
-              required
-              className={`form-control ${validation.degree ? '' : 'is-invalid'}`}
-            />
-            {!validation.degree && (
-              <div className="invalid-feedback">Degree is required</div>
-            )}
-          </div>
-
-          <div className="input-group">
-            <span className="input-group-text bg-white">
-              <i className="fas fa-map-pin"></i>
+              <i className="fas fa-book-open"></i>
             </span>
             <input
               type="text"
@@ -312,7 +291,7 @@ const PersonalInformationForm = forwardRef(({
 
       </div>
       <div className="d-flex justify-content-end">
-        <button className="btn btn-secondary" style={{backgroundColor : "#a50000"}} onClick={nextStep}>Next</button>
+        <button className="btn btn-secondary" style={{ backgroundColor: "#a50000" }} onClick={nextStep}>Next</button>
       </div>
     </div>
   );
