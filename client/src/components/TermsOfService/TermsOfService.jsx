@@ -6,7 +6,7 @@ const TermsOfService = ({ closeModal }) => {
   const lastUpdated = "December 18, 2024"
 
   return (
-    <ModalContainer title={"Terms of Service"} showModal={true} fitcontent={true} mobileModal={true} closeModal={closeModal}>
+    <ModalContainer title={"Terms of Service"} showModal={true} hideHeader={true} fitcontent={true} mobileModal={true} closeModal={closeModal}>
       <div className="py-4">
         <h1 className="tos--title">Terms of Service</h1>
         <p>Last Updated {lastUpdated}</p>

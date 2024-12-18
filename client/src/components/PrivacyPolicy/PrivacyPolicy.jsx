@@ -6,7 +6,13 @@ const PrivacyPolicy = ({ closeModal }) => {
   const lastUpdate = "December 18, 2024"
 
   return (
-    <ModalContainer title={"Privacy Policy"} showModal={true} mobileModal={true} fitcontent={true} closeModal={closeModal}>
+    <ModalContainer title={"Privacy Policy"}
+      showModal={true}
+      fitcontent={true}
+      mobileModal={true}
+      hideHeader={true}
+      closeModal={closeModal}
+    >
 
       <div className="py-4">
         <h1 className="privacy--title">Privacy Policy</h1>
