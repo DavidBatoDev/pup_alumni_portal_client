@@ -17,7 +17,8 @@ const AdminLogin = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,6 +26,12 @@ const AdminLogin = () => {
   useEffect(() => {
     return () => setLoading(false);
   }, []);
+
+  const handleShowPasswordToggle = (setter) => (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setter((prevState) => !prevState);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,7 +53,7 @@ const AdminLogin = () => {
         const errorMessage = response.data.error
         console.log(errorMessage);
         setError(errorMessage);
-      } 
+      }
 
       const { token, user } = response.data;
 
@@ -128,7 +135,7 @@ const AdminLogin = () => {
                           <i className="fas fa-lock"></i>
                         </span>
                         <input
-                          type="password"
+                          type={showPassword ? "text" : "password"}
                           className="form-control"
                           id="password"
                           placeholder="Password"
@@ -136,6 +143,9 @@ const AdminLogin = () => {
                           onChange={(e) => setPassword(e.target.value)}
                           required
                         />
+                        <span className="input-group-text btn-show-password bg-white" onMouseDown={handleShowPasswordToggle(setShowPassword)}>
+                          <i className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
+                        </span>
                       </div>
                       {validationErrors.password && (
                         <div className="text-danger">{validationErrors.password[0]}</div>
