@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Banner.css';
 
-const BannerSmall = ({ bannerTitle, bannerImage, breadcrumbs = [] }) => {
+const BannerSmall = ({ bannerTitle, bannerImage, breadcrumbs = [], bannnerContain }) => {
   return (
   <div className="banner-small" style={{ 
     backgroundImage: `url(${bannerImage})`, 
-    backgroundSize: 'contain', 
+    backgroundSize: bannnerContain ? 'contain' : 'cover',
     backgroundPosition: 'center', 
     backgroundRepeat: 'no-repeat' 
   }}>

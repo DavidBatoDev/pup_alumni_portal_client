@@ -119,6 +119,7 @@ const SpecificEvent = () => {
           <SwiperSlide key={index} style={{ height: '100%' }}>
             <BannerSmall
               // bannerTitle={eventData.event_name}
+              bannnerContain={true}
               bannerImage={photo?.photo_path ? photo?.photo_path : backgroundImage}
               breadcrumbs={[
                 { label: "Home", link: "/" },

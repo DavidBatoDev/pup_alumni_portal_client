@@ -288,7 +288,7 @@ const AccountDetailsForm = ({
         setEmailError("Failed to check verification status.");
       }
       elapsedTime += 5;
-      if (elapsedTime >= 500) {
+      if (elapsedTime >= 1000) {
         clearInterval(interval);
         setVerificationCheckInProgress(false);
         setShowVerificationModal(false);

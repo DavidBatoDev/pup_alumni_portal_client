@@ -152,9 +152,9 @@ const SurveyPopupModal = ({ closeModal, showQuickSurvey }) => {
           {!loading && !error && surveys.length > 0 && (
             <>
               <div className="d-flex flex-column justify-content-center align-items-center my-4 gap-3">
-                {/* <div className="survey-popup-icon-container">
+                <div className="survey-popup-icon-container">
                   <i className="survey-popup-icon fa-regular fa-2xl fa-bell"></i>
-                </div> */}
+                </div>
                 <h4>
                   {surveys.length > 0
                     ? `You have ${surveys.length} surveys to complete!`

@@ -7,6 +7,10 @@
   box-shadow: 0 0.25rem 0.5rem #0000001a;
 }
 
+.other-profile-container {
+  padding: 40px 100px;
+}
+
 /* Profile Section Text Styling */
 .profile-section>.card-title {
   font-size: 1.5rem;
@@ -306,6 +310,10 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .other-profile-container {
+    padding: 40px 0px;
+  }
+
   .profile-section {
     .profile-overview-container {
       padding: 0rem;
@@ -357,6 +365,10 @@
 }
 
 @media only screen and (max-width: 425px) {
+  .other-profile-container {
+    padding: 40px 0px;
+  }
+
   .profile-section {
     .profile-overview-container {
       padding: 0rem;
@@ -425,9 +437,8 @@
   }
 }
 
-.other-profile-container {
-  padding: 40px 100px;
-}
+
+
 
 /* Back button styling */
 .back-button-op {
