@@ -2,6 +2,9 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import './EducationForm.css';
 
+import PrivacyPolicy from '../PrivacyPolicy/PrivacyPolicy';
+import TermsOfService from '../TermsOfService/TermsOfService';
+
 const EducationForm = forwardRef(({
   nextStep,
   prevStep,
@@ -15,7 +18,9 @@ const EducationForm = forwardRef(({
   employmentHistory,
   educationHistory,
   handleDeleteEmployment,
-  handleDeleteEducation
+  handleDeleteEducation,
+  setShowPrivacyPolicyModal,
+  setShowTOSModal
 }, ref) => {
   const [error, setError] = useState('');
   const [fetchLinkedInSuccess, setFetchLinkedInSuccess] = useState(false);
@@ -47,6 +52,16 @@ const EducationForm = forwardRef(({
     validation,
     setValidation
   }));
+
+  const handleTOSClick = (event) => {
+    event.preventDefault();
+    setShowTOSModal(true);
+  };
+
+  const handlePrivacyPolicyClick = (event) => {
+    event.preventDefault();
+    setShowPrivacyPolicyModal(true);
+  };
 
   return (
     <div className="edu-form-section w-auto">
@@ -291,13 +306,13 @@ const EducationForm = forwardRef(({
             <div className="edu-form-checkbox-section">
               <input type="checkbox" id="privacyPolicy" required />
               <label htmlFor="privacyPolicy">
-                I’ve read and accept the <a href="#">Privacy Policy</a> *
+                I&apos;ve read and accept the <a href="#" className="footer-link" onClick={handlePrivacyPolicyClick}>Privacy Policy</a>*
               </label>
             </div>
             <div className="edu-form-checkbox-section">
               <input type="checkbox" id="termsOfService" required />
               <label htmlFor="termsOfService">
-                I’ve read and accept the <a href="#">Terms of Service</a> *
+                I&apos;ve read and accept the <a href="#" className="footer-link" onClick={handleTOSClick}>Terms of Use</a>*
               </label>
             </div>
           </div>
@@ -315,7 +330,6 @@ const EducationForm = forwardRef(({
 
       </div>
       {error && <p className="edu-form-error-message text-center">{error}</p>}
-
     </div>
   );
 });

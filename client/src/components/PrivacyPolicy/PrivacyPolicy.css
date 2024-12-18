@@ -1,0 +1,22 @@
+/* CSS file: PrivacyPolicy.css */
+.privacy--title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.privacy--content {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .privacy--title {
+    font-size: 20px;
+  }
+
+  .privacy--content {
+    font-size: 14px;
+  }
+}

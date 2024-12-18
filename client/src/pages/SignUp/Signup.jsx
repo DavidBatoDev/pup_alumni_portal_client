@@ -14,6 +14,8 @@ import BannerSmall from "../../components/Banner/BannerSmall";
 import bannerImage from '../../assets/images/pup-login-banner.jpg';
 import CircularLoader from "../../components/CircularLoader/CircularLoader";
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
+import TermsOfService from '../../components/TermsOfService/TermsOfService';
+import PrivacyPolicy from '../../components/PrivacyPolicy/PrivacyPolicy';
 
 const Signup = () => {
   // Manage state for the main registration form
@@ -323,6 +325,8 @@ const Signup = () => {
     }
   };
 
+  const [showTOSModal, setShowTOSModal] = useState(false);
+  const [showPrivacyPolicyModal, setShowPrivacyPolicyModal] = useState(false);
 
   return (
     <>
@@ -341,6 +345,9 @@ const Signup = () => {
           bannerTitle={"Register"}
           bannerImage={bannerImage}
         />
+
+        {showTOSModal && <TermsOfService closeModal={() => setShowTOSModal(false)} />}
+        {showPrivacyPolicyModal && <PrivacyPolicy closeModal={() => setShowPrivacyPolicyModal(false)} />}
 
         {/* Signup Form */}
         {/* <div className="sign-up-glass-container glass" ref={formContainerRef}> */}
@@ -407,6 +414,8 @@ const Signup = () => {
                       educationHistory={educationHistory}
                       handleDeleteEmployment={handleDeleteEmployment}
                       handleDeleteEducation={handleDeleteEducation}
+                      setShowPrivacyPolicyModal={setShowPrivacyPolicyModal}
+                      setShowTOSModal={setShowTOSModal}
                     />
                   )}
                 </div>
