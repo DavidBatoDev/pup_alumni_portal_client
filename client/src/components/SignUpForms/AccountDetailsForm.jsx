@@ -588,7 +588,7 @@ const AccountDetailsForm = ({
               </div>
               <div className="modal-body">
                 <p>
-                  A verification email will be sent to your inbox shortly. Please click the link in the email to verify your account
+                  A verification email is on its way to your inbox and may take a minute to arrive. Please click the link in the email to confirm your account once you receive it.
                 </p>
                 <p className="text-secondary">
                   We are checking for your email verification status...

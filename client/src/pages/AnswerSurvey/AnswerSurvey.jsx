@@ -253,6 +253,20 @@ const AnswerSurvey = () => {
         <p className="survey-description">{surveyData?.description}</p>
       </div>
 
+      <div className="section-indicator">
+        <div className="section-header">
+          <h5>Section {currentSection + 1} of {surveyData.sections.length}</h5>
+        </div>
+        <div className="progress-bar-container">
+          <div
+            className="progress-bar"
+            style={{
+              width: `${((currentSection + 1) / surveyData.sections.length) * 100}%`,
+            }}
+          />
+        </div>
+      </div>
+
       <div className="as-survey-section">
         <div className="as-survey-question-card">
           <h3 className="section-title">{currentSectionData.section_title}</h3>

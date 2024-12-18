@@ -51,21 +51,21 @@ const Events = () => {
   // Function to toggle the visibility of the filter sidebar
   const toggleFilterSection = () => setIsFilterSectionVisible(!isFilterSectionVisible);
 
-  useEffect(() => {
-    echo.channel('alumni')
-      .listen('EventCreated', (data) => {
-        console.log(data)
-        setEventsData((prevState) => {
-          const alreadyExists = prevState.some((e) => e.event_id === data.events.event_id);
-          if (alreadyExists) return prevState;
-          return [...prevState, data.events];
-        });
-      });
+  // useEffect(() => {
+  //   echo.channel('alumni')
+  //     .listen('EventCreated', (data) => {
+  //       console.log(data)
+  //       setEventsData((prevState) => {
+  //         const alreadyExists = prevState.some((e) => e.event_id === data.events.event_id);
+  //         if (alreadyExists) return prevState;
+  //         return [...prevState, data.events];
+  //       });
+  //     });
 
-    return () => {
-      echo.leaveChannel('alumni');
-    };
-  }, []);
+  //   return () => {
+  //     echo.leaveChannel('alumni');
+  //   };
+  // }, []);
 
   useEffect(() => {
     const fetchEvents = async () => {

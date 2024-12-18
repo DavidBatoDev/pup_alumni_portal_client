@@ -50,21 +50,21 @@ const Surveys = () => {
     fetchUnansweredSurveys();
   }, []);
 
-  useEffect(() => {
-    echo.channel('alumni')
-      .listen('SurveyCreated', (data) => {
-        console.log(data)
-        setUnansweredSurveysData((prevState) => {
-          const alreadyExists = prevState.some((e) => e.survey_id === data.survey.survey_id);
-          if (alreadyExists) return prevState;
-          return [...prevState, data.survey];
-        });
-      });
+  // useEffect(() => {
+  //   echo.channel('alumni')
+  //     .listen('SurveyCreated', (data) => {
+  //       console.log(data)
+  //       setUnansweredSurveysData((prevState) => {
+  //         const alreadyExists = prevState.some((e) => e.survey_id === data.survey.survey_id);
+  //         if (alreadyExists) return prevState;
+  //         return [...prevState, data.survey];
+  //       });
+  //     });
 
-    return () => {
-      echo.leaveChannel('alumni');
-    };
-  }, []);
+  //   return () => {
+  //     echo.leaveChannel('alumni');
+  //   };
+  // }, []);
 
   // Clear the error message
   const handleClearError = () => setError(null);
