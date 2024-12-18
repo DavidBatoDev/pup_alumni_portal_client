@@ -6,6 +6,7 @@ import './Profile.css';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { updateUser } from '../../store/UserSlice.js';
+import CircularLoader from '../../components/CircularLoader/CircularLoader.jsx';
 
 const ProfileSettings = () => {
   // const { profile, address, employmentHistory, educationHistory } = useOutletContext();
@@ -28,6 +29,8 @@ const ProfileSettings = () => {
   const [employmentHistory, setEmploymentHistory] = useState([]);
   const [educationHistory, setEducationHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
 
   // Create local state for employment and education history to handle editing
   const [editableAddress, setEditableAddress] = useState({ ...address });
@@ -88,8 +91,9 @@ const ProfileSettings = () => {
     if (user.email !== profile.email) {
       body.append('email', profile.email);
     }
-    if (profile.profile_picture) {
+    if (profile.profile_picture && profile.profile_picture instanceof File) {
       body.append('profile_picture', profile.profile_picture);
+      setUploading(true);
     }
     api
       .post('/api/update-profile', body, {
@@ -110,7 +114,9 @@ const ProfileSettings = () => {
             email: response.data.data.email,
             phone: response.data.data.phone
           })
+          setProfilePicture(`${import.meta.env.VITE_BACKEND_URL}/storage/${response.data.data.profile_picture}`);
           dispatch(updateUser({ user: response.data.data }));
+          setUploadSuccess(true);
         }
       })
       .catch((error) => {
@@ -119,7 +125,9 @@ const ProfileSettings = () => {
           severity: 'error',
           message: 'Error updating profile. Try again later.',
         });
+        setUploadSuccess(true);
       }).finally(() => {
+        setUploading(false);
         setTimeout(() => {
           handleCloseAlert();
         }, 5000);
@@ -162,32 +170,32 @@ const ProfileSettings = () => {
     };
 
     api
-    .post('/api/update-profile', profileUpdate)
-    .then((response) => {
-      if (response.data.success) {
-        console.log('Profile updated successfully:', response.data.data);
+      .post('/api/update-profile', profileUpdate)
+      .then((response) => {
+        if (response.data.success) {
+          console.log('Profile updated successfully:', response.data.data);
+          setAlert({
+            severity: 'success',
+            message: 'Profile updated successfully',
+          });
+          setProfile({
+            current_job_title: response.data.data.current_job_title,
+            current_employer: response.data.data.current_employer,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating profile:', error);
         setAlert({
-          severity: 'success',
-          message: 'Profile updated successfully',
+          severity: 'error',
+          message: 'Error updating profile',
         });
-        setProfile({
-          current_job_title: response.data.data.current_job_title,
-          current_employer: response.data.data.current_employer,
-        });
-      }
-    })
-    .catch((error) => {
-      console.error('Error updating profile:', error);
-      setAlert({
-        severity: 'error',
-        message: 'Error updating profile',
-      });
-    })
-    .finally(() => {
-      setTimeout(() => {
-        handleCloseAlert();
-      }, 5000);
-    })
+      })
+      .finally(() => {
+        setTimeout(() => {
+          handleCloseAlert();
+        }, 5000);
+      })
   }
 
   const handlePhotoChange = (e) => {
@@ -440,13 +448,17 @@ const ProfileSettings = () => {
           {/* Profile Picture */}
           <div className="d-flex align-items-center profile-picture-settings">
 
+
             <div className="profile-image-container">
-              <img src={profilePicture} alt="Profile" className="profile-image rounded-circle" />
+              {uploading ? <CircularLoader noOverlay={true} positionRelative={true} /> : <img src={profilePicture} alt="Profile" className="profile-image rounded-circle" />}
             </div>
 
             <div className='d-flex flex-column ms-2'>
               <label className="form-label">Profile Picture</label>
-              <p className="">{'The file is' + " under 10MB" || "No Image Provided"}</p>
+              <p className="">{
+                uploadSuccess ? `${profile?.profile_picture?.name} Uploaded Successfully` :
+                  profile?.profile_picture?.name + " under 10MB" || "No Image Provided"
+              }</p>
             </div>
 
             <div className="d-flex ms-auto ps-auto gap-1 justify-content-start align-items-center btn-profile-button">
