@@ -35,23 +35,17 @@ const AlumniCards = ({ viewMode, profiles, loading }) => {
                   {
                     // if no current job title and employer, display "No current job title and employer"
 
-                    profile?.employment_history.length > 1 ? (
+                    profile?.current_job_title ? (
                       <p className="mb-0 w-10">
                         {/* work icon here */}
                         <i className="fas fa-briefcase mx-2"></i>
                         <span className="">
-                          {
-                            profile?.employment_history[
-                              profile?.employment_history.length - 1
-                            ]?.job_title
-                          }
+                          {profile?.current_job_title || "Unknown job title"}
                         </span>{" "}
                         at{" "}
-                        {
-                          profile?.employment_history[
-                            profile?.employment_history.length - 1
-                          ]?.company
-                        }
+                        <span className="">
+                          {profile?.current_employer || "at unknown employer"}
+                        </span>
                       </p>
                     ) : (
                       <p className="mb-0 w-10">
