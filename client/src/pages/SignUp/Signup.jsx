@@ -27,7 +27,7 @@ const Signup = () => {
     first_name: '',
     last_name: '',
     gender: '',
-    birthday: '',
+    date_of_birth: '',
     street: '',
     city: '',
     postal_code: '',
@@ -202,7 +202,6 @@ const Signup = () => {
       }));
     }
 
-    console.log('Formatted Employment History:', formattedEmploymentHistory);
 
     setEmploymentHistory([...employmentHistory, ...formattedEmploymentHistory]);
     setEducationHistory([...educationHistory, ...formattedEducationHistory]);
@@ -238,7 +237,6 @@ const Signup = () => {
       }
 
     } catch (error) {
-      console.error('Failed to fetch LinkedIn data:', error);
       setLinkedinError('Failed to fetch LinkedIn data');
     } finally {
       setLoading(false);
@@ -294,7 +292,6 @@ const Signup = () => {
       setLoading(true);
       // Submit main registration form data
       const response = await api.post('/api/register', formData);
-      console.log('User Registered:', response.data);
 
       // Extract token
       const token = response.data.token;
@@ -303,16 +300,12 @@ const Signup = () => {
 
       // Function to submit a single employment history entry
       const submitEmploymentHistory = async (history) => {
-        console.log('Employment History Entry Submitting:', history);
         await api.post('/api/add-employment-history', history);
-        console.log('Employment History Entry Added');
       };
 
       // Function to submit a single education history entry
       const submitEducationHistory = async (history) => {
-        console.log('Education History Entry Submitting:', history);
         await api.post('/api/add-education-history', history);
-        console.log('Education History Entry Added');
       };
 
       // Submit employment history entries one by one
@@ -325,7 +318,6 @@ const Signup = () => {
         await submitEducationHistory(history);
       }
 
-      console.log('All employment and education history entries added successfully.');
       navigate('/login');
     } catch (error) {
       console.log('Error during submission:', error);

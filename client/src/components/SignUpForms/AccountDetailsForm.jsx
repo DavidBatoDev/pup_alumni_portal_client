@@ -170,7 +170,6 @@ const AccountDetailsForm = forwardRef(({
         [type]: value, // Dynamically set the key based on the type (email or student_number)
       }, { headers: { requiresAuth: false } });
 
-      console.log(response);
 
       return response;
     } catch (error) {
@@ -540,7 +539,7 @@ const AccountDetailsForm = forwardRef(({
                       {alumniData?.graduation_date}
                     </p>
                     <p className="text-danger">
-                      A verification email will be sent to{" "}
+                      We will check if the email is verified, if it's not will be sending a verification to{" "}
                       {alumniData?.email_address}
                     </p>
                   </div>
@@ -566,7 +565,7 @@ const AccountDetailsForm = forwardRef(({
                 style={{backgroundColor: isEmailExists ? "#dc3545" : "#a50000"}}
                 onClick={handleModalConfirm}
               >
-                {isEmailExists ? "Send Verification" : "Still Continue"}
+                {isEmailExists ? "Check Verification" : "Still Continue"}
               </button>
             </div>
           </div>
@@ -586,7 +585,7 @@ const AccountDetailsForm = forwardRef(({
               </div>
               <div className="modal-body">
                 <p>
-                  A verification email is on its way to your inbox and may take a minute to arrive. Please click the link in the email to confirm your account once you receive it.
+                  A verification email is on its way to your inbox and may take a minute to arrive. Please click the link in the email to confirm your account once you receive it. We will redirect you to the sign-up page once your email is verified.
                 </p>
                 <p className="text-secondary">
                   We are checking for your email verification status...

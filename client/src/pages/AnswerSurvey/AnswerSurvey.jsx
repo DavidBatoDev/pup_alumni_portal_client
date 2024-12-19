@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './AnswerSurvey.css';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
+import ModalContainer from '../../components/ModalContainer/ModalContainer.jsx';
 
 const AnswerSurvey = () => {
   const { surveyId } = useParams();
@@ -19,12 +20,17 @@ const AnswerSurvey = () => {
   const [currentSection, setCurrentSection] = useState(0);
   const [questionRefs, setQuestionRefs] = useState({});
   const [answered, setAnswered] = useState({});
+  const [thankYouModal, setThankYouModal] = useState(false);
+  const [orderResponse, setOrderResponse] = useState(null);
 
   const refs = useRef({});
+  
 
   useEffect(() => {
     const fetchSurveyQuestions = async () => {
       try {
+        setThankYouModal(false);
+        setOrderResponse(null);
         const response = await api.get(`/api/survey/${surveyId}/questions`);
         setSurveyData(response.data);
         setResponses({
@@ -57,6 +63,22 @@ const AnswerSurvey = () => {
   
     fetchSurveyQuestions();
   }, [surveyId]);
+
+  useEffect(() => {
+    const fetchAnsweredSurveys = async () => {
+      try {
+        const response = await api.get("/api/survey/answered-surveys");
+        if (response.data?.surveys.find(survey => survey.survey_id === parseInt(surveyId))) {
+          setStatus({ message: 'You have already answered this survey.', severity: 'info' });
+          navigate('/surveys');
+        }
+      } catch (error) {
+        console.log("Error fetching surveys:", error);
+      }
+    };
+
+    fetchAnsweredSurveys();
+  }, []);
 
   useEffect(() => {
     console.log('questionRefs:', questionRefs); // Check if refs are properly set
@@ -133,14 +155,33 @@ const AnswerSurvey = () => {
     try {
       const response = await api.post(`/api/survey/${surveyId}/submit`, { responses: formattedResponses });
       if (response.status === 201) {
+        setOrderResponse(response.data?.order);
         setStatus({ message: 'Survey submitted successfully!', severity: 'success' });
-  
         // Clear saved data from localStorage
         localStorage.removeItem(`survey_${surveyId}_responses`);
         localStorage.removeItem(`survey_${surveyId}_otherResponses`);
         localStorage.removeItem(`survey_${surveyId}_currentSection`);
-  
-        setTimeout(() => navigate('/surveys'), 2000);
+        
+        if (response.data?.order) {
+          const order = response.data.order;
+          let suffix = 'th';
+        
+          if (order % 100 < 11 || order % 100 > 13) {
+            if (order % 10 === 1) {
+              suffix = 'st';
+            } else if (order % 10 === 2) {
+              suffix = 'nd';
+            } else if (order % 10 === 3) {
+              suffix = 'rd';
+            }
+          }
+        
+          setOrderResponse(order + suffix);
+        }
+
+        setThankYouModal(true);
+
+        // setTimeout(() => navigate('/surveys'), 5000);
       }
     } catch (error) {
       console.log('Error submitting survey:', error);
@@ -366,7 +407,25 @@ const AnswerSurvey = () => {
           {currentSection === surveyData.sections.length - 1 ? 'Submit Survey' : 'Next Section'}
         </button>
       </div>
+
+      <ModalContainer
+        showModal={thankYouModal}
+        // closeModal={() => setThankYouModal(false)}
+        title="Thank You!"
+        fitcontent={true}
+        mobileModal={true}
+        hidePadding={true}
+        hideHeader={true}
+      >
+      <div className="appreciation-message">
+        <h3 className="title">Thank You for Your Feedback!</h3>
+        <p className="message">{orderResponse ? `You are the ${orderResponse} person to answer the survey.`: ''} We truly appreciate your time and effort in providing valuable insights. Your input plays a crucial role in helping us improve and grow.</p>
+        <button className="return-button" onClick={() => navigate('/surveys')}>Back to Surveys</button>
+      </div>
+      </ModalContainer>
+
     </div>
+
   );
 };
 
