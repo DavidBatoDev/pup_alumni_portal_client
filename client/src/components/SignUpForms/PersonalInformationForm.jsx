@@ -11,7 +11,7 @@ const PersonalInformationForm = forwardRef(({
     first_name: true,
     last_name: true,
     gender: true,
-    birthday: true,
+    date_of_birth: true,
     street: true,
     city: true,
     state: true,
@@ -22,7 +22,6 @@ const PersonalInformationForm = forwardRef(({
   });
 
   const validateGraduationYear = (year) => {
-    console.log(year);
     const trimmedYear = year?.trim();
     // Check if it's a number and a valid year (e.g., between 1900 and current year)
     const currentYear = new Date().getFullYear();
@@ -35,7 +34,7 @@ const PersonalInformationForm = forwardRef(({
       first_name: formData.first_name?.trim() !== '',
       last_name: formData.last_name?.trim() !== '',
       gender: formData.gender && formData.gender !== 'Select',
-      birthday: formData.birthday?.trim() !== '',
+      date_of_birth: formData.date_of_birth?.trim() !== '',
       street: formData.street?.trim() !== '',
       city: formData.city?.trim() !== '',
       state: formData.state?.trim() !== '',
@@ -71,7 +70,7 @@ const PersonalInformationForm = forwardRef(({
               <input
                 type="text"
                 name="first_name"
-                placeholder="First Name"
+                placeholder="First Name (e.g., Juan)"
                 value={formData.first_name}
                 onChange={handleChange}
                 required
@@ -90,7 +89,7 @@ const PersonalInformationForm = forwardRef(({
               <input
                 type="text"
                 name="last_name"
-                placeholder="Last Name"
+                placeholder="Last Name (e.g., Doe)"
                 value={formData.last_name}
                 onChange={handleChange}
                 required
@@ -127,20 +126,20 @@ const PersonalInformationForm = forwardRef(({
         </div>
       </div>
       <div className="form-group">
-        <label>Birthday</label>
+        <label>Date of Birth</label>
         <div className="input-group">
           <span className="input-group-text bg-white">
             <i className="fa fa-calendar" aria-hidden="true"></i>
           </span>
           <input
             type="date"
-            name="birthday"
-            value={formData.birthday}
+            name="date_of_birth"
+            value={formData.date_of_birth}
             onChange={handleChange}
-            className={`form-control ${validation.birthday ? '' : 'is-invalid'}`}
+            className={`form-control ${validation.date_of_birth ? '' : 'is-invalid'}`}
           />
-          {!validation.birthday && (
-            <div className="invalid-feedback">Birthday is required</div>
+          {!validation.date_of_birth && (
+            <div className="invalid-feedback">date_of_birth is required</div>
           )}
         </div>
       </div>
@@ -157,7 +156,7 @@ const PersonalInformationForm = forwardRef(({
             <input
               type="text"
               name="street"
-              placeholder="Street"
+              placeholder="Street (e.g., 123 Main St.)"
               value={formData.street}
               onChange={handleChange}
               required
@@ -175,7 +174,7 @@ const PersonalInformationForm = forwardRef(({
             <input
               type="text"
               name="city"
-              placeholder="City"
+              placeholder="City (e.g., Metro Manila)"
               value={formData.city}
               onChange={handleChange}
               required
@@ -196,7 +195,7 @@ const PersonalInformationForm = forwardRef(({
             <input
               type="text"
               name="state"
-              placeholder="State"
+              placeholder="State (e.g., Manila)"
               value={formData.state}
               onChange={handleChange}
               required
@@ -214,7 +213,7 @@ const PersonalInformationForm = forwardRef(({
             <input
               type="text"
               name="postal_code"
-              placeholder="Postal Code"
+              placeholder="Postal Code (e.g., 4106)"
               value={formData.postal_code}
               onChange={handleChange}
               required
@@ -232,7 +231,7 @@ const PersonalInformationForm = forwardRef(({
             <input
               type="text"
               name="country"
-              placeholder="Country"
+              placeholder="Country (e.g., Philippines)"
               value={formData.country}
               onChange={handleChange}
               required
@@ -259,7 +258,7 @@ const PersonalInformationForm = forwardRef(({
             <input
               type="text"
               name="graduation_year"
-              placeholder="graduation_year"
+              placeholder="Graduation year (e.g., 2021)"
               value={formData.graduation_year}
               onChange={handleChange}
               required
@@ -277,7 +276,7 @@ const PersonalInformationForm = forwardRef(({
             <input
               type="text"
               name="major"
-              placeholder="major"
+              placeholder="major (e.g., MBA)"
               value={formData.major}
               onChange={handleChange}
               required
