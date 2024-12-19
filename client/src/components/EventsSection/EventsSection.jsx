@@ -1,57 +1,41 @@
-// src/components/EventsSection/EventsSection.jsx
 import React, { useRef, useEffect, useState } from 'react';
 import api from "../../api.js";
 import './EventsSection.css';
-import { Link } from 'react-router-dom';
 import CircularLoader from '../CircularLoader/CircularLoader.jsx';
-
-import eventImage1 from '../../assets/images/eventimage1.png';
-import eventImage2 from '../../assets/images/eventimage2.jpg';
-import eventImage3 from '../../assets/images/eventimage3.jpg';
-import eventImage4 from '../../assets/images/eventimage4.jpg';
-
-// Sample event data
-const dummyEvents = [
-  {
-    event_id: 1,
-    photos: [{photo_path: eventImage1}],
-    event_date: '24-12-18',
-    event_name: 'Register for the PUP Alumni Leadership Conference',
-  },
-  {
-    event_id: 2,
-    photos: [{photo_path: eventImage2}],
-    event_date: '24-12-18',
-    event_name: 'Register for the PUP Alumni Leadership Conference',
-  },
-  {
-    event_id: 3,
-    photos: [{photo_path: eventImage3}],
-    event_date: '24-12-18',
-    event_name: 'Register for the PUP Alumni Leadership Conference',
-  },
-  {
-    event_id: 4,
-    photos: [{photo_path: eventImage4}],
-    event_date: '24-12-18',
-    event_name: 'Register for the PUP Alumni Leadership Conference',
-  },
-];
 
 const EventsSection = () => {
   const eventRef = useRef([]); // Track each event card element
   const [loading, setLoading] = useState(false);
-  const [eventsData, setEventsData] = useState([])
+  const [eventsData, setEventsData] = useState([]);
+  const [error, setError] = useState(null);
 
+  // Fetch events dynamically
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         setLoading(true);
         const response = await api.get("/api/events");
-        setEventsData(response.data.events);
+
+        // Sort events by proximity to today's date
+        const today = new Date();
+        const sortedEvents = response.data.events.sort((a, b) => {
+          const dateA = new Date(a.event_date);
+          const dateB = new Date(b.event_date);
+
+          // Calculate absolute difference from today
+          const diffA = Math.abs(dateA - today);
+          const diffB = Math.abs(dateB - today);
+
+          return diffA - diffB; // Sort by closest date
+        });
+
+        // Slice the first 4 events after sorting
+        const limitedEvents = sortedEvents.slice(0, 4);
+
+        setEventsData(limitedEvents);
       } catch (error) {
         console.error("Error fetching events:", error);
-        setError(error.response?.data?.message || "Failed to fetch events. Please try again later."); // Set error message
+        setError(error.response?.data?.message || "Failed to fetch events. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -60,17 +44,18 @@ const EventsSection = () => {
     fetchEvents();
   }, []);
 
+  // Apply animations for events appearing on the screen
   useEffect(() => {
     const observerOptions = {
-      threshold: 0.001, // Trigger animation when 20% of the card is visible
+      threshold: 0.001,
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('fadeInUp'); // Apply the animation class
+          entry.target.classList.add('fadeInUp');
         } else {
-          entry.target.classList.remove('fadeInUp'); // Remove the animation class when out of view
+          entry.target.classList.remove('fadeInUp');
         }
       });
     }, observerOptions);
@@ -82,44 +67,76 @@ const EventsSection = () => {
     return () => observer.disconnect();
   }, []);
 
+  const formatEventDate = (dateString) => {
+    const date = new Date(dateString);
+    const month = date.toLocaleString('default', { month: 'short' }); // e.g., "Dec"
+    const day = date.getDate(); // e.g., 11
+    const year = date.getFullYear(); // e.g., 2024
+
+    return { month, day, year };
+  };
+
   return (
     <div className="events-section glass-more">
       <div className="container">
         <h2 className="section-title">EVENTS</h2>
         <div className="row">
-          {loading
-            ? <div className='d-flex justify-content-center w-100 py-5'>
+          {loading ? (
+            <div className='d-flex justify-content-center w-100 py-5'>
               <CircularLoader className="mx-auto" noOverlay={true} positionRelative={true} />
             </div>
-            : eventsData.map((event, index) => (
-              <div
-                key={event.event_id}
-                className="event-card-wrapper col-lg-3 col-md-4 col-sm-6"
-              > {/* Added col-6 for mobile view */}
-                <div
-                  className="event-card animated"
-                  ref={(el) => (eventRef.current[index] = el)}
-                  style={{ animationDelay: `${index * 0.2}s` }}
-                >
-                  <div className='event-image-container'>
-                    <div className='event-cover'></div>
-                    <img
-                      src={event?.photos[0]?.photo_path}
-                      alt={event?.event_name.substring(0, 5) || 'Event Image'}
-                      className="event-image" />
+          ) : (
+            eventsData.length > 0 ? (
+              eventsData.map((event, index) => {
+                const { month, day, year } = formatEventDate(event?.event_date);
+  
+                return (
+                  <div
+                    key={event.event_id}
+                    className="event-card-wrapper"
+                  >
+                    <div
+                      className="event-card animated"
+                      ref={(el) => (eventRef.current[index] = el)}
+                      style={{ animationDelay: `${index * 0.2}s` }}
+                    >
+                      <div className='event-image-container'>
+                        <div className='event-cover'></div>
+                        <img
+                          src={event?.photos[0]?.photo_path}
+                          alt={event?.event_name.substring(0, 5) || 'Event Image'}
+                          className="event-image" />
+                      </div>
+  
+                      <div className="event-date">
+                        <div className='d-flex flex-column'>
+                          <p className='fs-6'>{month.toUpperCase()}</p> 
+                          <p className='fs-3'>{day}</p>
+                          <p className='fs-6'>{year}</p> 
+                        </div> 
+                      </div>
+  
+                      <div className="event-info">
+                        <p className="event-title">{event?.event_name}</p>
+                        <p 
+                          className="event-description"
+                          dangerouslySetInnerHTML={{ __html: event?.description.length > 70 ? `${event.description.substring(0,70)}...` : event.description }}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="event-info">
-                    <h3 className="event-date">Starts {new Date(event?.event_date)?.toDateString()}</h3>
-                    <p className="event-title">{event?.event_name}</p>
-                  </div>
-                </div>
+                );
+              })
+            ) : (
+              <div className="no-events d-flex justify-content-center align-items-center w-100 py-5">
+                <p>Look forward to our future events!</p>
               </div>
-
-            ))}
+            )
+          )}
         </div>
       </div>
     </div>
-  );
+  );  
 };
 
 export default EventsSection;

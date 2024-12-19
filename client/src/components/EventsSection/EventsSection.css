@@ -26,7 +26,7 @@
 
 .event-card-wrapper {
   transition: transform 0.3s ease;
-}
+  max-width: 100%;}
 
 .event-card-wrapper:hover {
   transform: translateY(-5px);
@@ -39,7 +39,6 @@
 .event-image-container {
   height: inherit;
   width: 100%;
-  overflow: hidden;
   position: relative;
   border-radius: 8px;
 }
@@ -47,7 +46,7 @@
 .event-image {
   height: 100%;
   width: 100%;
-  object-fit: cover;
+  object-fit:cover;
   transition: transform 0.5s ease;
   /* Smooth transition for hover effect */
   transform-origin: center center;
@@ -88,16 +87,39 @@
 }
 
 .event-date {
-  font-size: 20px;
   font-weight: bold;
-  color: #800000;
-  margin-bottom: 10px;
+  color: #1E1E1E;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 15px;
+  background-color: #ffffffb8;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.event-date p:nth-child(1) {
+  color: #a50000;
+}
+
+.event-date p:nth-child(2) {
+  color: #a50000;
+}
+
+.event-date p{
+  margin: 0;
 }
 
 .event-title {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
-  color: #1E1E1E;
+  color: #a50000;
+  background-color: #ffffffb8;
+  margin-bottom: 2px;
+  width: fit-content;
+  padding: 5px;
+  border-radius: 8px;
 }
 
 .events-section .row {
@@ -114,8 +136,9 @@
   }
 
   .events-section .row {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
+    display: flex;
+    flex-direction: column;
+    }
 
   .event-card-wrapper {
     height: auto;
