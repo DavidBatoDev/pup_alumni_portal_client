@@ -74,35 +74,52 @@ const SurveyInformationResponses = () => {
     return Object.values(grouped);
   };
 
-  // Prepare data for CSV export
   const exportAsCSV = () => {
     if (!survey || responses.length === 0) return;
-
+  
+    // Create headers
     const headers = ['Alumni Name', 'Email', 'Response Date'];
     survey.sections.forEach(section => {
       section.questions.forEach(question => {
-        headers.push(question.question_text);
+        headers.push(`"${question.question_text}"`); // Enclose question text in quotes
       });
     });
-
-    const csvRows = groupResponsesByAlumni().map(alumni => [
-      alumni.alumni_name,
-      alumni.alumni_email,
-      alumni.response_date,
-      ...survey.sections.flatMap(section =>
-        section.questions.map(question => alumni.answers[question.question_id] || 'No Response')
-      )
-    ]);
-
-    const csvContent = [headers.join(','), ...csvRows.map(row => row.join(','))].join('\n');
+  
+    // Create data rows
+    const csvRows = groupResponsesByAlumni().map(alumni => {
+      const row = [
+        `"${alumni.alumni_name}"`,
+        `"${alumni.alumni_email}"`,
+        `"${alumni.response_date}"`,
+      ];
+  
+      // Add responses for each question
+      survey.sections.forEach(section => {
+        section.questions.forEach(question => {
+          row.push(`"${alumni.answers[question.question_id] || 'No Response'}"`); // Enclose responses in quotes
+        });
+      });
+  
+      return row;
+    });
+  
+    // Combine headers and rows into CSV content
+    const csvContent = [
+      headers.join(','), // Join headers with commas
+      ...csvRows.map(row => row.join(',')) // Join each row with commas
+    ].join('\n'); // Separate rows with newline characters
+  
+    // Export the CSV file
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${survey.survey}_${surveyId}.csv`;
+    a.download = `${survey.survey}_${surveyId}.csv`; // Set download file name
     a.click();
     URL.revokeObjectURL(url);
   };
+  
+  
 
   const toggleTableVisibility = () => {
     setShowTable(prev => !prev);
@@ -148,9 +165,9 @@ const SurveyInformationResponses = () => {
           ))}
 
           {/* Survey Responses Toggle */}
-          <div className='d-flex justify-content-between align-items-center'>
+          <div className='d-flex flex-column justify-content-between '>
             <h2 className='survey-info-subtitle'>Survey Responses</h2>
-            <div className="d-flex gap-2">
+            <div className="d-flex gap-2 mb-3">
               <button className="btn btn-secondary" onClick={toggleTableVisibility}>
                 {showTable ? 'Show Card View' : 'Show Table'}
               </button>
