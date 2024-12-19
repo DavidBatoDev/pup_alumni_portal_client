@@ -258,11 +258,46 @@ textarea.form-control:focus {
   transition: width 0.3s ease-in-out;
 }
 
+.appreciation-message {
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+  width: 500px;
+  margin: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+.message {
+  font-size: 1em;
+  color: #555;
+  margin: 10px 0;
+}
+
+.return-button {
+  background-color: #b71c1c;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.return-button:hover {
+  background-color: #d32f2f;
+}
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
   .answer-survey-container {
     padding: 15px;
+    
   }
 
   .survey-title {
@@ -273,9 +308,25 @@ textarea.form-control:focus {
     padding: 8px 16px;
     font-size: 14px;
   }
+
+  .appreciation-message {
+    width: 360px;
+
+  }
+
+  .title {
+    font-size: 1.2em;
+  }
+
+  .message {
+    font-size: 0.9em;
+  }
+
+  .return-button {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
 }
-
-
 
 @keyframes highlightUnanswered {
   0% {

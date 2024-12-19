@@ -89,7 +89,7 @@
   padding: 10px 30px;
   background: #f4f4f4;
   position: relative;
-  min-height: 400px;
+  /* min-height: 400px; */
   max-height: 600px;
 }
 

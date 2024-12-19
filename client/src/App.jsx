@@ -36,6 +36,7 @@ import api from "./api";
 import { useSelector } from "react-redux";
 import ModalContainer from "./components/ModalContainer/ModalContainer";
 import startPoster from "./assets/images/startPoster.png";
+import NotFound from "./pages/404/NotFound"
 
 function App() {
   const { user, role, isAuthenticated } = useSelector((state) => state.user);
@@ -166,6 +167,7 @@ function App() {
             element={<SpecificAnsweredSurvey />}
           />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
