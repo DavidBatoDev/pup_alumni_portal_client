@@ -12,7 +12,8 @@ const SurveyInformationResponses = () => {
   const [survey, setSurvey] = useState(null);
   const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showTable, setShowTable] = useState(true); // Default to table view
+  const [showTable, setShowTable] = useState(false); // Default to table view
+  const [allResponsesCard, setAllResponsesCard] = useState([]);
 
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   const navigate = useNavigate(); // To navigate programmatically
@@ -40,6 +41,10 @@ const SurveyInformationResponses = () => {
         );
 
         setResponses(organizedResponses);
+
+        const allResponsesResponse = await api.get(`/api/admin/survey/${surveyId}/all-responses`);
+        setAllResponsesCard(allResponsesResponse.data.data);
+
         setLoading(false);
       } catch (error) {
         console.error('Error fetching survey data:', error);
@@ -59,11 +64,13 @@ const SurveyInformationResponses = () => {
 
       if (!grouped[alumniKey]) {
         grouped[alumniKey] = {
+          response_id: response.response_id,
           alumni_id: response.alumni_id, // Adding alumni_id for the link
           alumni_name: `${response.alumni_first_name} ${response.alumni_last_name}`,
           alumni_email: response.alumni_email,
           response_date: new Date().toLocaleDateString(),
           answers: {},
+          
         };
       }
 
@@ -126,8 +133,8 @@ const SurveyInformationResponses = () => {
   };
 
   // Navigate to the specific alumni response page
-  const handleCardClick = (alumniId) => {
-    navigate(`/admin/survey/${surveyId}/response/${alumniId}`);
+  const handleCardClick = (responseId) => {
+    navigate(`/admin/survey/response/${responseId}`);
   };
 
   return (
@@ -137,32 +144,11 @@ const SurveyInformationResponses = () => {
       {loading ? <CircularLoader /> : (
         <div className={`survey-info-content ${isMobile ? 'mobile-content' : ''}`}>
           <h1 className="survey-info-title">{survey?.survey}</h1>
-          <p className="survey-info-description">{survey?.description}</p>
+          <p className="survey-info-description" dangerouslySetInnerHTML={{__html: survey?.description}}/>
           <div className={`survey-info-dates ${isMobile ? 'mobile-dates' : ''}`}>
             <span>Start Date: {new Date(survey?.start_date).toLocaleDateString()}</span>
             <span>End Date: {new Date(survey?.end_date).toLocaleDateString()}</span>
           </div>
-
-          {/* Survey Sections and Questions */}
-          {survey.sections.map(section => (
-            <div key={section.section_id}>
-              <h2 className="survey-info-subtitle">{section.section_title}</h2>
-              <p>{section.section_description}</p>
-              {section.questions.map(question => (
-                <div key={question.question_id} className={`survey-question ${isMobile ? 'mobile-question' : ''}`}>
-                  <h5>{question.question_text} <strong>{question.is_required ? '*' : ''} </strong></h5>
-                  {(question.question_type === 'Multiple Choice' || question.question_type === 'Rating' || question.question_type === 'Dropdown') && (
-                    <ul>
-                      {question.options.map(option => (
-                        <li key={option.option_id}>{option.option_text} - {option.option_value}</li>
-                      ))}
-                    </ul>
-                  )}
-                  {question.question_type === 'Open-ended' && <p>(Open-ended response)</p>}
-                </div>
-              ))}
-            </div>
-          ))}
 
           {/* Survey Responses Toggle */}
           <div className='d-flex flex-column justify-content-between '>
@@ -209,29 +195,40 @@ const SurveyInformationResponses = () => {
             </div>
           ) : (
             <div className="card-view">
-              {groupResponsesByAlumni().map((alumni, index) => (
-                <div key={index} className="card mb-3" onClick={() => handleCardClick(alumni.alumni_id)}>
-                  <div className="card-body">
-                    <h5 className="card-title">{alumni.alumni_name} - {alumni.alumni_email}</h5>
-                    <p className="card-text"><strong>Response Date:</strong> {alumni.response_date}</p>
+              <div className='card-view--container'>
+                {allResponsesCard.map((response, index) => (
+                  <div key={index} className="response--card" onClick={() => handleCardClick(response.response_id)}>
+                    <h4>{response.alumni.alumni_name}</h4>
+                    <p>{response.alumni.alumni_email}</p>
+                    <p>{response.alumni.response_date}</p>
+                    <p>{response.response_id}</p>
+                  </div>
+                ))}
+                    
+              </div>
+            </div>
+          )}
+          <h4 className='mt-5'>Survey Details</h4>
+          {/* Survey Sections and Questions */}
+          {survey.sections.map(section => (
+            <div key={section.section_id}>
+              <h2 className="survey-info-subtitle">{section.section_title}</h2>
+              <p dangerouslySetInnerHTML={{__html: section.section_description}}/>
+              {section.questions.map(question => (
+                <div key={question.question_id} className={`survey-question ${isMobile ? 'mobile-question' : ''}`}>
+                  <h5>{question.question_text} <strong>{question.is_required ? '*' : ''} </strong></h5>
+                  {(question.question_type === 'Multiple Choice' || question.question_type === 'Rating' || question.question_type === 'Dropdown') && (
                     <ul>
-                      {survey.sections.map(section => (
-                        <li key={section.section_id}>
-                          <h6>{section.section_title}</h6>
-                          {section.questions.map(question => (
-                            <div key={question.question_id}>
-                              <strong>{question.question_text}:</strong>
-                              <p>{alumni.answers[question.question_id] || 'No Response'}</p>
-                            </div>
-                          ))}
-                        </li>
+                      {question.options.map(option => (
+                        <li key={option.option_id}>{option.option_text} - {option.option_value}</li>
                       ))}
                     </ul>
-                  </div>
+                  )}
+                  {question.question_type === 'Open-ended' && <p>(Open-ended response)</p>}
                 </div>
               ))}
             </div>
-          )}
+          ))}
         </div>
       )}
     </div>

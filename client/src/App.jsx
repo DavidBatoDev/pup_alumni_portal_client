@@ -163,7 +163,7 @@ function App() {
           />
           <Route path="/admin/create-survey" element={<CreateSurvey />} />
           <Route
-            path="/admin/survey/:surveyId/response/:alumniId"
+            path="/admin/survey/response/:responseId"
             element={<SpecificAnsweredSurvey />}
           />
         </Route>
