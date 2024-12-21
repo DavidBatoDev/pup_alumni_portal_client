@@ -201,14 +201,14 @@ const SurveyInformationResponses = () => {
                     <h4>{response.alumni.alumni_name}</h4>
                     <p>{response.alumni.alumni_email}</p>
                     <p>{response.alumni.response_date}</p>
-                    <p>{response.response_id}</p>
+                    <p>{index + 1}</p>
                   </div>
                 ))}
                     
               </div>
             </div>
           )}
-          <h4 className='mt-5'>Survey Details</h4>
+          <h4 className='mt-5'>Survey Details: </h4>
           {/* Survey Sections and Questions */}
           {survey.sections.map(section => (
             <div key={section.section_id}>

@@ -223,7 +223,7 @@ const Signup = () => {
         url: url
       },
       headers: {
-        'x-rapidapi-key': '3c527754f3msh4f15cb231b6927bp144182jsn2f1487121bc8',
+        'x-rapidapi-key': '594784248amsh7f3512e4e2acb11p11868cjsnabd1644d64ef',
         'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com'
       }
     };

@@ -57,6 +57,31 @@
   display: none;
 }
 
+.no-events-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 50px;
+  max-width: 320px;
+}
+
+.no-events-image {
+  width: 500px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.no-events-text {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1e1e1e;
+  text-wrap: wrap;
+  width: 100%;
+}
+
 .filter-search {
   padding: 5px 10px;
   border: 1px solid #1e1e1e;
@@ -131,8 +156,6 @@
   border-color: #870000;
 }
 
-
-
 /* View event history link */
 .view-event-history {
   font-size: 15px;
@@ -150,7 +173,6 @@
 
 /* Responsive styles for screens smaller than 768px */
 @media (max-width: 768px) {
-
   /* Active style for filter tags on mobile */
   .filter-search.active {
     background-color: #870000;
@@ -236,5 +258,12 @@
   .filter-search-section img {
     height: auto;
     width: 20px;
+  }
+}
+
+@media screen and (min-width: 468px) and (max-width: 768px) {
+  .no-events-image {
+    width: 400px;
+    height: 400px;
   }
 }

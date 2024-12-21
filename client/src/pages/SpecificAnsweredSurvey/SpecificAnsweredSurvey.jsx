@@ -34,6 +34,9 @@ const SpecificAnsweredSurvey = () => {
   const handleNextSection = () => {
     if (surveyData && currentSection < surveyData.sections.length - 1) {
       setCurrentSection(currentSection + 1);
+      window.scrollTo(0, 0);
+    } else {
+      navigate('/admin/survey-feedback')
     }
   };
 
@@ -91,6 +94,20 @@ const SpecificAnsweredSurvey = () => {
         <p className="survey-description" dangerouslySetInnerHTML={{ __html: surveyData.description }} />
       </div>
 
+      <div className="section-indicator">
+        <div className="section-header">
+          <h5>Section {currentSection + 1} of {surveyData.sections.length}</h5>
+        </div>
+        <div className="progress-bar-container">
+          <div
+            className="progress-bar"
+            style={{
+              width: `${((currentSection + 1) / surveyData.sections.length) * 100}%`,
+            }}
+          />
+        </div>
+      </div>
+      
       {surveyData.sections[currentSection] && (
         <div className="as-survey-section">
           <div className="as-survey-question-card">
@@ -131,9 +148,9 @@ const SpecificAnsweredSurvey = () => {
         <button
           className="btn btn-primary"
           onClick={handleNextSection}
-          disabled={currentSection === surveyData.sections.length - 1}
+          // disabled={currentSection === surveyData.sections.length - 1}
         >
-          Next Section
+          {currentSection === surveyData.sections.length - 1 ? 'Back to Feedback' : 'Next Section'}
         </button>
       </div>
     </div>

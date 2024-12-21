@@ -1,16 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import UserEventListing from '../UserEvents/UserEventListing';
 import EventsFilterSection from '../EventsFilterSection/EventsFilterSection';
 import './EventAuth.css';
 import menuIcon from "../../assets/svgs/menu-outline.svg";
 import { Link } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
-import noevent from '/noevent.svg'
+import noActiveEvent from '/noactiveevent.png'
+import noPastEvent from '/nopastevent.png'
+import noEvent from '/noevent.png'
 
 const EventAuth = ({ events, isTabletView, maxVisibleCategories, toggleFilterSection, filters, setFilters, handleFilterChange, eventHistoryView }) => {
   const [currentPage, setCurrentPage] = useState(1); // State for managing the current page
   const eventsPerPage = 3; // Number of events to display per page
-
+  const [isThereFilter, setIsThereFilter] = useState(false); // State for checking if there is a filter
   const categories = ['Career', 'Social', 'Faculty', 'Student Engagement', 'Service'];
 
   // Handle click events for category selection
@@ -22,6 +24,15 @@ const EventAuth = ({ events, isTabletView, maxVisibleCategories, toggleFilterSec
         : [...prevFilters.categories, category],
     }));
   };
+
+  useEffect(() => {
+    if (filters.startDate || filters.endDate || filters.types.length > 0 || filters.organizations.length > 0) {
+      setIsThereFilter(true);
+    } else {
+      setIsThereFilter(false);
+    }
+  }, [filters]);
+
 
   // Pagination logic
   const indexOfLastEvent = currentPage * eventsPerPage;
@@ -92,35 +103,68 @@ const EventAuth = ({ events, isTabletView, maxVisibleCategories, toggleFilterSec
           {currentEvents.map((event, index) => (
             <div key={index} className="col-12">
               {events?.length >= 1 && <UserEventListing eventData={event} />}
-              {events?.length == 0 && <h1 src={noevent} alt="No Event" />}
             </div>
           ))}
+          {events?.length === 0 && (
+            <div className="no-events-container d-flex flex-column align-items-center justify-content-center">
+              {!isThereFilter && 
+                !eventHistoryView ?
+                  <div className="no-events-content">
+                    <img src={noActiveEvent} alt="No Active Event" className='no-events-image' />
+                    <p className="text-center no-events-text">
+                      Check back later for more events or view past events.
+                    </p>
+                  </div>
+                  :
+                  !isThereFilter && (
+                  <div className="no-events-content">
+                    <img src={noPastEvent} alt="No Active Event" className='no-events-image'/>
+                    <p className="text-center no-events-text">
+                      Check back later for more events or view upcoming events.
+                    </p>
+                  </div>
+                  )
+              }
+
+              {isThereFilter && (
+                <div className="no-events-content">
+                  <img src={noEvent} alt="No Event" className='no-events-image'/>
+                  <p className="text-center no-events-text">
+                    No Events Found. Please try a different search.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Pagination */}
-        <div className="pagination-container d-flex justify-content-center mt-4">
-          <nav aria-label="Page navigation example">
-            <ul className="pagination">
-              <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                <button className="page-link" onClick={() => handlePageChange(currentPage - 1)} aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </button>
-              </li>
-              {[...Array(totalPages)].map((_, index) => (
-                <li key={index} className={`page-item ${index + 1 === currentPage ? 'active' : ''}`}>
-                  <button className="page-link" onClick={() => handlePageChange(index + 1)}>
-                    {index + 1}
+        {events.length > eventsPerPage && (
+          <div className="pagination-container d-flex justify-content-center mt-4">
+            <nav aria-label="Page navigation example">
+              <ul className="pagination">
+                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                  <button className="page-link" onClick={() => handlePageChange(currentPage - 1)} aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
                   </button>
                 </li>
-              ))}
-              <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                <button className="page-link" onClick={() => handlePageChange(currentPage + 1)} aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </div>
+                {[...Array(totalPages)].map((_, index) => (
+                  <li key={index} className={`page-item ${index + 1 === currentPage ? 'active' : ''}`}>
+                    <button className="page-link" onClick={() => handlePageChange(index + 1)}>
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                  <button className="page-link" onClick={() => handlePageChange(currentPage + 1)} aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        
+        )}
       </div>
     </div>
   );
