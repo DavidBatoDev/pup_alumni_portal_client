@@ -123,12 +123,22 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
             {(!is_active && is_registered) && <button 
               onClick={() => openFeedbackModal()}
               className="add-alumni-feedback-btn">Add Feedback</button>}
+
+            {eventFeedbackData && eventFeedbackData.length == 0 &&(
             <h1 className='event-feedback-header mb-5'>
-              Feedback from Alumnis
+              No feedback available for this event.
             </h1>
+            )}
+
+            {eventFeedbackData && eventFeedbackData.length > 0 && (
+            <h1 className='event-feedback-header mb-5'>
+              Alumni Feedback
+            </h1>
+            )}
+
 
             <div className='event-feedback-card-list'>
-              {eventFeedbackData.map((feedback, index) => (
+              {eventFeedbackData && eventFeedbackData.length > 0 && eventFeedbackData.map((feedback, index) => (
                 <div className='event-feedback-card'>
                     <div className='events-alumni-pfp-feedback'>
                       <img src={feedback?.alumni?.profile_picture} alt='profile' />

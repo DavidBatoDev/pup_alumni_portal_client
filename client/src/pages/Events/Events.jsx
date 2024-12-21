@@ -104,7 +104,7 @@ const Events = () => {
   }, [filters, eventsData]);
 
   // Handle filter updates from event filter section
-  const handleFilterChange = (updatedFilters) => {
+  const handleFilterChange = (SupdatedFilters) => {
     setFilters(updatedFilters);
   };
 
