@@ -1,4 +1,4 @@
-.start--poster-img {
+/* .start--poster-img {
     height: 600px;
     width: 600px;
     object-fit: contain;
@@ -6,7 +6,7 @@
 
 @media screen and (max-width: 768px) {
   .start--poster-container {
-    
+
   }
 
     .start--poster-img {
@@ -16,4 +16,4 @@
         object-fit: contain;
     }
 
-}
+} */

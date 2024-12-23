@@ -43,7 +43,7 @@ function App() {
 
   const [showSurveyModal, setShowSurveyModal] = useState(false);
   const [showQuickSurvey, setShowQuickSurvey] = useState(false);
-  const [showStartMessage, setShowStartMessage] = useState(false);
+  // const [showStartMessage, setShowStartMessage] = useState(false);
 
   useEffect(() => {
     const fetchSurveys = async () => {
@@ -75,10 +75,6 @@ function App() {
     fetchSurveys();
   }, [user, role, isAuthenticated]);
 
-  useEffect(() => {
-    setShowStartMessage(true);
-  }, []);
-
   return (
     <Router>
       {showSurveyModal && (
@@ -87,7 +83,8 @@ function App() {
           showQuickSurvey={showQuickSurvey}
         />
       )}
-      {showStartMessage && (
+      {/* Deprecated Dec/23 */}
+      {/* {showStartMessage && (
         <ModalContainer
           title={""}
           showModal={showStartMessage}
@@ -101,7 +98,7 @@ function App() {
             <img className="start--poster-img" src={startPoster} alt="" />
           </div>
         </ModalContainer>
-      )}
+      )} */}
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Homepage />} />
