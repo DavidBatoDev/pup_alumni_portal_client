@@ -41,6 +41,7 @@ const SurveyInformationResponses = () => {
         );
 
         setResponses(organizedResponses);
+        console.log("organized responses", organizedResponses);
 
         const allResponsesResponse = await api.get(`/api/admin/survey/${surveyId}/all-responses`);
         setAllResponsesCard(allResponsesResponse.data.data);
@@ -68,9 +69,11 @@ const SurveyInformationResponses = () => {
           alumni_id: response.alumni_id, // Adding alumni_id for the link
           alumni_name: `${response.alumni_first_name} ${response.alumni_last_name}`,
           alumni_email: response.alumni_email,
+          gender: response.gender,
+          graduation_year: response.graduation_year,
+          major: response.major,
           response_date: new Date().toLocaleDateString(),
           answers: {},
-          
         };
       }
 
@@ -83,39 +86,42 @@ const SurveyInformationResponses = () => {
 
   const exportAsCSV = () => {
     if (!survey || responses.length === 0) return;
-  
+
     // Create headers
-    const headers = ['Alumni Name', 'Email', 'Response Date'];
+    const headers = ['Alumni Name', 'Email', 'Gender', 'Graduation Year', 'Major', 'Response Date',];
     survey.sections.forEach(section => {
       section.questions.forEach(question => {
         headers.push(`"${question.question_text}"`); // Enclose question text in quotes
       });
     });
-  
+
     // Create data rows
     const csvRows = groupResponsesByAlumni().map(alumni => {
       const row = [
         `"${alumni.alumni_name}"`,
         `"${alumni.alumni_email}"`,
+        `"${alumni.gender}"`,
+        `"${alumni.graduation_year}"`,
+        `"${alumni.major}"`,
         `"${alumni.response_date}"`,
       ];
-  
+
       // Add responses for each question
       survey.sections.forEach(section => {
         section.questions.forEach(question => {
           row.push(`"${alumni.answers[question.question_id] || 'No Response'}"`); // Enclose responses in quotes
         });
       });
-  
+
       return row;
     });
-  
+
     // Combine headers and rows into CSV content
     const csvContent = [
       headers.join(','), // Join headers with commas
       ...csvRows.map(row => row.join(',')) // Join each row with commas
     ].join('\n'); // Separate rows with newline characters
-  
+
     // Export the CSV file
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
@@ -125,8 +131,8 @@ const SurveyInformationResponses = () => {
     a.click();
     URL.revokeObjectURL(url);
   };
-  
-  
+
+
 
   const toggleTableVisibility = () => {
     setShowTable(prev => !prev);
@@ -169,6 +175,9 @@ const SurveyInformationResponses = () => {
                   <tr>
                     <th>Alumni Name</th>
                     <th>Email</th>
+                    <th>Gender</th>
+                    <th>Graduation Year</th>
+                    <th>Major</th>
                     <th>Response Date</th>
                     {survey.sections.flatMap(section =>
                       section.questions.map(question => (
@@ -182,6 +191,9 @@ const SurveyInformationResponses = () => {
                     <tr key={index}>
                       <td>{alumni.alumni_name}</td>
                       <td>{alumni.alumni_email}</td>
+                      <td>{alumni.gender}</td>
+                      <td>{alumni.graduation_year}</td>
+                      <td>{alumni.major}</td>
                       <td>{alumni.response_date}</td>
                       {survey.sections.flatMap(section =>
                         section.questions.map(question => (
@@ -204,7 +216,7 @@ const SurveyInformationResponses = () => {
                     <p>{index + 1}</p>
                   </div>
                 ))}
-                    
+
               </div>
             </div>
           )}
