@@ -12,7 +12,7 @@ const SurveyInformationResponses = () => {
   const [survey, setSurvey] = useState(null);
   const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showTable, setShowTable] = useState(false); // Default to table view
+  const [showTable, setShowTable] = useState(true);
   const [allResponsesCard, setAllResponsesCard] = useState([]);
 
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -67,8 +67,6 @@ const SurveyInformationResponses = () => {
         grouped[alumniKey] = {
           response_id: response.response_id,
           alumni_id: response.alumni_id, // Adding alumni_id for the link
-          alumni_name: `${response.alumni_first_name} ${response.alumni_last_name}`,
-          alumni_email: response.alumni_email,
           gender: response.gender,
           graduation_year: response.graduation_year,
           major: response.major,
@@ -88,7 +86,7 @@ const SurveyInformationResponses = () => {
     if (!survey || responses.length === 0) return;
 
     // Create headers
-    const headers = ['Alumni Name', 'Email', 'Gender', 'Graduation Year', 'Major', 'Response Date',];
+    const headers = ['#', 'Gender', 'Graduation Year', 'Major', 'Response Date',];
     survey.sections.forEach(section => {
       section.questions.forEach(question => {
         headers.push(`"${question.question_text}"`); // Enclose question text in quotes
@@ -96,10 +94,9 @@ const SurveyInformationResponses = () => {
     });
 
     // Create data rows
-    const csvRows = groupResponsesByAlumni().map(alumni => {
+    const csvRows = groupResponsesByAlumni().map((alumni, index) => {
       const row = [
-        `"${alumni.alumni_name}"`,
-        `"${alumni.alumni_email}"`,
+        `"${index + 1}"`,
         `"${alumni.gender}"`,
         `"${alumni.graduation_year}"`,
         `"${alumni.major}"`,
@@ -173,8 +170,7 @@ const SurveyInformationResponses = () => {
               <table className="table table-bordered table-hover">
                 <thead className="thead-light">
                   <tr>
-                    <th>Alumni Name</th>
-                    <th>Email</th>
+                    <th>#</th>
                     <th>Gender</th>
                     <th>Graduation Year</th>
                     <th>Major</th>
@@ -189,8 +185,7 @@ const SurveyInformationResponses = () => {
                 <tbody>
                   {groupResponsesByAlumni().map((alumni, index) => (
                     <tr key={index}>
-                      <td>{alumni.alumni_name}</td>
-                      <td>{alumni.alumni_email}</td>
+                      <td>{index + 1}</td>
                       <td>{alumni.gender}</td>
                       <td>{alumni.graduation_year}</td>
                       <td>{alumni.major}</td>
