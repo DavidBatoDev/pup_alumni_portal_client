@@ -89,6 +89,7 @@ const SurveyInformationResponses = () => {
     const headers = ['#', 'Gender', 'Graduation Year', 'Major', 'Response Date',];
     survey.sections.forEach(section => {
       section.questions.forEach(question => {
+        if (question.question_text == "Your Gcash Number") {return}; // Skip phone number question for privacy
         headers.push(`"${question.question_text}"`); // Enclose question text in quotes
       });
     });
@@ -106,6 +107,7 @@ const SurveyInformationResponses = () => {
       // Add responses for each question
       survey.sections.forEach(section => {
         section.questions.forEach(question => {
+          if (question.question_text == "Your Gcash Number") {return}
           row.push(`"${alumni.answers[question.question_id] || 'No Response'}"`); // Enclose responses in quotes
         });
       });
