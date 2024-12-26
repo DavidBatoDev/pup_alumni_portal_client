@@ -67,6 +67,7 @@ const SurveyInformationResponses = () => {
         grouped[alumniKey] = {
           response_id: response.response_id,
           alumni_id: response.alumni_id, // Adding alumni_id for the link
+          date_of_birth: response.date_of_birth,
           gender: response.gender,
           graduation_year: response.graduation_year,
           major: response.major,
@@ -86,7 +87,7 @@ const SurveyInformationResponses = () => {
     if (!survey || responses.length === 0) return;
 
     // Create headers
-    const headers = ['#', 'Gender', 'Graduation Year', 'Major', 'Response Date',];
+    const headers = ['#', 'Age', 'Gender', 'Graduation Year', 'Major', 'Response Date',];
     survey.sections.forEach(section => {
       section.questions.forEach(question => {
         if (question.question_text == "Your Gcash Number") {return}; // Skip phone number question for privacy
@@ -98,6 +99,7 @@ const SurveyInformationResponses = () => {
     const csvRows = groupResponsesByAlumni().map((alumni, index) => {
       const row = [
         `"${index + 1}"`,
+        `"${calculateAge(alumni.date_of_birth)}"`,
         `"${alumni.gender}"`,
         `"${alumni.graduation_year}"`,
         `"${alumni.major}"`,
@@ -131,6 +133,17 @@ const SurveyInformationResponses = () => {
     URL.revokeObjectURL(url);
   };
 
+  const calculateAge = (date_of_birth) => {
+    if (!date_of_birth) return null
+    var today = new Date();
+    var birthDate = new Date(date_of_birth);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
 
 
   const toggleTableVisibility = () => {
@@ -173,6 +186,7 @@ const SurveyInformationResponses = () => {
                 <thead className="thead-light">
                   <tr>
                     <th>#</th>
+                    <th>Age</th>
                     <th>Gender</th>
                     <th>Graduation Year</th>
                     <th>Major</th>
@@ -188,6 +202,7 @@ const SurveyInformationResponses = () => {
                   {groupResponsesByAlumni().map((alumni, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
+                      <td>{calculateAge(alumni.date_of_birth)}</td>
                       <td>{alumni.gender}</td>
                       <td>{alumni.graduation_year}</td>
                       <td>{alumni.major}</td>
