@@ -207,7 +207,7 @@ const SurveyInformationResponses = () => {
               <div className='card-view--container'>
                 {allResponsesCard.map((response, index) => (
                   <div key={index} className="response--card" onClick={() => handleCardClick(response.response_id)}>
-                    <h4>{response.alumni.alumni_name}</h4>
+                    <h4>{response.alumni.alumni_name} [{response.alumni.alumni_id}]</h4>
                     <p>{response.alumni.alumni_email}</p>
                     <p>{response.alumni.response_date}</p>
                     <p>{index + 1}</p>
