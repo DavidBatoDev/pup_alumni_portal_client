@@ -97,7 +97,7 @@ const SurveyInformationResponses = () => {
 
       // store tje quick survey response for the alumni
       if (quickSurveyResponse) {
-        grouped[alumniKey].answers['Quick-Survey'] = quickSurveyResponse.selected_options + ' ; ' + quickSurveyResponse.other_response;
+        grouped[alumniKey].answers['Quick-Survey'] = quickSurveyResponse.selected_options + ' ; ' + (quickSurveyResponse.other_response ? quickSurveyResponse.other_response : '')
       }
 
       // Store each question's answer for the alumni
