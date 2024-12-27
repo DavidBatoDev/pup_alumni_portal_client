@@ -105,7 +105,7 @@ const SurveyInformationResponses = () => {
       grouped[alumniKey].answers[response.question_id] = response.response_text || response.option_text || 'No Response';
     });
 
-    
+
 
     return Object.values(grouped);
   };
@@ -114,7 +114,7 @@ const SurveyInformationResponses = () => {
     if (!survey || responses.length === 0) return;
 
     // Create headers
-    const headers = ['#', 'Age', 'Gender', 'Graduation Year', 'Major', 'Response Date',];
+    const headers = ['#', 'Age', 'Gender', 'Graduation Year', 'Major', 'Response Date', "Current Employer", "Job Title", "Start Date", "End Date", "Alumni Participation", "Alumni Participation (other)"];
     survey.sections.forEach(section => {
       section.questions.forEach(question => {
         if (question.question_text == "Your Gcash Number") {return}; // Skip phone number question for privacy
@@ -135,6 +135,8 @@ const SurveyInformationResponses = () => {
         `"${alumni.job_title}"`,
         `"${alumni.start_date}"`,
         `"${alumni.end_date}"`,
+        `"${alumni.answers['Quick-Survey']}"`,
+        `"${alumni.answers['Quick-Survey-Other']}"`,
       ];
 
       // Add responses for each question
@@ -226,8 +228,8 @@ const SurveyInformationResponses = () => {
                     <th>Job Title</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    <th>Quick Survey Response</th>
-                    <th>Quick Survey Other</th>
+                    <th>Alumni Participation</th>
+                    <th>Alumni Participation (other)</th>
                     {survey.sections.flatMap(section =>
                       section.questions.map(question => (
                         <th key={question.question_id}>{question.question_text}</th>
