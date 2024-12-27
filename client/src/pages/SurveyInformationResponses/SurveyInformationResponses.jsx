@@ -77,6 +77,8 @@ const SurveyInformationResponses = () => {
 
       if (!grouped[alumniKey]) {
         grouped[alumniKey] = {
+          alumni_name: response.alumni_first_name + ' ' + response.alumni_last_name,
+          alumni_email: response.alumni_email,
           response_id: response.response_id,
           alumni_id: response.alumni_id, // Adding alumni_id for the link
           date_of_birth: response.date_of_birth,
@@ -110,14 +112,19 @@ const SurveyInformationResponses = () => {
     return Object.values(grouped);
   };
 
-  const exportAsCSV = () => {
+  const exportAsCSV = (includePersonal = false) => {
     if (!survey || responses.length === 0) return;
 
     // Create headers
     const headers = ['#', 'Age', 'Gender', 'Graduation Year', 'Major', 'Response Date', "Current Employer", "Job Title", "Start Date", "End Date", "Alumni Participation", "Alumni Participation (other)"];
+
+    if (includePersonal) {
+      headers.splice(1, 0, "Name", "Email");
+    }
+
     survey.sections.forEach(section => {
       section.questions.forEach(question => {
-        if (question.question_text == "Your Gcash Number") {return}; // Skip phone number question for privacy
+        if (question.question_text == "Your Gcash Number" && !includePersonal) {return}; // Skip phone number question for privacy
         headers.push(`"${question.question_text}"`); // Enclose question text in quotes
       });
     });
@@ -139,10 +146,16 @@ const SurveyInformationResponses = () => {
         `"${alumni.answers['Quick-Survey-Other']}"`,
       ];
 
+      // Insert name and email  if includePersonal is true
+      if (includePersonal) {
+        // insert starting from index 1
+        row.splice(1, 0, `"${alumni.alumni_name}"`, `"${alumni.alumni_email}"`);
+      }
+
       // Add responses for each question
       survey.sections.forEach(section => {
         section.questions.forEach(question => {
-          if (question.question_text == "Your Gcash Number") {return}
+          if (question.question_text == "Your Gcash Number" && !includePersonal) {return}
           row.push(`"${alumni.answers[question.question_id] || 'No Response'}"`); // Enclose responses in quotes
         });
       });
@@ -209,6 +222,7 @@ const SurveyInformationResponses = () => {
                 {showTable ? 'Show Card View' : 'Show Table'}
               </button>
               <button className="btn export-as-csv-btn" onClick={exportAsCSV}>Export as CSV</button>
+              <button className="btn export-as-csv-btn" onClick={() => exportAsCSV(true)}>Export with Personal Info</button>
             </div>
           </div>
 
@@ -219,6 +233,8 @@ const SurveyInformationResponses = () => {
                 <thead className="thead-light">
                   <tr>
                     <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
                     <th>Age</th>
                     <th>Gender</th>
                     <th>Graduation Year</th>
@@ -241,6 +257,8 @@ const SurveyInformationResponses = () => {
                   {groupResponsesByAlumni().map((alumni, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
+                      <td>{alumni.alumni_name}</td>
+                      <td>{alumni.alumni_email}</td>
                       <td>{calculateAge(alumni.date_of_birth)}</td>
                       <td>{alumni.gender}</td>
                       <td>{alumni.graduation_year}</td>
