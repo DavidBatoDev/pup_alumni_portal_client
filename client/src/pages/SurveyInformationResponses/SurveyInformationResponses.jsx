@@ -11,6 +11,7 @@ const SurveyInformationResponses = () => {
   const { surveyId } = useParams();
   const [survey, setSurvey] = useState(null);
   const [responses, setResponses] = useState([]);
+  const [quickSurveyResponses, setQuickSurveyResponses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showTable, setShowTable] = useState(true);
   const [allResponsesCard, setAllResponsesCard] = useState([]);
@@ -40,7 +41,15 @@ const SurveyInformationResponses = () => {
           )
         );
 
+        const organizedQuickSurveyResponses = responsesResponse.data.data.quick_survey_responses.map(response => {
+          return {
+            alumni_id: response.alumni_id,
+            selected_options: response.selected_options.join(' ; '),
+            other_response: response.other_response,
+          };
+        })
         setResponses(organizedResponses);
+        setQuickSurveyResponses(organizedQuickSurveyResponses);
         console.log("organized responses", organizedResponses);
 
         const allResponsesResponse = await api.get(`/api/admin/survey/${surveyId}/all-responses`);
@@ -55,6 +64,9 @@ const SurveyInformationResponses = () => {
 
     fetchSurveyData();
   }, [surveyId]);
+
+
+  console.log("quickSurveyResponses", quickSurveyResponses);
 
   // Function to group responses by alumni
   const groupResponsesByAlumni = () => {
@@ -71,14 +83,28 @@ const SurveyInformationResponses = () => {
           gender: response.gender,
           graduation_year: response.graduation_year,
           major: response.major,
+          current_employer: response?.latest_employment?.company || 'N/A',
+          job_title: response?.latest_employment?.job_title || 'N/A',
+          start_date: response?.latest_employment?.start_date || 'N/A',
+          end_date: response?.latest_employment?.end_date || 'N/A',
           response_date: new Date().toLocaleDateString(),
           answers: {},
         };
       }
 
+      // find the quick survey response for the alumni
+      const quickSurveyResponse = quickSurveyResponses.find(quickSurveyResponse => quickSurveyResponse.alumni_id === response.alumni_id);
+
+      // store tje quick survey response for the alumni
+      if (quickSurveyResponse) {
+        grouped[alumniKey].answers['Quick-Survey'] = quickSurveyResponse.selected_options + ' ; ' + quickSurveyResponse.other_response;
+      }
+
       // Store each question's answer for the alumni
       grouped[alumniKey].answers[response.question_id] = response.response_text || response.option_text || 'No Response';
     });
+
+    
 
     return Object.values(grouped);
   };
@@ -104,6 +130,10 @@ const SurveyInformationResponses = () => {
         `"${alumni.graduation_year}"`,
         `"${alumni.major}"`,
         `"${alumni.response_date}"`,
+        `"${alumni.current_employer}"`,
+        `"${alumni.job_title}"`,
+        `"${alumni.start_date}"`,
+        `"${alumni.end_date}"`,
       ];
 
       // Add responses for each question
@@ -191,6 +221,11 @@ const SurveyInformationResponses = () => {
                     <th>Graduation Year</th>
                     <th>Major</th>
                     <th>Response Date</th>
+                    <th>Current Employer</th>
+                    <th>Job Title</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Quick Survey Response</th>
                     {survey.sections.flatMap(section =>
                       section.questions.map(question => (
                         <th key={question.question_id}>{question.question_text}</th>
@@ -207,6 +242,11 @@ const SurveyInformationResponses = () => {
                       <td>{alumni.graduation_year}</td>
                       <td>{alumni.major}</td>
                       <td>{alumni.response_date}</td>
+                      <td>{alumni.current_employer}</td>
+                      <td>{alumni.job_title}</td>
+                      <td>{alumni.start_date}</td>
+                      <td>{alumni.end_date}</td>
+                      <td>{alumni.answers['Quick-Survey']}</td>
                       {survey.sections.flatMap(section =>
                         section.questions.map(question => (
                           <td key={question.question_id}>{alumni.answers[question.question_id] || 'No Response'}</td>
