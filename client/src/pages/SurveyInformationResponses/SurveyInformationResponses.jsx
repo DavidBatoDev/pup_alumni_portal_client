@@ -97,7 +97,8 @@ const SurveyInformationResponses = () => {
 
       // store tje quick survey response for the alumni
       if (quickSurveyResponse) {
-        grouped[alumniKey].answers['Quick-Survey'] = quickSurveyResponse.selected_options + ' ; ' + (quickSurveyResponse.other_response ? quickSurveyResponse.other_response : '')
+        grouped[alumniKey].answers['Quick-Survey'] = quickSurveyResponse.selected_options
+        grouped[alumniKey].answers['Quick-Survey-Other'] = quickSurveyResponse.other_response || 'No Response';
       }
 
       // Store each question's answer for the alumni
@@ -226,6 +227,7 @@ const SurveyInformationResponses = () => {
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Quick Survey Response</th>
+                    <th>Quick Survey Other</th>
                     {survey.sections.flatMap(section =>
                       section.questions.map(question => (
                         <th key={question.question_id}>{question.question_text}</th>
@@ -247,6 +249,7 @@ const SurveyInformationResponses = () => {
                       <td>{alumni.start_date}</td>
                       <td>{alumni.end_date}</td>
                       <td>{alumni.answers['Quick-Survey']}</td>
+                      <td>{alumni.answers['Quick-Survey-Other']}</td>
                       {survey.sections.flatMap(section =>
                         section.questions.map(question => (
                           <td key={question.question_id}>{alumni.answers[question.question_id] || 'No Response'}</td>
