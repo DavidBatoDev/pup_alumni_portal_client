@@ -84,6 +84,40 @@
   color: #fff; /* Active link color */
 }
 
+.as-sidebar-footer {
+  margin-top: auto; /* Push footer to the bottom */
+}
+
+/* Logout Modal */
+.as-logout-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.as-logout-modal-body {
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.as-logout-modal-title {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.as-logout-modal-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.as-logout-modal-buttons .btn {
+  width: 100px;
+  margin: 0 10px;
+  border-radius: 30px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .as-sidebar {

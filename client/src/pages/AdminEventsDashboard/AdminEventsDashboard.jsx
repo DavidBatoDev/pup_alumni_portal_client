@@ -114,7 +114,7 @@ const AdminEventsDashboard = () => {
               onClick={() => setShowInactive(true)}
               className={`ae-toggle-option ${showInactive ? 'active' : ''}`}
             >
-              Inactive
+              Past Events
             </button>
           </div>
 
